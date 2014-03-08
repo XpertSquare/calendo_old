@@ -3,7 +3,9 @@ Calendo::Application.routes.draw do
   #get "dashboard/index"
   #get "public/index"
   get 'accounts/index'  
-  get '/register' => 'accounts#new'
+  get 'register' => 'accounts#new'
+  get 'login' => 'sessions#new'
+  get 'logout'=>'sessions#destroy'
   
   constraints(Subdomain) do
     get '/' => 'public#index'
@@ -12,7 +14,9 @@ Calendo::Application.routes.draw do
     end
   end
   
-  resources :accounts, only: [:index, :create] 
+  resources :accounts, only: [:index, :create]
+  resources :sessions, only: [:create, :destroy]  
+  
   
   
   root 'site#index'

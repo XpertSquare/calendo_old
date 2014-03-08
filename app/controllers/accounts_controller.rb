@@ -23,7 +23,11 @@ class AccountsController < ApplicationController
       @user=User.new
       @user.email = @account.user_email   
       @user.account_id= @account.id
-      @user.roles = %w[staff admin owner]
+      @user.roles = %w[client staff admin owner]
+      @user.generate_password
+      logger.info "User password: " + @user.password
+      #Required to bypass the "has_secure_password" when an account is created
+      @user.password_confirmation = @user.password
     
       if @user.save
         respond_to do |format|
