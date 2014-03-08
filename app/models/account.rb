@@ -3,11 +3,11 @@ class Account < ActiveRecord::Base
  has_many :users
  has_one :owner
  
-  validates_presence_of :subdomain
+  validates_presence_of :name,:user_email, :user_name
   validates_format_of :subdomain, :with => /^[A-Za-z0-9-]+$/, :multiline => true, :message => 'The subdomain can only contain alphanumeric characters and dashes.', :allow_blank => true
   validates_exclusion_of :subdomain, :in => %w( support blog www billing help api admin ), :message => "The subdomain <strong>{{value}}</strong> is reserved and unavailable."
   validates_uniqueness_of :subdomain, :case_sensitive => false
-  validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.zones_map(&:name)
+  validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.zones_map(&:name), :if => :time_zone
  
  
   before_validation :downcase_subdomain

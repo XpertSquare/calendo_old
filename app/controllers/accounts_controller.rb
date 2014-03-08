@@ -18,25 +18,31 @@ class AccountsController < ApplicationController
   def create
     @account = Account.new(post_params)     
     @account.subdomain = @account.name.parameterize
-    @account.save
+    if @account.save
     
-    @user=User.new
-    @user.email = @account.user_email   
-    @user.account_id= @account.id
-    @user.roles = %w[staff admin owner]
-
-    logger.debug('Subdomain for ' + @account.name + ' is: ' + @account.subdomain)
-    logger.debug('User email for ' + @account.name + ' is: ' + @account.user_email)
-
-    respond_to do |format|
+      @user=User.new
+      @user.email = @account.user_email   
+      @user.account_id= @account.id
+      @user.roles = %w[staff admin owner]
+    
       if @user.save
-        format.html { redirect_to admin_url(:subdomain=>@account.subdomain), notice: 'The account ' + @account.name + ' was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @account }
+        respond_to do |format|
+          format.html { redirect_to admin_url(:subdomain=>@account.subdomain), notice: 'The account ' + @account.name + ' was successfully created.' }
+          format.json { render action: 'show', status: :created, location: @account }
+        end
       else
+        respond_to do |format|
+          format.html { render action: 'new' }
+          format.json { render json: @account.errors, status: :unprocessable_entity }
+        end
+      end
+    else
+      respond_to do |format|
         format.html { render action: 'new' }
         format.json { render json: @account.errors, status: :unprocessable_entity }
       end
     end
+    
   end
  
  # Never trust parameters from the scary internet, only allow the white list through.

@@ -3,11 +3,11 @@
 	<div class="container" style="width:900px;">
 		<div class="register" style="margin-bottom:50px; min-height:600px;">
 			<h2>Create your Calendo account</h2>
-			<hr/>	
+			<hr style="margin-top:5px;"/>	
 			<%= form_for @account, :html => {:class => "form-horizontal", :role=>"form"} do |f| %>
 			  <% if @account.errors.any? %>
-			    <div id="error_explanation">
-			      <h2><%= pluralize(@account.errors.count, "error") %> prohibited this topic from being saved:</h2>
+			    <div id="error_explanation" class="alert alert-danger">
+			      <h4><%= pluralize(@account.errors.count, "error") %> prohibited this account from being saved:</h4>
 			      <ul>
 			      <% @account.errors.full_messages.each do |msg| %>
 			        <li><%= msg %></li>
@@ -41,8 +41,8 @@
 			    	<%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, {default: "Pacific Time (US & Canada)"}, {:class=>"form-control"} %>
 			    </div>
 			 </div>	
-
-			 <div class="col-md-12" style="margin-top:10px;">
+			<hr style="margin-top:5px;"/>
+			 <div class="col-md-12" style="margin-top:5px;">
 				<span id="policy" style="margin-right:15px; font-size:12px;">By creating an account I agree with the Calendo's <a onclick="window.open(this.href); return false;" href="terms-of-service.html">Terms of Service</a> and <a onclick="window.open(this.href); return false;" href="privacy-policy.html">Privacy Policy</a></span>
 				<%= f.submit 'Create my account', :class => 'btn btn-success' %>
 			</div>
