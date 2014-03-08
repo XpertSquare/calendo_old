@@ -40,7 +40,7 @@ class AccountsController < ApplicationController
  
  # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      params.require(:account).permit(:name, :user_name, :user_email)
+      params.require(:account).permit(:name, :user_name, :user_email, :time_zone)
     end
  
  
