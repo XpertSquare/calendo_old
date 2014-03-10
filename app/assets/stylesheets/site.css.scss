@@ -97,11 +97,6 @@ div.container, div.container-fluid {
     width: auto;
 }
 
-.btn-success {
-    background: none repeat scroll 0 0 #00BF3F !important;
-    border-color: #00BF3F !important;
-}
-
 .btn-default {
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0) !important;
     border-color: #DDDDDD !important;
@@ -109,21 +104,15 @@ div.container, div.container-fluid {
 }
 
 #header .navbar-form .btn {
-    float: left;    
-    height: 30px;
-    margin: 0 0 0 10px;
-    
-    
+  float: left;    
+  height: 30px;
+  margin: 0 0 0 10px;
+  border-radius:4px;    
   margin-top:5px;
-  padding-top:7px;
+  padding-top:3px;
+  
 }
 
-.btn {
-    border-radius: 4px;
-    font: 13px/15px "open_sansbold",Arial,Helvetica,sans-serif;
-    padding: 9px;
-    letter-spacing:1px;
-}
 
 #header .nav > li {
     float: left;

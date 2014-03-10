@@ -1,9 +1,9 @@
 Calendo::Application.routes.draw do
-  get "site/index"
+  get 'site/index'
   #get "dashboard/index"
   #get "public/index"
-  get "accounts/index"
-  get "accounts/new"
+  get 'accounts/index'  
+  get '/register' => 'accounts#new'
   
   constraints(Subdomain) do
     get '/' => 'public#index'

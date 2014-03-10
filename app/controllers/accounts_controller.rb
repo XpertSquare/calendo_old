@@ -23,6 +23,7 @@ class AccountsController < ApplicationController
     @user=User.new
     @user.email = @account.user_email   
     @user.account_id= @account.id
+    @user.roles = %w[staff admin owner]
 
     logger.debug('Subdomain for ' + @account.name + ' is: ' + @account.subdomain)
     logger.debug('User email for ' + @account.name + ' is: ' + @account.user_email)

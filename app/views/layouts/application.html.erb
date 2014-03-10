@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Calendo | Online Appointment Software</title>  
+  <title><%= content_for?(:title) ? content_for(:title) : "Calendo | Online Appointment Software" %></title>  
   <%= stylesheet_link_tag    "bootstrap.min", media: "all"%>  
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
   <%= stylesheet_link_tag    "application", media: "all"%>
@@ -39,13 +39,13 @@
 				<div class="img-circle" style="width:8px; height:8px; background-color:#AEAEAE; float:left; margin-right:2px;margin-bottom:2px;">				
 				</div>
 		</div>
-	  <a class="navbar-brand" href="#"  style="float:left; font-size:30px;">Calendo</a>
+	  <a class="navbar-brand" href="/"  style="float:left; font-size:30px;">Calendo</a>
 	</div>	
 	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-	<div class="navbar-form pull-right">
-					<a href="/register" class="btn btn-success">Free 90-day trial</a>
-					<a href="/login" class="btn btn-info">Login</a>
-				</div>
+		<div class="navbar-form pull-right">					
+			<%= link_to "Free 90-day trial", register_url, :class=>"btn btn-lg btn-success" %>
+			<a href="/login" class="btn btn-lg btn-info">Login</a>
+		</div>
 	  <ul class="nav navbar-nav navbar-right">
 		<li class="active"><a href="#">Features</a></li>
 		<li><a href="#">Pricing</a></li>			
