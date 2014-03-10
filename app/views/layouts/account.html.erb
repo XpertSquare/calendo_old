@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calendo | <%= current_account.name%></title>
+  <%= stylesheet_link_tag    "application", media: "all"%>
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  <%= stylesheet_link_tag    "bootstrap.min", media: "all"%>
+  <%= stylesheet_link_tag    "account", media: "all"%>
+  <%= javascript_include_tag "application", "Chart.min"%>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">    
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>      
+    </div>    
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li><a href="schedule.html"><i class="fa fa-calendar"></i> Schedule</a></li>
+		<li><a href="customers.html"><i class="fa fa-users"></i> Customers</a></li>
+		<li><a href="#"><i class="fa fa-files-o"></i> Messages</a></li>
+		<li><a href="#"><i class="fa fa-money"></i> Sales</a></li>        
+      </ul>     
+      <ul class="nav navbar-nav navbar-right">        
+		<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gears"></i> Setings <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="services.html">Services</a></li>
+			<li><a href="#">Classes</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Details</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Sign Out</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<%= yield %>
+
+</body>
+</html>

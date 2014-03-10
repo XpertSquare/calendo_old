@@ -1,0 +1,323 @@
+// Place all the styles related to the site controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+html {
+    background: none repeat scroll 0 0 #FFFFFF;
+}
+html {
+    overflow-y: scroll;
+}
+
+body {
+  font-family: "Open Sans", "Segoe UI",helvetica,arial,sans-serif;
+  color: #333333;
+}
+
+body {    
+  line-height: 20px;
+  background-color: #FFFFFF;
+  margin-top:50px;
+}
+div {
+    display: block;
+}
+
+div.container, div.container-fluid {
+    width: 1170px;
+}
+
+/* Site header */
+
+#header {
+    border: 0 none;
+    border-radius: 0;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    margin: 0;
+    min-height: 1px;
+    width: 100%;
+  margin-bottom:15px;
+  background: none repeat scroll 0 0 rgba(238, 238, 238, 0.8);
+  text-align:center;
+}
+
+.navbar-default {    
+    border-color: #E7E7E7;
+    height: 50px;
+    line-height: 50px;
+    min-height: 30px;
+}
+
+#header .container {
+    
+    padding: 5px 15px 5px 15px;
+}
+
+#header .container-fluid {
+    
+    padding: 5px 15px 5px 15px;
+}
+
+#header .navbar-collapse {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+#header .nav {
+    float: left;    
+    margin: 0;
+    padding: 10px 0;
+    font-weight:bold;
+  letter-spacing:1px;
+  
+}
+
+#header nav {
+    float: left;
+}
+
+
+#header .navbar-collapse {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#header .navbar-form {
+    float: left;
+    margin: 0 !important;
+    padding: 0 0 0 16px !important;
+}
+.navbar-form {
+    border: 0 none;
+    box-shadow: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+    width: auto;
+}
+
+.btn-success {
+    background: none repeat scroll 0 0 #00BF3F !important;
+    border-color: #00BF3F !important;
+}
+
+.btn-default {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0) !important;
+    border-color: #DDDDDD !important;
+    color: #9D9D9D !important;
+}
+
+#header .navbar-form .btn {
+    float: left;    
+    height: 30px;
+    margin: 0 0 0 10px;
+    
+    
+  margin-top:5px;
+  padding-top:7px;
+}
+
+.btn {
+    border-radius: 4px;
+    font: 13px/15px "open_sansbold",Arial,Helvetica,sans-serif;
+    padding: 9px;
+    letter-spacing:1px;
+}
+
+#header .nav > li {
+    float: left;
+    margin-left: 25px;
+}
+#header .nav > li > a {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0) !important;
+    color:#666666 !important;
+    font-size: 18px;
+    font-weight: 200;    
+  padding:0;
+  text-shadow: 1px 1px 1px #DDDDDD;
+}
+
+#header .navbar-brand {
+    float: left;
+    font-size: 18px;
+    height: 20px;
+    line-height: 20px;
+    padding: 10px;
+  font-size:24px;
+}
+
+/* Site footer */
+
+footer {
+    background: none repeat scroll 0 0 #363839;
+    border-top: 4px solid #1F1F1F;
+    font-size: 0.9em;
+    padding: 40px 0 0;
+    position: relative; 
+}
+div.footer-copyright {
+    background: none repeat scroll 0 0 #333333;
+    border-top: 1px solid #444444;
+    margin-top: 40px;
+    padding: 20px 0;
+}
+footer h1, footer h2, footer h3, footer h4, footer a {
+    color: #FFFFFF !important;
+}
+footer h4 {
+    font-size: 1.8em;
+    font-weight: 200;
+    text-shadow: 1px 1px 1px #000000;
+}
+
+div.footer-copyright nav ul {
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+
+div.footer-copyright nav ul li:first-child {
+    border: medium none;
+    padding-left: 0;
+}
+div.footer-copyright nav ul li {
+    border-left: 1px solid #505050;
+    display: inline-block;
+    line-height: 12px;
+    margin: 0;
+    padding: 0 8px;
+}
+
+/* Main content */
+
+div.sheet {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 3px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+    min-height: 480px;
+      display: block !important;
+    padding: 20px;
+    width: auto !important;
+}
+
+.core-box {
+    display: inline-block;
+    padding-bottom: 50px;
+    padding-top: 50px;
+}
+
+.core-box .heading {
+    margin-bottom: 15px;
+}
+
+.core-box .heading .circle-icon {
+    float: left;
+}
+.circle-icon {
+    background-color: #333333;
+    border-radius: 75px;
+    color: #FFFFFF;
+    display: inline-block;
+    font-size: 36px !important;
+    height: 55px;
+    line-height: 56px !important;
+    margin-top: 2px;
+    text-align: center;
+    width: 55px;
+}
+
+.core-box .heading h2 {
+    color: #666666;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 55px !important;
+    margin: 0;
+    padding-left: 65px;
+}
+.core-box .view-more {
+    float: right;
+}
+.core-box .view-more i {
+    display: inline-block;
+}
+
+.icon-box {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 3px;
+    box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.3);
+    margin-top: 70px;
+    padding: 15px 20px 15px;
+    position: relative;
+    text-align: center;
+  min-height:220px;
+}
+
+.white {
+    color: #FFFFFF !important;
+}
+.center {
+    text-align: center;
+}
+
+.icon-box .icon-box-icon {
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 75px;
+    color: #FFFFFF;
+    display: inline-block;
+    font-size: 24px !important;
+    height: 56px;
+    left: 50%;
+    line-height: 56px;
+    margin: 0 0 0 -23px;
+    overflow: hidden;
+    position: absolute;
+    text-align: center;
+    top: -70px;
+    width: 56px;
+}
+
+.wrapper.padding50 {
+    padding-bottom: 50px;
+    padding-top: 50px;
+}
+.wrapper-grey {
+    background-color: #FCFCFC;
+    border-bottom: 1px solid #E1E1E1;
+    border-top: 1px solid #E1E1E1;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) inset;
+    color: #888888;
+}
+.wrapper {
+    clear: both;
+    min-height: 100px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    position: relative;
+    width: 100%;
+}
+.grid-container {
+    margin-top: 50px;
+}
+
+.grid-item {
+    box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.2);
+    margin-bottom: 15px;
+    position: relative;
+}
+.grid-content {
+    background-color: #FFFFFF;
+    color: #666666;
+    padding: 15px;
+    position: relative;
+}
+
+.img-responsive {
+    display: block;
+    height: auto;
+    max-width: 100%;
+}
+
+.img-circle {
+    border-radius: 50%;
+}
