@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
    
-  around_action :scope_current_account
+  around_action :scope_current_account, :account_time_zone, if: :current_account  
 
 private
 
@@ -23,6 +23,10 @@ private
       yield
   ensure
     Account.current_id = nil
+  end
+  
+  def account_time_zone(&block)
+    Time.use_zone(current_account.time_zone, &block)
   end
   
 end
