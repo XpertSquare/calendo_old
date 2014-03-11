@@ -10,7 +10,7 @@ private
   
   def current_account    
     if request.subdomain.present? && !Account.is_reserved_subdomain(request.subdomains.last)
-      Account.find_by_subdomain! request.subdomains.last
+      @current_account ||= Account.find_by_subdomain! request.subdomains.last
     end
   end
   helper_method :current_account
@@ -30,8 +30,10 @@ private
   end
   
   def current_user
-    @current_user ||= User.find_by_auth_token!(cookies[:auth_token]) if cookies[:auth_token]
+    logger.debug 'cookie: ' + cookies[:_calendo_auth_token].to_s 
+    @current_user ||= User.find_by_auth_token!(cookies[:_calendo_auth_token]) if cookies[:_calendo_auth_token]
   end
+  helper_method :current_user
   
   def authorize!(return_url = request.url)
     unless current_user

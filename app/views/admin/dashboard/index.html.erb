@@ -1,8 +1,14 @@
+<%- title "Calendo | " + current_account.name %>
 
 <div id="workspace" class="workspace">
-<title>Calendo | Nova Studio</title>
 	<div class="container">
 		<div class="sheet">
+			<p>Current user: <%=current_user.email if current_user%> </p>			
+			<hr/>
+			<% @users.each do |user| %>
+				<p> <%= user.email + user.roles.to_s%></p>
+				
+			<% end %>
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="panel panel-default">

@@ -4,19 +4,23 @@ class SessionsController < ApplicationController
   end
   
   def create
-    user = User.find_by_email(params[:email])
+    user = User.unscoped.find_by_email(params[:email])
     if user && user.authenticate(params[:password])
       if params[:remember_me]
-        cookies.permanent[:auth_token] = {
+        cookies.permanent[:_calendo_auth_token] = {
                                             :value => user.auth_token,
+                                            :domain => '.lvh.me',
                                             :expires => 1.month.from_now
+                                            
                                           }        
       else
-        cookies[:auth_token] = user.auth_token
+        cookies[:_calendo_auth_token] = { :value => user.auth_token, 
+                                          :domain => '.lvh.me' }
       end
       
-           
-        #redirect_to return_url, :notice => "You are now logged in! " + @account_id.to_s  + " +++  " + return_url 
+        logger.debug  "You are now logged in! " + user.account.name   + " +++  " + return_url
+        redirect_to admin_url(:subdomain=>user.account.subdomain), :notice => "You are now logged in! " + user.account.name  + " +++  " + return_url  
+        #redirect_to return_url, :notice => "You are now logged in! " + user.account.id.to_s  + " +++  " + return_url 
     else
       flash.now.alert = "Email or password is invalid"
       render "new"
@@ -24,7 +28,8 @@ class SessionsController < ApplicationController
   end
   
   def destroy
-    cookies.delete(:auth_token)
+    cookies.delete(:_calendo_auth_token,
+                   :domain => '.lvh.me')
     session[:return_url] = nil
     redirect_to root_url, notice: "You are now logged out!"
   end
