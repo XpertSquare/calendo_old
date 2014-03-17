@@ -30,6 +30,7 @@ class AccountsController < ApplicationController
       @user.password_confirmation = @user.password
     
       if @user.save
+        AccountMailer.register_confirmation(@account, @user).deliver
         respond_to do |format|
           format.html { redirect_to admin_url(:subdomain=>@account.subdomain), notice: 'The account ' + @account.name + ' was successfully created.' }
           format.json { render action: 'show', status: :created, location: @account }

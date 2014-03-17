@@ -1,0 +1,11 @@
+Hi <%= @account.user_name%>,
+
+Thank you registering your Calendo account!
+
+Please see below your account information:
+
+Account name: <%= @account.name%>
+Username/Email: <%= @user.email%>
+Password: <%= @user.password%>
+
+Account url: <%= admin_url(:subdomain=>@account.subdomain)%>
