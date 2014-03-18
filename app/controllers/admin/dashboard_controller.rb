@@ -9,12 +9,4 @@ class Admin::DashboardController < ApplicationController
     @users = User.all
   end
   
-private
-
-  def require_permission
-    if !current_user.with_role("owner") 
-      redirect_to root_path
-    end
-  end
-  
 end

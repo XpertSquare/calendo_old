@@ -1,6 +1,7 @@
 class Account < ActiveRecord::Base
   
  has_many :users
+ has_many :services
  has_one :owner
  
   validates_presence_of :name,:user_email, :user_name

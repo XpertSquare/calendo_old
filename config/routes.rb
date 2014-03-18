@@ -1,4 +1,5 @@
-Calendo::Application.routes.draw do
+Calendo::Application.routes.draw do 
+  
   get 'site/index'
   #get "dashboard/index"
   #get "public/index"
@@ -10,7 +11,8 @@ Calendo::Application.routes.draw do
   constraints(Subdomain) do
     get '/' => 'public#index'
     namespace :admin do
-       get '/' => 'dashboard#index' 
+       get '/' => 'dashboard#index'
+       resources :services 
     end
   end
   

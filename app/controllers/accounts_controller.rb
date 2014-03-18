@@ -30,6 +30,8 @@ class AccountsController < ApplicationController
       @user.password_confirmation = @user.password
     
       if @user.save
+        cookies[:_calendo_auth_token] = { :value => @user.auth_token, 
+                                            :domain => '.lvh.me' }
         AccountMailer.register_confirmation(@account, @user).deliver
         respond_to do |format|
           format.html { redirect_to admin_url(:subdomain=>@account.subdomain), notice: 'The account ' + @account.name + ' was successfully created.' }
