@@ -1,5 +1,5 @@
 class Admin::ServicesController < ApplicationController
-  layout "account"
+  layout "account_admin"
   before_filter :authorize!
   
   def new

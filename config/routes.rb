@@ -1,18 +1,20 @@
 Calendo::Application.routes.draw do 
-  
+
   get 'site/index'
-  #get "dashboard/index"
-  #get "public/index"
   get 'accounts/index'  
   get 'register' => 'accounts#new'
   get 'login' => 'sessions#new'
   get 'logout'=>'sessions#destroy'
   
   constraints(Subdomain) do
-    get '/' => 'public#index'
+    get '/' => 'public#index', as: 'acount_root'
     namespace :admin do
        get '/' => 'dashboard#index'
        resources :services 
+       resources :users
+       get '/account' => 'account#show', as: 'account'
+       get '/account/edit' => 'account#edit', as: 'edit_account'
+       patch '/account' => 'account#update', as: 'account_update'
     end
   end
   

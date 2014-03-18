@@ -1,56 +1,28 @@
 <%- title "Calendo | " + current_account.name + " - Services"%>
 
+<section>
+	<header class="panel-body">
+		<h3 style="margin-top:10px;"><%= current_account.name %> Services 
+			<%= link_to new_admin_service_path(@service) do %>
+				<span style="float:right; font-size:14px; margin-top:5px;"><i class="fa fa-plus"></i> Create a new service</span> 
+			<% end %>
+		</h3>						
+	<header>
+	<table id="service-list" class="table table-hover sorted_table">							  
+		  <tbody>
+		  	<% @services.each do |service| %>
+        		<tr data-service-id="111">
+				  <td width="35"><i class="fa fa-sort" style="padding-left:10px; cursor:move; "></i></td>								  
+				  <td><a href="service-111.html" class="lnk-customer"><Deep Tissue Massage><%= link_to service.name, [:admin, service] %></a></td>
+				  <td width="150">Online booking</td>
+				  <td width="100"><%= service.duration.to_s %> mins</td>
+				  <td width="100"><span style="float:right;"><%= number_to_currency(service.price, precision: 2) %></span> </td>
+				</tr>
+  			<% end %>								
+		  </tbody>
+	</table>
+</section>
 
-
-<div id="workspace" class="workspace">
-	<div class="container">
-		<div class="sheet" style="padding:0px !important;">
-			<div class="row table-row">
-				<div class="col-sm-3 custom">
-					<section class="panel" style="margin-top:20px;">
-						<div class="panel-body" >								
-							<ul class="nav nav-pills nav-stacked mail-nav" style="margin-top:10px;">
-								<li><a href="#"> <i class="fa fa-gear"></i> Account</a></li>
-								<li><a href="#"> <i class="fa fa-user"></i> Staff</a></li>
-								<li class="active">
-									<%= link_to admin_services_path do %>
-										<i class="fa fa-cutlery"></i> Services 
-									<% end %>
-								</li>
-								<li><a href="#"> <i class="fa fa-book"></i> Booking rules</a></li>
-							</ul>
-						</div>
-					</section>
-					
-				</div>
-				<div class="col-sm-9">
-					<section>
-						<header class="panel-body">
-							<h3 style="margin-top:10px;"><%= current_account.name %> Services 
-								<%= link_to new_admin_service_path(@service) do %>
-									<span style="float:right; font-size:14px; margin-top:5px;"><i class="fa fa-plus"></i> Create a new service</span> 
-								<% end %>
-							</h3>						
-						<header>
-						<table id="service-list" class="table table-hover sorted_table">							  
-							  <tbody>
-							  	<% @services.each do |service| %>
-					        		<tr data-service-id="111">
-									  <td width="35"><i class="fa fa-sort" style="padding-left:10px; cursor:move; "></i></td>								  
-									  <td><a href="service-111.html" class="lnk-customer"><Deep Tissue Massage><%= link_to service.name, [:admin, service] %></a></td>
-									  <td width="150">Online booking</td>
-									  <td width="100"><%= service.duration.to_s %> mins</td>
-									  <td width="100"><span style="float:right;"><%= number_to_currency(service.price, precision: 2) %></span> </td>
-									</tr>
-				      			<% end %>								
-							  </tbody>
-						</table>
-					</section>
-				</div>	
-			</div>
-		</div>
-	</div>
-</div>
 
 <script type="text/javascript">
 $( document ).ready(function() {	
