@@ -1,0 +1,18 @@
+<% if @service.errors.any? %>
+	var sAlert = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>';
+	sAlert = sAlert + '<%=  escape_javascript(flash[:notice]) %>';
+	sAlert = sAlert + '<ul>';
+	<% @service.errors.full_messages.each do |msg| %>
+		sAlert = sAlert + '<li><%= msg %></li>';
+	<% end %>
+	sAlert = sAlert + '</ul>';
+	sAlert = sAlert + '</div>';
+	$("#model-error").before(sAlert);
+	alert(sAlert);
+
+<% else %>
+	$("#alerts").before('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><%= escape_javascript(flash[:notice]) %></div>');
+	$("#create_service")[0].reset();
+<% end %>
+
+
