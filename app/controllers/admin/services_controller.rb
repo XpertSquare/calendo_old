@@ -5,6 +5,13 @@ class Admin::ServicesController < ApplicationController
   def index
     @services = Service.all
     @service = Service.new
+    
+    respond_to do |format|      
+        format.html 
+        format.json { render json: @services }
+    end
+
+    
   end
   
    def create
@@ -31,6 +38,17 @@ class Admin::ServicesController < ApplicationController
       end
     end
 
+  end
+  
+  def edit
+  end
+  
+  def show
+    @service = Service.find(params[:id])
+    respond_to do |format|      
+        format.html 
+        format.json { render json: @service }
+    end
   end
   
   
