@@ -2,10 +2,12 @@ class Admin::ServicesController < ApplicationController
   layout "account"
   before_filter :authorize!
   
+  def new
+    @service = Service.new
+  end
+  
   def index
     @services = Service.all
-    @service = Service.new
-    
     respond_to do |format|      
         format.html 
         format.json { render json: @services }
@@ -17,16 +19,12 @@ class Admin::ServicesController < ApplicationController
    def create
     @service = Service.new(post_params)   
     
-    if @service.save 
-      flash[:notice] = "The service was successfully created."   
+    if @service.save      
       respond_to do |format|
-        format.js
-        format.html { redirect_to admin_services_path }
+        format.html { redirect_to admin_services_path, notice: 'The service ' + @service.name + ' was successfully created.'  }
         format.json { render action: 'show', status: :created, location: @service }
       end
-    else
-      flash[:notice] = "There was an error creating the service." 
-      logger.info "Error when saving service"
+    else            
       @service.errors.full_messages.each do |msg| 
         logger.info msg
       end

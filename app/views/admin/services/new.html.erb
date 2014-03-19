@@ -1,0 +1,142 @@
+<%- title "Calendo | " + current_account.name + " - New service"%>
+
+
+
+<div id="workspace" class="workspace">
+	<div class="container">
+		<div class="sheet" style="padding:0px !important;">
+			<div class="row table-row">
+				<div class="col-sm-3 custom">
+					<section class="panel" style="margin-top:20px;">
+						<div class="panel-body" >								
+							<ul class="nav nav-pills nav-stacked mail-nav" style="margin-top:10px;">
+								<li><a href="#"> <i class="fa fa-gear"></i> Account</a></li>
+								<li><a href="#"> <i class="fa fa-user"></i> Staff</a></li>
+								<li class="active">
+									<%= link_to admin_services_path do %>
+										<i class="fa fa-cutlery"></i> Services 
+									<% end %>
+								</li>
+								<li><a href="#"> <i class="fa fa-book"></i> Booking rules</a></li>
+							</ul>
+						</div>
+					</section>
+					
+				</div>
+				<div class="col-sm-9">
+					<section style="padding:15px;">						
+						<h3>Create a new service </h3>
+						<hr style="margin-top:5px;"/>			
+						
+						<%= form_for [:admin, @service], :html => {:class => "form-horizontal", :role=>"form", :id => "create_service"} do |f| %>							
+							<% if @service.errors.any? %>
+								<div id="error_explanation" class="alert alert-danger">
+									<h4 style="margin-bottom:0px;"><%= pluralize(@service.errors.count, "error") %> prohibited the service to be created!</h4>											      
+								</div>
+							<% end %>
+								<div class="form-group">									
+								  	<%= f.label :name, :class=>"col-sm-2 control-label" %>								  	
+								  	<div class="col-sm-10">			    
+								    	<%= f.text_field :name,  :class=>'form-control', :placeholder=>"New service name" %>
+								    	<% if @service.errors[:name].present? %>
+											<span class="help-block"><%=:name.to_s.humanize  + ' ' +  @service.errors[:name].join(", ")%></span>
+										<% end %> 
+								    </div>
+								</div>  
+								<div class="form-group">
+								  	<%= f.label :description, :class=>"col-sm-2 control-label" %>
+								  	<div class="col-sm-10">			    
+								    	<%= f.text_area :description,  :class=>'form-control', :rows=>"3", :placeholder=>"Description" %>
+								    	<% if @service.errors[:description].present? %>
+											<span class="help-block"><%=:description.to_s.humanize  + ' ' +  @service.errors[:description].join(", ")%></span>
+										<% end %>
+								    </div>
+								</div> 			
+												
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Status</label>
+									<div class="col-sm-10">
+										<div class="radio-inline">
+											  <label>
+												<input type="radio" name="statusRadioGroup" id="optionsRadios1" value="option1" checked>
+												Active
+											  </label>
+											</div>
+											<div class="radio-inline">
+											  <label>
+												<input type="radio" name="statusRadioGroup" id="optionsRadios2" value="option2">
+												Inactive (cannot be booked)
+											  </label>
+											</div>
+									</div>
+								</div>
+								<div class="form-group">
+								  	<%= f.label :duration, :class=>"col-sm-2 control-label" %>
+								  	<div class="col-sm-3">			    
+								    	<%= f.text_field :duration,  :class=>'form-control' %>
+								    	<% if @service.errors[:duration].present? %>
+											<span class="help-block"><%=:duration.to_s.humanize  + ' ' +  @service.errors[:duration].join(", ")%></span>
+										<% end %>
+								    </div>
+								</div> 
+								<div class="form-group">
+								  	<%= f.label :price, :class=>"col-sm-2 control-label" %>
+								  	<div class="col-sm-3">			    
+								    	<%= f.text_field :price,  :class=>'form-control' %>
+								    	<% if @service.errors[:price].present? %>
+											<span class="help-block"><%=:price.to_s.humanize  + ' ' +  @service.errors[:price].join(", ")%></span>
+										<% end %>
+								    </div>
+								</div>				
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Booking</label>
+									<div class="col-sm-10">
+										<div class="radio-inline">
+											  <label>
+												<input type="radio" name="bookingRadio" id="optionsRadios1" value="option1" checked>
+												Online
+											  </label>
+											</div>
+											<div class="radio-inline">
+											  <label>
+												<input type="radio" name="bookingRadio" id="optionsRadios2" value="option2">
+												Staff only
+											  </label>
+											</div>
+									</div>
+								</div>
+								<!--div class="form-group">
+									<label class="col-sm-2 control-label">Staff</label>
+									<div class="col-sm-10">
+										<label class="checkbox-inline">
+										  <input type="checkbox" id="inlineCheckbox1" value="option1"> William Bossard
+										</label>
+										<label class="checkbox-inline">
+										  <input type="checkbox" id="inlineCheckbox2" value="option2"> Erica Burcham
+										</label>
+										<label class="checkbox-inline">
+										  <input type="checkbox" id="inlineCheckbox3" value="option3"> Sasha Newsham
+										</label>
+									</div>
+								</div-->				
+							<div class="form-group">
+								<label class="col-sm-2 control-label"></label>								
+							 	<div class="col-md-10" style="margin-top:10px; padding-top:10px;">								
+									<%= f.submit 'Create the service', :class => 'btn btn-success' %> or <%= link_to 'Cancel', admin_services_path %>	
+								</div>
+							</div>								
+							
+							
+						<% end %>
+					</section>
+				</div>	
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+$( document ).ready(function() {	
+	
+});
+</script>
