@@ -17,6 +17,10 @@ class Admin::CustomersController < ApplicationController
     redirect_to customers_url(:subdomain => current_account.subdomain)
   end
   
+  def show
+    
+  end
+  
 private
 
   def set_customer

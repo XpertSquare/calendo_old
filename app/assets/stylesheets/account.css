@@ -648,7 +648,7 @@ div.sheet {
   
   
 .row.table-row > [class*="col-"].custom {
-  background-color: #E7E7E7;
+  background-color: #F0F5F8;
 
  }
  
@@ -677,4 +677,14 @@ div.sheet {
     background-color: #DFF0D8;
     border-color: #D6E9C6;
     color: #3C763D;
+}
+
+/* Page header */
+.page_header {
+    background: none repeat scroll 0 0 #F0F5F8;
+    border-bottom: 1px solid #DADEE5;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    margin: 0;
+    padding: 10px 20px;
 }
