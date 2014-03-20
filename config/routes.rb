@@ -1,5 +1,5 @@
 Calendo::Application.routes.draw do 
-
+  
   get 'site/index'
   get 'accounts/index'  
   get 'register' => 'accounts#new'
@@ -10,18 +10,22 @@ Calendo::Application.routes.draw do
     get '/' => 'public#index', as: 'acount_root'
     namespace :admin do
        get '/' => 'dashboard#index'
+       
        resources :services 
        resources :users
+       
        get '/account' => 'account#show', as: 'account'
        get '/account/edit' => 'account#edit', as: 'edit_account'
        patch '/account' => 'account#update', as: 'account_update'
+       
+       get '/profile' => 'profile#show', as: 'profile'
+       get '/profile/edit' => 'profile#edit', as: 'edit_profile'
+       patch '/profile' => 'profile#update', as: 'profile_update'
     end
   end
   
   resources :accounts, only: [:index, :create]
   resources :sessions, only: [:create, :destroy]  
-  
-  
   
   root 'site#index'
   

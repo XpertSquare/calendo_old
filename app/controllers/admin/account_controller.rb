@@ -1,6 +1,7 @@
 class Admin::AccountController < ApplicationController
   layout "account_admin"
-  before_filter :authorize!
+  before_action :authorize!
+  before_action :set_account, only: [:show, :edit, :update]
   
   def edit
     @account = Account.find(current_account.id)
@@ -19,19 +20,26 @@ class Admin::AccountController < ApplicationController
   end
   
   def update
-    @account = Account.find(current_account.id)
-    if @account.update_column("name", params[:name])
-      #flash[:notice] = "Successfully updated account."
-      logger.debug "Successfully updated account."
-      redirect_to admin_account_path
-    else
-      render :action => 'edit'
+    
+   respond_to do |format|
+      if @account.update(account_params)
+        format.html { redirect_to admin_account_url(:subdomain=>@account.subdomain), notice: 'Account was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @account.errors, status: :unprocessable_entity }
+      end
     end
   end
   
   private 
-  def post_params
-      params.require(:account).permit(:name, :time_zone)
+  
+   def set_account
+     @account = current_account
+    end
+  
+  def account_params
+      params.require(:account).permit(:name, :time_zone, :subdomain)
   end
   
 end

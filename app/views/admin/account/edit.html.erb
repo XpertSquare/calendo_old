@@ -1,29 +1,46 @@
-<%- title "Calendo | " %>
+<%- title "Calendo | " + current_account.name %>
 
 <section style="padding:15px;">						
 	<h3>Editing my account </h3>
 	<hr style="margin-top:5px;"/>
 
-<%= form_for [:admin, @account], :html => {:class => "form-horizontal", :role=>"form", :id => "create_service"} do |f| %>							
+<%= form_for [:admin, @account], :html => {:class => "form-horizontal", :role=>"form"} do |f| %>							
 	<% if @account.errors.any? %>
 		<div id="error_explanation" class="alert alert-danger">
 			<h4 style="margin-bottom:0px;"><%= pluralize(@account.errors.count, "error") %> prohibited the account to be updated!</h4>
-			<ul>
-      <% @account.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>											      
 		</div>
 	<% end %>
-		<div class="form-group">									
-		  	<%= f.label :name, :class=>"col-sm-2 control-label" %>								  	
-		  	<div class="col-sm-10">			    
-		    	<%= f.text_field :name,  :class=>'form-control', :placeholder=>"New service name" %>
-		    	<% if @account.errors[:name].present? %>
-					<span class="help-block"><%=:name.to_s.humanize  + ' ' +  @account.errors[:name].join(", ")%></span>
-				<% end %> 
-		    </div>
-		</div>  			
+	<div class="form-group">									
+	  	<%= f.label :name, :class=>"col-sm-2 control-label" %>								  	
+	  	<div class="col-sm-6">			    
+	    	<%= f.text_field :name,  :class=>'form-control', :placeholder=>"New service name" %>
+	    	<% if @account.errors[:name].present? %>
+				<span class="help-block"><%=:name.to_s.humanize  + ' ' +  @account.errors[:name].join(", ")%></span>
+			<% end %> 
+	    </div>
+	</div>
+	
+	<div class="form-group">									
+	  	<%= f.label :subdomain, :class=>"col-sm-2 control-label" %>								  	
+	  	<div class="col-sm-6">
+	  		<div class="input-group">
+  				<span class="input-group-addon">http://</span>			    
+	    		<%= f.text_field :subdomain,  :class=>'form-control', :placeholder=>"subdomain" %>
+			 	<span class="input-group-addon">.calendohq.com</span>
+			</div>
+	    		
+	    	<% if @account.errors[:subdomain].present? %>
+				<span class="help-block"><%=:subdomain.to_s.humanize  + ' ' +  @account.errors[:subdomain].join(", ")%></span>
+			<% end %> 
+	    </div>
+	</div>
+
+	<div class="form-group">	
+	  	<%= f.label :time_zone, :class=>"col-sm-2 control-label" %>	
+	  	<div class="col-sm-6">	    
+	    	<%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, {default: "Pacific Time (US & Canada)"}, {:class=>"form-control"} %>
+	    </div>
+	</div>	  			
 	<div class="form-group">
 		<label class="col-sm-2 control-label"></label>								
 	 	<div class="col-md-10" style="margin-top:10px; padding-top:10px;">								

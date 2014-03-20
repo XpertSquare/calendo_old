@@ -1,0 +1,54 @@
+<%- title "Calendo | " + @account.name + " - " + "My profile" %>
+
+<section style="padding:15px;">
+	<header>
+		<h3 style="margin-top:10px;">Profile: <%= @user.display_name %> 
+		<%= link_to admin_edit_profile_path do %>
+				<span style="float:right; font-size:14px; margin-top:5px;"><i class="fa fa-edit"></i> Edit my profile</span> 
+			<% end %> 	 
+		</h3>
+		<hr style="margin-top:5px;"/>
+	</header>
+	<div class="bs-callout bs-callout-info">
+								<h4>Basic settings</h4>
+								<div class="row" style="border-bottom: 1px solid #EDEDED; margin-left:-5px; margin-right:5px;">
+									<div class="col-sm-3" style="text-align:right;" >		
+										<label class="normal">Display name:</label>
+									</div>
+									<div class="col-sm-9" >
+										<label class="normal"><%= @user.display_name %></label>
+									</div>
+								</div>
+								<div class="row" style="border-bottom: 1px solid #EDEDED; margin-left:-5px; margin-right:5px;">
+									<div class="col-sm-3" style="text-align:right;" >		
+										<label class="normal">Email:</label>
+									</div>
+									<div class="col-sm-9" >
+										<label class="normal"><%= @user.email %></label>
+									</div>
+								</div>								
+								<div class="row" style="border-bottom: 1px solid #EDEDED; margin-left:-5px; margin-right:5px;">
+									<div class="col-sm-3" style="text-align:right;" >		
+										<label class="normal">Language:</label>
+									</div>
+									<div class="col-sm-9" >
+										<label class="normal">English US</label>
+									</div>
+								</div>
+								
+								<div class="row" style="border-bottom: 1px solid #EDEDED; margin-left:-5px; margin-right:5px;">
+									<div class="col-sm-3" style="text-align:right;" >		
+										<label class="normal">Description:</label>
+									</div>
+									<div class="col-sm-9" >
+										<label class="normal">Ut nisi dolor, dignissim a aliquet quis, vulputate id dui. Proin ultrices ultrices ligula, dictum varius turpis faucibus non. Curabitur faucibus ultrices nunc, nec aliquet leo tempor cursus</label>
+									</div>
+								</div>
+								
+								
+
+							</div>
+							
+						
+
+</section>

@@ -21,7 +21,11 @@
 
 en:
   hello: "Hello world"
-  
+  helpers:
+    submit:
+      service:
+        create: "Create the service"
+        update: "Update the service"
   activerecord:
     attributes:
       user:

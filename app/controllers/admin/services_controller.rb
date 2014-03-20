@@ -1,6 +1,7 @@
 class Admin::ServicesController < ApplicationController
   layout "account_admin"
-  before_filter :authorize!
+  before_action :authorize!
+  before_action :set_service, only: [:show, :edit, :update]
   
   def new
     @service = Service.new
@@ -41,14 +42,18 @@ class Admin::ServicesController < ApplicationController
   def edit
   end
   
-  def show
-    @service = Service.find(params[:id])
+  def show    
     respond_to do |format|      
         format.html 
         format.json { render json: @service }
     end
   end
   
+  private
+
+  def set_service
+    @service = Service.find(params[:id])
+  end
   
   def post_params
       params.require(:service).permit(:name, :description, :duration, :price)

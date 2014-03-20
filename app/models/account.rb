@@ -5,7 +5,7 @@ class Account < ActiveRecord::Base
  has_one :owner
  
   validates_presence_of :name
-  validates_presence_of :user_email, :user_name, :on => [:create]
+  validates_presence_of :user_email, :user_name, :on => :create  
   validates_format_of :subdomain, :with => /^[A-Za-z0-9-]+$/, :multiline => true, :message => 'The subdomain can only contain alphanumeric characters and dashes.', :allow_blank => true
   validates_exclusion_of :subdomain, :in => %w( support blog www billing help api admin ), :message => "The subdomain <strong>{{value}}</strong> is reserved and unavailable."
   validates_uniqueness_of :subdomain, :case_sensitive => false

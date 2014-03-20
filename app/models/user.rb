@@ -2,6 +2,12 @@ class User < ActiveRecord::Base
   has_secure_password
   has_one :owner
   belongs_to :account
+
+  before_validation :downcase_email
+  
+  validates_presence_of :email
+  validates_uniqueness_of :email, :case_sensitive => false
+  validates :password, length: { minimum: 8 }, allow_nil: true
   
   default_scope { where(account_id: Account.current_id) }
   
@@ -33,6 +39,12 @@ class User < ActiveRecord::Base
   def generate_password    
       @char_map =  [('a'..'z'),('A'..'Z'), (0..9)].map{|i| i.to_a}.flatten     
       self.password = (0...10).map{ @char_map[rand(@char_map.length)] }.join
+  end
+  
+  protected
+
+  def downcase_email
+    self.email.downcase! if attribute_present?("email")
   end
   
 end
