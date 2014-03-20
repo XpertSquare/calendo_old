@@ -22,9 +22,18 @@
     </div>    
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
         <li><a href="schedule.html"><i class="fa fa-calendar"></i> Schedule</a></li>
-		<li><a href="customers.html"><i class="fa fa-users"></i> Customers</a></li>
+		<% if params[:controller]=="customers"%> 
+		<li class="active">
+		<% else %>
+		<li>
+		<% end %>
+		<%= link_to customers_path do %>
+			<i class="fa fa-users"></i> Customers 
+		<% end %>	
+		
+		</li>
 		<li><a href="#"><i class="fa fa-files-o"></i> Messages</a></li>
 		<li><a href="#"><i class="fa fa-money"></i> Sales</a></li>        
       </ul>     
@@ -48,9 +57,19 @@
     </div>
   </div>
 </nav>
-
-
-<%= yield %>
-
+<div class="container">
+	<div class="col-sm-12" style="padding-left: 0px !important;padding-right: 0px !important;">
+		<% flash.each do |key, value| %>
+			<%= content_tag(:div, value, class: "alert alert-#{key}") %>
+		<% end %>	
+	</div>
+</div>
+<div id="workspace" class="workspace">
+	<div class="container">	
+		<div class="sheet" style="padding:0px !important;">
+		<%= yield %>
+		</div>
+	</div>
+</div>
 </body>
 </html>

@@ -1,0 +1,28 @@
+								
+	<% if @customer.errors.any? %>
+		<div id="error_explanation" class="alert alert-danger">
+			<h4 style="margin-bottom:0px;"><%= pluralize(@customer.errors.count, "error") %> prohibited the customer record to be saved</h4>
+		</div>
+	<% end %>
+	<div class="form-group">									
+	  	<%= f.label :display_name, :class=>"col-sm-2 control-label" %>								  	
+	  	<div class="col-sm-6">			    
+	    	<%= f.text_field :display_name,  :class=>'form-control', :placeholder=>"Display name" %>
+	    	<% if @customer.errors[:display_name].present? %>
+				<span class="help-block"><%=:display_name.to_s.humanize  + ' ' +  @customer.errors[:display_name].join(" and ")%></span>
+			<% end %> 
+	    </div>
+	</div>
+	
+	<div class="form-group">									
+	  	<%= f.label :email, :class=>"col-sm-2 control-label" %>								  	
+	  	<div class="col-sm-6">	  		  							    
+	    	<%= f.text_field :email,  :class=>'form-control', :placeholder=>"Email address" %>
+				
+	    	<% if @customer.errors[:email].present? %>
+				<span class="help-block"><%=:email.to_s.humanize  + ' ' +  @customer.errors[:email].join(" and ")%></span>
+			<% end %> 
+	    </div>
+	</div>
+	
+	

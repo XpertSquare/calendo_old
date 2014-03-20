@@ -11,9 +11,9 @@
 	<table id="service-list" class="table table-hover sorted_table">							  
 		  <tbody>
 		  	<% @services.each do |service| %>
-        		<tr data-service-id="111">
+        		<tr>
 				  <td width="35"><i class="fa fa-sort" style="padding-left:10px; cursor:move; "></i></td>								  
-				  <td><a href="service-111.html" class="lnk-customer"><Deep Tissue Massage><%= link_to service.name, [:admin, service] %></a></td>
+				  <td><%= link_to service.name, [:admin, service] %></a></td>
 				  <td width="150">Online booking</td>
 				  <td width="100"><%= service.duration.to_s %> mins</td>
 				  <td width="100"><span style="float:right;"><%= number_to_currency(service.price, precision: 2) %></span> </td>

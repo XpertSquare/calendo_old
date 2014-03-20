@@ -1,0 +1,28 @@
+<%- title "Calendo | " + current_account.name + " - Staff members"%>
+
+<section>
+	<header class="panel-body">
+		<h3 style="margin-top:10px;"><%= current_account.name %> Staff members
+			<%= link_to new_admin_staff_path(@user) do %>
+				<span style="float:right; font-size:14px; margin-top:5px;"><i class="fa fa-plus"></i> Add a new staff member</span> 
+			<% end %>
+		</h3>						
+	<header>
+	<table id="service-list" class="table table-hover sorted_table">							  
+		  <tbody>
+		  	<% @staff_users.each do |staff| %>
+        		<tr>				  								  
+				  <td><%= link_to staff.display_name, edit_admin_staff_path(staff) %></a></td>
+				  <td width="200"><%= staff.email %></td>				  
+				</tr>
+  			<% end %>								
+		  </tbody>
+	</table>
+</section>
+
+
+<script type="text/javascript">
+$( document ).ready(function() {	
+	
+});
+</script>

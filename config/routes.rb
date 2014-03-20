@@ -1,5 +1,6 @@
 Calendo::Application.routes.draw do 
   
+  get "customers/index"
   get 'site/index'
   get 'accounts/index'  
   get 'register' => 'accounts#new'
@@ -8,19 +9,32 @@ Calendo::Application.routes.draw do
   
   constraints(Subdomain) do
     get '/' => 'public#index', as: 'acount_root'
+    resources :users, :controller => 'customers', :path =>"customers", as: 'customers'
     namespace :admin do
        get '/' => 'dashboard#index'
        
        resources :services 
        resources :users
+       resources :users, :controller => 'staff', :path =>"staff", as: 'staff'
        
        get '/account' => 'account#show', as: 'account'
        get '/account/edit' => 'account#edit', as: 'edit_account'
-       patch '/account' => 'account#update', as: 'account_update'
+       patch '/account' => 'account#update', as: 'update_account'
        
        get '/profile' => 'profile#show', as: 'profile'
        get '/profile/edit' => 'profile#edit', as: 'edit_profile'
-       patch '/profile' => 'profile#update', as: 'profile_update'
+       patch '/profile' => 'profile#update', as: 'update_profile'
+       
+       
+       
+       #get '/staff' => 'staff#index', as: 'staff'
+       #post '/staff' => 'staff#create', as: 'create_staff'
+       #get '/staff/new' => 'staff#new', as: 'new_staff'
+       #get '/staff/:id/edit' => 'staff#edit', as: 'edit_staff'
+       #patch '/staff/:id' => 'staff#update', as: 'update_staff'
+       #put '/staff/:id' => 'staff#update'
+       #delete '/staff/:id' => 'staff#destroy', as: 'delete_staff'
+       
     end
   end
   

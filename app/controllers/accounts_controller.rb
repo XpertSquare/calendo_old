@@ -24,7 +24,7 @@ class AccountsController < ApplicationController
       @user.email = @account.user_email   
       @user.account_id= @account.id
       @user.display_name = @account.user_name
-      @user.roles = %w[client staff admin owner]
+      @user.roles = %w[customer staff admin owner]
       @user.generate_password
       logger.info "User password: " + @user.password
       #Required to bypass the "has_secure_password" when an account is created

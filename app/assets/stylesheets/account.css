@@ -672,3 +672,9 @@ div.sheet {
     color: #A94442;
 }
  
+
+.alert-notice {
+    background-color: #DFF0D8;
+    border-color: #D6E9C6;
+    color: #3C763D;
+}

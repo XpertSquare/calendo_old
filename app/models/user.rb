@@ -3,6 +3,9 @@ class User < ActiveRecord::Base
   has_one :owner
   belongs_to :account
 
+  has_many :assignments
+  has_many :services, through: :assignments
+
   before_validation :downcase_email
   
   validates_presence_of :email
@@ -13,7 +16,7 @@ class User < ActiveRecord::Base
   
   scope :with_role, lambda { |role| {:conditions => "roles_mask & #{2**ROLES.index(role.to_s)} > 0"} }
   
-  ROLES = %w[client staff admin owner superuser]
+  ROLES = %w[customer staff admin owner superuser]
   
   before_create  { generate_token(:auth_token) }
   

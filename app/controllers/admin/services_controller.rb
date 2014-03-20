@@ -18,7 +18,7 @@ class Admin::ServicesController < ApplicationController
   end
   
    def create
-    @service = Service.new(post_params)   
+    @service = Service.new(service_params)   
     
     if @service.save      
       respond_to do |format|
@@ -30,13 +30,25 @@ class Admin::ServicesController < ApplicationController
         logger.info msg
       end
       
-      respond_to do |format|
-        format.js
+      respond_to do |format|        
         format.html { render action: 'new' }
         format.json { render json: @service.errors, status: :unprocessable_entity }
       end
     end
 
+  end
+  
+  def update
+    
+   respond_to do |format|
+      if @service.update(service_params)
+        format.html { redirect_to admin_service_url(:subdomain => current_account.subdomain), notice: 'The service ' + @service.name + ' was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @service.errors, status: :unprocessable_entity }
+      end
+    end
   end
   
   def edit
@@ -55,7 +67,7 @@ class Admin::ServicesController < ApplicationController
     @service = Service.find(params[:id])
   end
   
-  def post_params
-      params.require(:service).permit(:name, :description, :duration, :price)
-    end
+  def service_params
+      params.require(:service).permit(:name, :description, :duration, :price, :user_ids=>[])
+  end
 end

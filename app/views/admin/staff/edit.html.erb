@@ -1,0 +1,25 @@
+<%- title "Calendo | " + current_account.name + " - Edit staff member"%>
+
+<section style="padding:15px;">						
+	<h3>Staff: <%= @user.display_name %>
+		<%= link_to admin_staff_path(@user, :action => :destroy) do %>
+				<span style="float:right; font-size:14px; margin-top:5px;"><i class="fa fa-edit"></i> Delete this staff</span> 
+		<% end %>   
+	</h3>
+	<hr style="margin-top:5px;"/>			
+	<%= form_for [:admin, @user], :url => admin_staff_path(@user), :html => {:class => "form-horizontal", :role=>"form"} do |f| %>			
+		<%= render 'form', :f => f %>	
+		<div class="form-group">
+			<label class="col-sm-2 control-label"></label>								
+		 	<div class="col-md-10" style="margin-top:10px; padding-top:10px;">								
+				<%= f.submit "Update staff member", :class => 'btn btn-success' %> or <%= link_to 'Cancel', admin_staff_index_path %>		
+			</div>
+		</div>		
+	<% end %>
+</section>
+
+<script type="text/javascript">
+$( document ).ready(function() {	
+	
+});
+</script>

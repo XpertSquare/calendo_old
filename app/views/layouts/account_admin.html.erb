@@ -1,53 +1,52 @@
-
-<div id="workspace" class="workspace">
-	<div class="container">
-		<div class="sheet" style="padding:0px !important;">
-			<div class="row table-row">
-				<div class="col-sm-3 custom">
-					
-					<section class="panel" style="margin-top:20px;">
-						<div class="panel-body" >								
-							<ul class="nav nav-pills nav-stacked mail-nav" style="margin-top:10px;">
-								<% if params[:controller]=="admin/profile"%> 
-								<li class="active">
-								<% else %>
-								<li>
-								<% end %>
-								<%= link_to admin_profile_path do %>
-									<i class="fa fa-user"></i> My profile 
-								<% end %>									
-								</li>
-								<% if params[:controller]=="admin/account"%> 
-								<li class="active">
-								<% else %>
-								<li>
-								<% end %>
-								<%= link_to admin_account_path do %>
-									<i class="fa fa-gear"></i> My account 
-								<% end %>								
-								</li>
-								<li><a href="#"> <i class="fa fa-users"></i> Staff</a></li>
-								<% if params[:controller]=="admin/services"%> 
-								<li class="active">
-								<% else %>
-								<li>
-								<% end %>
-								<%= link_to admin_services_path do %>
-									<i class="fa fa-cutlery"></i> Services 
-								<% end %>
-								</li>
-								<li><a href="#"> <i class="fa fa-book"></i> Booking rules</a></li>
-							</ul>
-						</div>
-					</section>
-					
-				</div>
-				<div class="col-sm-9">
-					<%= yield %>
-				</div>	
+<div class="row table-row">
+	<div class="col-sm-3 custom">		
+		<section class="panel" style="margin-top:20px;">
+			<div class="panel-body" >								
+				<ul class="nav nav-pills nav-stacked mail-nav" style="margin-top:10px;">
+					<% if params[:controller]=="admin/profile"%> 
+					<li class="active">
+					<% else %>
+					<li>
+					<% end %>
+					<%= link_to admin_profile_path do %>
+						<i class="fa fa-user"></i> My profile 
+					<% end %>									
+					</li>
+					<% if params[:controller]=="admin/account"%> 
+					<li class="active">
+					<% else %>
+					<li>
+					<% end %>
+					<%= link_to admin_account_path do %>
+						<i class="fa fa-gear"></i> My account 
+					<% end %>								
+					</li>
+					<% if params[:controller]=="admin/staff"%> 
+					<li class="active">
+					<% else %>
+					<li>
+					<% end %>
+					<%= link_to admin_staff_index_path do %>
+						<i class="fa fa-users"></i> Staff 
+					<% end %>									
+					</li>
+					<% if params[:controller]=="admin/services"%> 
+					<li class="active">
+					<% else %>
+					<li>
+					<% end %>
+					<%= link_to admin_services_path do %>
+						<i class="fa fa-cutlery"></i> Services 
+					<% end %>
+					</li>
+					<li  class="disabled"><a href="#"> <i class="fa fa-book"></i> Booking rules</a></li>
+				</ul>
 			</div>
-		</div>
+		</section>
+		
 	</div>
+	<div class="col-sm-9">
+		<%= yield %>
+	</div>	
 </div>
-
 <%= parent_layout('account') %>

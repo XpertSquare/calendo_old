@@ -1,7 +1,7 @@
 <%= form_for [:admin, @service], :html => {:class => "form-horizontal", :role=>"form"} do |f| %>							
 	<% if @service.errors.any? %>
 		<div id="error_explanation" class="alert alert-danger">
-			<h4 style="margin-bottom:0px;"><%= pluralize(@service.errors.count, "error") %> prohibited the service to be created!</h4>											      
+			<h4 style="margin-bottom:0px;"><%= pluralize(@service.errors.count, "error") %> prohibited the service record to be saved!</h4>											      
 		</div>
 	<% end %>
 		<div class="form-group">									
@@ -74,21 +74,17 @@
 					  </label>
 					</div>
 			</div>
-		</div>
-		<!--div class="form-group">
-			<label class="col-sm-2 control-label">Staff</label>
-			<div class="col-sm-10">
-				<label class="checkbox-inline">
-				  <input type="checkbox" id="inlineCheckbox1" value="option1"> William Bossard
-				</label>
-				<label class="checkbox-inline">
-				  <input type="checkbox" id="inlineCheckbox2" value="option2"> Erica Burcham
-				</label>
-				<label class="checkbox-inline">
-				  <input type="checkbox" id="inlineCheckbox3" value="option3"> Sasha Newsham
-				</label>
-			</div>
-		</div-->				
+		</div>		
+		<div class="form-group">									
+	  	<label class="col-sm-2 control-label">Staff assigned</label>								  	
+	  	<div class="col-sm-6">	  		  							    
+	    	<%= hidden_field_tag "service[user_ids][]", nil %>
+		    <% User.all.with_role(:staff).each do |staff| %>
+      			<%= check_box_tag "service[user_ids][]", staff.id, @service.user_ids.include?(staff.id), id: dom_id(staff) %>
+      			<%= label_tag dom_id(staff), staff.display_name %><br>
+    		<% end %>    	
+	    </div>
+	</div>				
 	<div class="form-group">
 		<label class="col-sm-2 control-label"></label>								
 	 	<div class="col-md-10" style="margin-top:10px; padding-top:10px;">								

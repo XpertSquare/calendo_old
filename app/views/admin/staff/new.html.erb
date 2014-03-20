@@ -1,0 +1,22 @@
+<%- title "Calendo | " + current_account.name + " - New staff member"%>
+
+<section style="padding:15px;">						
+	<h3>Add a new staff member </h3>
+	<hr style="margin-top:5px;"/>
+	<%= form_for [:admin, @user], :url => url_for(:controller => 'staff'), :html => {:class => "form-horizontal", :role=>"form"} do |f| %>			
+		<%= render 'form', :f => f %>	
+		<div class="form-group">
+			<label class="col-sm-2 control-label"></label>								
+		 	<div class="col-md-10" style="margin-top:10px; padding-top:10px;">								
+				<%= f.submit "Create staff member", :class => 'btn btn-success' %> or <%= link_to 'Cancel', admin_staff_index_path %>		
+			</div>
+		</div>		
+	<% end %>
+</section>
+
+
+<script type="text/javascript">
+$( document ).ready(function() {	
+	
+});
+</script>
