@@ -688,3 +688,8 @@ div.sheet {
     margin: 0;
     padding: 10px 20px;
 }
+.section-body{
+	padding-top:20px;
+	padding-bottom:20px;
+}
+}

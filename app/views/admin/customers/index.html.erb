@@ -12,8 +12,8 @@
 		  <tbody>
 		  	<% @customers.each do |customer| %>
         		<tr>				  								  
-				  <td><%= link_to customer.display_name, admin_customer_path(customer) %></a></td>
-				  <td width="200"><%= customer.email %></td>				  
+				  <td><%= link_to customer.user.display_name, admin_customer_path(customer.user) %></a></td>
+				  <td width="200"><%= customer.user.email %></td>				  
 				</tr>
   			<% end %>								
 		  </tbody>

@@ -1,8 +1,11 @@
 <%- title "Calendo | " + current_account.name + " - New customer"%>
 
-<section style="padding:15px;">						
-	<h3>Add a new customer </h3>
-	<hr style="margin-top:5px;"/>
+
+<section>
+	<header class="page_header">
+		<h3 style="margin-top:10px;"><%= current_account.name %>: Add a new customer</h3>						
+	</header>	
+	<div class="section-body">
 	<%= form_for [:admin, @customer], :url => admin_customers_path(@customer), :html => {:class => "form-horizontal", :role=>"form"} do |f| %>			
 		<%= render 'form', :f => f %>	
 		<div class="form-group">
@@ -12,4 +15,5 @@
 			</div>
 		</div>		
 	<% end %>
+	</div>
 </section>

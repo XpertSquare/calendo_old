@@ -5,7 +5,8 @@ class Admin::CustomersController < ApplicationController
   before_action :set_customer, only: [:show, :edit, :update, :activity]
   
   def index
-    @customers = User.all.with_role(:customer) 
+    #@customers = User.all.with_role(:customer) 
+    @customers = CustomerProfile.all
     render(:layout => "layouts/account")
        
   end
