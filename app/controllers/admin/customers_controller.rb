@@ -1,4 +1,4 @@
-class CustomersController < ApplicationController
+class Admin::CustomersController < ApplicationController
   layout "account"
   before_action :authorize!
   before_action :set_customer, only: [:show, :edit, :update]
@@ -26,5 +26,4 @@ private
   def customer_params
       params.require(:user).permit(:email, :display_name)
   end
-  
 end

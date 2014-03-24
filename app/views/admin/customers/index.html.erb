@@ -3,7 +3,7 @@
 <section>
 	<header class="panel-body">
 		<h3 style="margin-top:10px;"><%= current_account.name %> customers
-			<%= link_to new_customer_path do %>
+			<%= link_to new_admin_customer_path do %>
 				<span style="float:right; font-size:14px; margin-top:5px;"><i class="fa fa-plus"></i> Add a new customer</span> 
 			<% end %>
 		</h3>						
@@ -12,7 +12,7 @@
 		  <tbody>
 		  	<% @customers.each do |customer| %>
         		<tr>				  								  
-				  <td><%= link_to customer.display_name, edit_customer_path(customer) %></a></td>
+				  <td><%= link_to customer.display_name, edit_admin_customer_path(customer) %></a></td>
 				  <td width="200"><%= customer.email %></td>				  
 				</tr>
   			<% end %>								
@@ -25,3 +25,4 @@ $( document ).ready(function() {
 	
 });
 </script>
+

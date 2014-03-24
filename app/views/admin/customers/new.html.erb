@@ -3,12 +3,12 @@
 <section style="padding:15px;">						
 	<h3>Add a new customer </h3>
 	<hr style="margin-top:5px;"/>
-	<%= form_for [:admin, @customer], :url => customers_path(@customer), :html => {:class => "form-horizontal", :role=>"form"} do |f| %>			
+	<%= form_for [:admin, @customer], :url => admin_customers_path(@customer), :html => {:class => "form-horizontal", :role=>"form"} do |f| %>			
 		<%= render 'form', :f => f %>	
 		<div class="form-group">
 			<label class="col-sm-2 control-label"></label>								
 		 	<div class="col-md-10" style="margin-top:10px; padding-top:10px;">								
-				<%= f.submit "Create customer", :class => 'btn btn-success' %> or <%= link_to 'Cancel', admin_staff_index_path %>		
+				<%= f.submit "Create customer", :class => 'btn btn-success' %> or <%= link_to 'Cancel', admin_customers_path %>		
 			</div>
 		</div>		
 	<% end %>

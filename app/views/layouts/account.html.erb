@@ -24,12 +24,12 @@
       <ul class="nav navbar-nav">
         <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
         <li><a href="schedule.html"><i class="fa fa-calendar"></i> Schedule</a></li>
-		<% if params[:controller]=="customers"%> 
+		<% if params[:controller]=="admin/customers"%> 
 		<li class="active">
 		<% else %>
 		<li>
 		<% end %>
-		<%= link_to customers_path do %>
+		<%= link_to admin_customers_path do %>
 			<i class="fa fa-users"></i> Customers 
 		<% end %>	
 		

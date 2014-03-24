@@ -9,12 +9,12 @@ Calendo::Application.routes.draw do
   
   constraints(Subdomain) do
     get '/' => 'public#index', as: 'acount_root'
-    resources :users, :controller => 'customers', :path =>"customers", as: 'customers'
+    
     namespace :admin do
        get '/' => 'dashboard#index'
        
        resources :services 
-       resources :users
+       resources :users, :controller => 'customers', :path =>"customers", as: 'customers'
        resources :users, :controller => 'staff', :path =>"staff", as: 'staff'
        
        get '/account' => 'account#show', as: 'account'
