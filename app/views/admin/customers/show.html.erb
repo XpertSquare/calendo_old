@@ -1,1 +1,78 @@
-Admin::Customers>Show: <%= @customer.roles %>
+<section class="panel">
+	<header class="panel-body">
+		<h2 style="margin-top:10px;"><%= @customer.display_name%> 
+			<%= link_to edit_admin_customer_path(@customer) do %>
+				<span style="float:right; font-size:14px; margin-top:5px;"><i class="fa fa-edit"></i> Edit this person</span> 
+			<% end %>
+		</h2>
+		<div><span> <i class="fa fa-phone"></i> Phone: 604.111.3345 | <i class="fa fa-envelope-o"></i> Email: <%= @customer.email%></span></div>
+		<hr style="margin-top:5px;"/>
+		
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<i class="fa fa-calendar"></i>	Upcoming appointments									
+			</div>
+			<div class="panel-body" style="padding: 0px;">
+				<table class="table table-striped table-hover">
+				  <tbody>
+					<tr class="tr-appointment" style="cursor:pointer">
+					  <td align="center"><div>Friday, Feb-20-2014</div><div style="color:#666666; font-weight:bold;">09:00 - 10:30</div></td>
+					  <td><a href="#">Phisyotherapy - 90 minutes </a> (with <span>William Bossard</span>)</td>										  										  
+					  <td><span class="label label-success">Confirmed</span></td>
+					</tr>
+					<tr class="tr-appointment" style="cursor:pointer">
+					  <td align="center"><div>Tueday, Mar-22-2014</div><div style="color:#666666; font-weight:bold;">11:00 - 11:30</div></td>
+					  <td><a href="#">Deep Tissue Massage </a> (with Erica Burcham)</td>
+					  <td><span class="label label-warning">Not confirmed</span></td>
+					</tr>
+					<tr class="tr-appointment" style="cursor:pointer">
+					  <td align="center"><div>Monday, Mar-27-2014</div><div style="color:#666666; font-weight:bold;">13:00 - 13:30</div></td>
+					  <td><a href="#">Hot Stone Massage </a> (with Sasha Newsham)</td>
+					  <td><span class="label label-warning">Not confirmed</span></td>
+					</tr>
+					
+				  </tbody>
+				</table>
+
+
+			</div>
+		</div>
+		
+		<div class="basic-panel">
+			<form role="form">
+			  <div class="form-group">
+				<label for="customerNote">Add a note about Mark:</label>
+				<textarea  id = "customerNote" class="form-control" rows="3"></textarea>									
+			  </div>
+			  <button type="submit" class="btn btn-default pull-right">Add this comment</button>
+			</form>
+		</div>
+		<hr style="margin-top:15px;"/>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<i class="fa fa-file-text-o"></i> Comments									
+			</div>
+			<div class="panel-body" style="padding: 0px;">
+				<table class="table table-striped table-hover">
+				  <tbody>
+					<tr class="tr-appointment" style="cursor:pointer">
+					  <td align="center" width="200"><div>Friday, Feb-20-2014</div><div style="color:#666666; font-size:12px;">Note by John C.</div></td>
+					  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas convallis porta purus, pulvinar mattis nulla tempus ut. Curabitur quis dui orci. Ut nisi dolor, dignissim a aliquet quis, vulputate id dui. Proin ultrices ultrices ligula, dictum varius turpis faucibus non. Curabitur faucibus ultrices nunc, nec aliquet leo tempor cursus. </td>										  										  										  
+					</tr>
+					<tr class="tr-appointment" style="cursor:pointer">
+					  <td align="center"><div>Tueday, Mar-22-2014</div><div style="color:#666666; font-size:12px;">Note by John C.</div></td>
+					  <td> Ut nisi dolor, dignissim a aliquet quis, vulputate id dui. Proin ultrices ultrices ligula, dictum varius turpis faucibus non. Curabitur faucibus ultrices nunc, nec aliquet leo tempor cursus. </td>										  
+					</tr>
+					<tr class="tr-appointment" style="cursor:pointer">
+					  <td align="center"><div>Monday, Mar-27-2014</div><div style="color:#666666; font-size:12px;">Note by John C.</div></td>
+					  <td> Maecenas convallis porta purus, pulvinar mattis nulla tempus ut.</td>										  
+					</tr>
+					
+				  </tbody>
+				</table>
+
+
+			</div>
+		</div>
+	<header>
+</section>

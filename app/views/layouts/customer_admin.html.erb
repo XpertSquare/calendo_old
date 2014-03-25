@@ -1,0 +1,30 @@
+<div class="row table-row">
+	<div class="col-sm-3 custom">		
+		<section class="panel" style="margin-top:20px;">
+			<div class="panel-body" >								
+				<ul class="nav nav-pills nav-stacked mail-nav" style="margin-top:10px;">
+					<% if params[:action]=="show"%> 
+					<li class="active">
+					<% else %>
+					<li>
+					<% end %>
+					<%= link_to admin_customer_path do %>
+						<i class="fa fa-dashboard"></i> Dashboard 
+					<% end %>									
+					</li>
+					
+					<li><a href="#"> <i class="fa fa-credit-card"></i> Invoices</a></li>
+					
+					<li><a href="history-customer-111.html"> <i class="fa fa-bars"></i> History</a></li>
+					<li><a href="#"> <i class="fa fa-comment"></i> Comments <span class="label label-info pull-right inbox-notification">14</span></a></li>
+					
+				</ul>
+			</div>
+		</section>
+		
+	</div>
+	<div class="col-sm-9">
+		<%= yield %>
+	</div>	
+</div>
+<%= parent_layout('account') %>
