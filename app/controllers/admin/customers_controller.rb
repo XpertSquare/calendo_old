@@ -29,7 +29,7 @@ class Admin::CustomersController < ApplicationController
       @customer_profile = CustomerProfile.new(user_id: @user.id)
       if @customer_profile.save             
         respond_to do |format|
-          format.html { redirect_to customers_url(:subdomain => current_account.subdomain), notice: 'The customer ' + @user.display_name + ' was successfully added to the account.'  }
+          format.html { redirect_to admin_customers_url(:subdomain => current_account.subdomain), notice: 'The customer ' + @user.display_name + ' was successfully added to the account.'  }
           format.json { render action: 'show', status: :created, location: @user }
         end
       else
