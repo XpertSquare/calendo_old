@@ -15,7 +15,16 @@
 					
 					<li><a href="#"> <i class="fa fa-credit-card"></i> Invoices</a></li>
 					
-					<li><a href="history-customer-111.html"> <i class="fa fa-bars"></i> History</a></li>
+					<% if params[:action]=="activity"%> 
+					<li class="active">
+					<% else %>
+					<li>
+					<% end %>
+					<%= link_to admin_customer_activity_path do %>
+						<i class="fa fa-bars"></i> History 
+					<% end %>									
+					</li>					
+					
 					<li><a href="#"> <i class="fa fa-comment"></i> Comments <span class="label label-info pull-right inbox-notification">14</span></a></li>
 					
 				</ul>

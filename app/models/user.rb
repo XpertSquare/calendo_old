@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_secure_password
   has_one :owner
+  has_one :customer_profile
   belongs_to :account
 
   has_many :assignments

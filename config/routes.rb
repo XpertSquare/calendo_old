@@ -14,7 +14,10 @@ Calendo::Application.routes.draw do
        get '/' => 'dashboard#index'
        
        resources :services 
+       
        resources :users, :controller => 'customers', :path =>"customers", as: 'customers'
+       get '/customers/:id/activity' => 'customers#activity', as: 'customer_activity'
+       
        resources :users, :controller => 'staff', :path =>"staff", as: 'staff'
        
        get '/account' => 'account#show', as: 'account'
@@ -24,6 +27,8 @@ Calendo::Application.routes.draw do
        get '/profile' => 'profile#show', as: 'profile'
        get '/profile/edit' => 'profile#edit', as: 'edit_profile'
        patch '/profile' => 'profile#update', as: 'update_profile'
+       
+       
        
        
        
