@@ -2,11 +2,12 @@ class Admin::CustomersController < ApplicationController
   #layout "account", :only => :index
   layout "customer_admin", :except => :index
   before_action :authorize!
-  before_action :set_customer, only: [:show, :edit, :update, :activity]
+  before_action :set_customer_profile, only: [:show, :edit, :update, :activity]
   
   def index
     #@customers = User.all.with_role(:customer) 
     @customers = CustomerProfile.all
+    
     render(:layout => "layouts/account")
        
   end
@@ -53,7 +54,7 @@ class Admin::CustomersController < ApplicationController
   end
   
   def show
-    
+    @comment = Comment.new
   end
   
   def activity
@@ -62,11 +63,11 @@ class Admin::CustomersController < ApplicationController
   
 private
 
-  def set_customer
-    @customer = User.find(params[:id])
+  def set_customer_profile
+    @customer = CustomerProfile.find(params[:id])
   end
   
   def customer_params
-      params.require(:user).permit(:email, :display_name)
+      params.require(:user).permit(:email, :display_name, :customer_profile =>{})
   end
 end

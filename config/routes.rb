@@ -14,6 +14,7 @@ Calendo::Application.routes.draw do
        get '/' => 'dashboard#index'
        
        resources :services 
+       resources :comments
        
        resources :users, :controller => 'customers', :path =>"customers", as: 'customers'
        get '/customers/:id/activity' => 'customers#activity', as: 'customer_activity'
