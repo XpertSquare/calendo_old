@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   has_many :assignments
   has_many :services, through: :assignments
   has_many :comments
+  has_many :activities
 
   before_validation :downcase_email
   

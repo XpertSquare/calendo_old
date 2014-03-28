@@ -3,6 +3,7 @@ class Account < ActiveRecord::Base
  has_many :users
  has_many :customer_profiles
  has_many :services
+ has_many :activities
  has_one :owner
  
   validates_presence_of :name
