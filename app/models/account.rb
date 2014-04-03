@@ -6,6 +6,9 @@ class Account < ActiveRecord::Base
  has_many :activities
  has_one :owner
  
+ has_many :business_hours
+ accepts_nested_attributes_for :business_hours , allow_destroy: true
+ 
   validates_presence_of :name
   validates_presence_of :user_email, :user_name, :on => :create  
   validates_format_of :subdomain, :with => /^[A-Za-z0-9-]+$/, :multiline => true, :message => 'The subdomain can only contain alphanumeric characters and dashes.', :allow_blank => true

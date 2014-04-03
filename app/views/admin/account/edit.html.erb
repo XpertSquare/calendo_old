@@ -40,7 +40,16 @@
 	  	<div class="col-sm-6">	    
 	    	<%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, {default: "Pacific Time (US & Canada)"}, {:class=>"form-control"} %>
 	    </div>
-	</div>	  			
+	</div>
+	
+	<div>
+		<header style="border-bottom:1px solid #DDDDDD; margin-top:15px; margin-bottom:10px;"><h4>Business hours</h4>
+		</header>	
+		<%= f.fields_for :business_hours, f.object.business_hours.order(:id) do |builder| %>
+			<%= render 'business_hour_fields', f: builder %>
+   		<% end %>
+	</div>
+		  			
 	<div class="form-group">
 		<label class="col-sm-2 control-label"></label>								
 	 	<div class="col-md-10" style="margin-top:10px; padding-top:10px;">								
@@ -49,3 +58,25 @@
 	</div>		
 <% end %>
 </section>
+
+<script type="text/javascript">
+
+$(document).ready(function() {  	
+  	$(".lnk-close").click(function(){
+  		$(this).parent().parent().find('.is-closed').val('t');
+  		$(this).parent().parent().find('[data-view="is-closed"]').css("display","block");
+  		$(this).parent().parent().find('[data-view="is-open"]').css("display","none");
+  		
+  		//console.log("Close link was clicked! " + $(this).parent().parent().find('.label-day').text());
+  	});
+  	
+  	  	$(".lnk-open").click(function(){
+  		$(this).parent().parent().find('.is-closed').val('f');
+  		$(this).parent().parent().find('[data-view="is-closed"]').css("display","none");
+  		$(this).parent().parent().find('[data-view="is-open"]').css("display","block");
+  		
+  		//console.log("Open link was clicked! " + $(this).parent().parent().find('.label-day').text());
+  	});
+ });
+	
+</script>

@@ -58,62 +58,20 @@
 							
 							<div class="bs-callout bs-callout-warning">
 								<h4>Business hours</h4>
+								<% @account.business_hours.order(:id).each do |bh|%>
 								<div class="row" style="border-bottom: 1px solid #EDEDED; margin-left:-5px; margin-right:5px;">
 									<div class="col-sm-3" style="text-align:right;" >		
-										<label class="normal">Monday:</label>
+										<label class="normal"><%= bh.day.humanize %>:</label>
 									</div>
 									<div class="col-sm-9" >
-										<label class="normal">09:00 - 17:00</label>
+										<% if bh.is_closed %>
+											<label class="normal">CLOSED</label>
+										<% else %>
+											<label class="normal"><%= bh.open_time + " - " + bh.close_time%></label>
+										<% end %>	
 									</div>
 								</div>
-								<div class="row" style="border-bottom: 1px solid #EDEDED; margin-left:-5px; margin-right:5px;">
-									<div class="col-sm-3" style="text-align:right;" >		
-										<label class="normal">Tuesday:</label>
-									</div>
-									<div class="col-sm-9" >
-										<label class="normal">09:00 - 17:00</label>
-									</div>
-								</div>
-								<div class="row" style="border-bottom: 1px solid #EDEDED; margin-left:-5px; margin-right:5px;">
-									<div class="col-sm-3" style="text-align:right;" >		
-										<label class="normal">Wednesday:</label>
-									</div>
-									<div class="col-sm-9" >
-										<label class="normal">09:00 - 17:00</label>
-									</div>
-								</div>
-								<div class="row" style="border-bottom: 1px solid #EDEDED; margin-left:-5px; margin-right:5px;">
-									<div class="col-sm-3" style="text-align:right;" >		
-										<label class="normal">Thursday:</label>
-									</div>
-									<div class="col-sm-9" >
-										<label class="normal">09:00 - 17:00</label>
-									</div>
-								</div>
-								<div class="row" style="border-bottom: 1px solid #EDEDED; margin-left:-5px; margin-right:5px;">
-									<div class="col-sm-3" style="text-align:right;" >		
-										<label class="normal">Friday:</label>
-									</div>
-									<div class="col-sm-9" >
-										<label class="normal">09:00 - 17:00</label>
-									</div>
-								</div>
-								<div class="row" style="border-bottom: 1px solid #EDEDED; margin-left:-5px; margin-right:5px;">
-									<div class="col-sm-3" style="text-align:right;" >		
-										<label class="normal">Saturday:</label>
-									</div>
-									<div class="col-sm-9" >
-										<label class="normal">09:00 - 17:00</label>
-									</div>
-								</div>
-								<div class="row" style="border-bottom: 1px solid #EDEDED; margin-left:-5px; margin-right:5px;">
-									<div class="col-sm-3" style="text-align:right;" >		
-										<label class="normal">Sunday:</label>
-									</div>
-									<div class="col-sm-9" >
-										<label class="normal">Closed</label>
-									</div>
-								</div>
+								<% end %>
 								
 							</div>
 							<div class="bs-callout bs-callout-warning">

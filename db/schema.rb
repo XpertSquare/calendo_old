@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140403043802) do
+ActiveRecord::Schema.define(version: 20140403064839) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,18 @@ ActiveRecord::Schema.define(version: 20140403043802) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "business_hours", force: true do |t|
+    t.integer  "account_id"
+    t.string   "day"
+    t.string   "open_time"
+    t.string   "close_time"
+    t.boolean  "is_closed"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "business_hours", ["account_id"], name: "index_business_hours_on_account_id", using: :btree
 
   create_table "comments", force: true do |t|
     t.text     "content"
