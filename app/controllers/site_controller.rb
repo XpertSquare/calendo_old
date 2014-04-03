@@ -1,5 +1,5 @@
 class SiteController < ApplicationController
   def index
-    @account = Account.new  
+    @registration = Registration.new  
   end
 end

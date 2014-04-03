@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140328001612) do
+ActiveRecord::Schema.define(version: 20140403043802) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,6 +83,19 @@ ActiveRecord::Schema.define(version: 20140328001612) do
 
   add_index "owners", ["account_id"], name: "index_owners_on_account_id", using: :btree
   add_index "owners", ["user_id"], name: "index_owners_on_user_id", using: :btree
+
+  create_table "registrations", force: true do |t|
+    t.string   "company_name"
+    t.string   "registrar_name"
+    t.string   "registrar_email"
+    t.string   "status"
+    t.string   "token"
+    t.string   "ip_address"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "registrations", ["token"], name: "index_registrations_on_token", using: :btree
 
   create_table "services", force: true do |t|
     t.string   "name"

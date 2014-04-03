@@ -1,9 +1,8 @@
 Calendo::Application.routes.draw do 
   
-  get "customers/index"
   get 'site/index'
   get 'accounts/index'  
-  get 'register' => 'accounts#new'
+  get 'register' => 'registrations#new'
   get 'login' => 'sessions#new'
   get 'logout'=>'sessions#destroy'
   
@@ -46,7 +45,8 @@ Calendo::Application.routes.draw do
     end
   end
   
-  resources :accounts, only: [:index, :create]
+  resources :registrations, only: [:index, :create]
+  #resources :accounts, only: [:index, :create]
   resources :sessions, only: [:create, :destroy]  
   
   root 'site#index'
