@@ -8,7 +8,11 @@ class Admin::CustomersController < ApplicationController
     #@customers = User.all.with_role(:customer) 
     @customers = CustomerProfile.all
     
-    render(:layout => "layouts/account")
+    
+    render(:layout => "layouts/account") 
+       
+    
+    
        
   end
   

@@ -20,6 +20,9 @@ class Admin::AppointmentsController < ApplicationController
   
   def schedule
     @appointment = Appointment.new
+    @services = Service.all
+    @employees = User.all.with_role(:staff)
+    
   end
   
 

@@ -10,4 +10,8 @@ class CustomerProfile < ActiveRecord::Base
     "#{id} #{self.user.display_name}".parameterize
   end
   
+  def name
+    self.user.display_name
+  end
+  
 end
