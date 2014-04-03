@@ -65,7 +65,10 @@
 					<label class="normal">Staff assigned:</label>
 				</div>
 				<div class="col-sm-9" >
-					<label class="normal"><a href="#">William Bossard</a></label> | <label class="normal"><a href="#">Erica Burcham</a></label> | <label class="normal"><a href="#">Sasha Newsham</a></label>
+					<% @service.users.each do |user|%>
+						<label class="normal"><%= link_to user.display_name, edit_admin_staff_path(user) %></label> <br/>						
+					<% end %>
+					
 				</div>
 			</div>
 

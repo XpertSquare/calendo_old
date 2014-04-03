@@ -8,6 +8,11 @@
 	<% if @account.errors.any? %>
 		<div id="error_explanation" class="alert alert-danger">
 			<h4 style="margin-bottom:0px;"><%= pluralize(@account.errors.count, "error") %> prohibited the account to be updated!</h4>
+			<ul>
+		      <% @account.errors.full_messages.each do |msg| %>
+		        <li><%= msg %></li>
+		      <% end %>
+		    </ul>
 		</div>
 	<% end %>
 	<div class="form-group">									

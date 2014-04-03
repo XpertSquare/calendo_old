@@ -6,4 +6,8 @@ class CustomerProfile < ActiveRecord::Base
   
   default_scope { where(account_id: Account.current_id) }
   
+  def to_param
+    "#{id} #{self.user.display_name}".parameterize
+  end
+  
 end

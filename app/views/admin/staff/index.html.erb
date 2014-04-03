@@ -12,7 +12,7 @@
 		  <tbody>
 		  	<% @staff_users.each do |staff| %>
         		<tr>				  								  
-				  <td><%= link_to staff.display_name, edit_admin_staff_path(staff) %></a></td>
+				  <td><%= link_to staff.display_name, edit_admin_staff_path(staff) %></td>
 				  <td width="200"><%= staff.email %></td>				  
 				</tr>
   			<% end %>								

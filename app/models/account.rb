@@ -16,6 +16,9 @@ class Account < ActiveRecord::Base
   validates_uniqueness_of :subdomain, :case_sensitive => false
   validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.zones_map(&:name), :if => :time_zone
  
+  validate :business_hours_valid
+
+  
  
   before_validation :downcase_subdomain
 
@@ -54,4 +57,13 @@ class Account < ActiveRecord::Base
     self.subdomain.downcase! if attribute_present?("subdomain")
   end
   
+  private 
+  def business_hours_valid
+    self.business_hours.each do |bh|
+      if Time.parse(bh.open_time)> Time.parse(bh.close_time)
+        errors.add(:business_hours, "open time must be earlier than the close time for: " + bh.day.to_s.humanize)
+      end  
+    end
+    
+  end 
 end
