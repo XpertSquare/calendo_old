@@ -1,0 +1,28 @@
+<section>
+	<header class="panel-body">
+		<h2 style="margin-top:10px;"><%= @customer.user.display_name %> 
+		<%= link_to edit_admin_customer_path(@customer) do %>
+				<span  class="entity-action-link"><i class="fa fa-edit"></i> Edit this person</span> 
+		<% end %>	
+		</h2>
+		<div><span> <i class="fa fa-phone"></i> Phone: 604.111.3345 | <i class="fa fa-envelope-o"></i> Email: <%= @customer.user.email %></span></div>
+		<hr style="margin-top:5px;"/>
+	</header>	
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<i class="fa fa-comments"></i> Comments									
+		</div>
+		<div class="panel-body" style="padding: 0px;">
+			<table class="table table-striped table-hover">
+			  <tbody>
+			  	<% @customer.comments.each do |comment|%>
+			  		<tr class="tr-appointment" style="cursor:pointer">
+				  		<td align="center" width="200"><div><%= comment.created_at.strftime("%A, %b-%e-%Y at %l:%M %p")%></div><div style="color:#666666; font-size:12px;"><%= comment.user ? ("Note by " + comment.user.display_name) : "" %></div></td>
+				  		<td><%= comment.content%></td>										  										  										  
+					</tr>
+			  	<% end %>
+			  </tbody>
+			</table>
+		</div>
+	</div>		
+</section>

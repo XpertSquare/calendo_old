@@ -648,7 +648,7 @@ div.sheet {
   
   
 .row.table-row > [class*="col-"].custom {
-  background-color: #F0F5F8;
+  background-color: rgba(0, 0, 0, 0.0392157);
 
  }
  
@@ -681,7 +681,8 @@ div.sheet {
 
 /* Page header */
 .page_header {
-    background: none repeat scroll 0 0 #F0F5F8;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.0392157);
+    
     border-bottom: 1px solid #DADEE5;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
@@ -692,4 +693,10 @@ div.sheet {
 	padding-top:20px;
 	padding-bottom:20px;
 }
+
+span.entity-action-link{
+	float:right; 
+	font-size:14px; 
+	margin-top:5px;
 }
+

@@ -3,7 +3,7 @@
 <section style="padding:15px;">						
 	<h3>Create a new service </h3>
 	<hr style="margin-top:5px;"/>			
-	<%= form_for [:admin, @user], :url=>admin_profile_path , :html => {:class => "form-horizontal", :role=>"form"} do |f| %>							
+	<%= form_for [:admin, @user], :url=>admin_profile_path , :html => {:class => "form-horizontal", :role=>"form", :autocomplete=>"off"} do |f| %>							
 	<% if @user.errors.any? %>
 		<div id="error_explanation" class="alert alert-danger">
 			<h4 style="margin-bottom:0px;"><%= pluralize(@user.errors.count, "error") %> prohibited the profile to be updated!</h4>
@@ -32,7 +32,7 @@
 	<div class="form-group">									
 	  	<%= f.label :password, :class=>"col-sm-2 control-label" %>								  	
 	  	<div class="col-sm-6">	  		  							    
-	    	<%= f.password_field :password,  :class=>'form-control' %>
+	    	<%= f.password_field :password,  :class=>'form-control', :autocomplete=>"off" %>
 				
 	    	<% if @user.errors[:password].present? %>
 				<span class="help-block"><%=:password.to_s.humanize  + ' ' +  @user.errors[:password].join(" and ")%></span>

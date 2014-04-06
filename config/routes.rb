@@ -18,6 +18,8 @@ Calendo::Application.routes.draw do
        
        resources :users, :controller => 'customers', :path =>"customers", as: 'customers'
        get '/customers/:id/activity' => 'customers#activity', as: 'customer_activity'
+       get '/customers/:id/comments' => 'customers#comments', as: 'customer_comments'
+       get '/customers/:id/invoicess' => 'customers#invoices', as: 'customer_invoices'
        
        resources :users, :controller => 'staff', :path =>"staff", as: 'staff'
        

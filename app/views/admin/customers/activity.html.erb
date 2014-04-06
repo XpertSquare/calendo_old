@@ -1,14 +1,29 @@
-<section class="panel">
+<section>
 	<header class="panel-body">
-		<h2 style="margin-top:10px;">Mark Otto <a id="lnk-edit" href="edit-customer-111.html"><span style="float:right; font-size:14px; margin-top:5px;"><i class="fa fa-edit"></i> Edit this person</span></a></h2>
-		<div><span> <i class="fa fa-phone"></i> Phone: 604.111.3345 | <i class="fa fa-envelope-o"></i> Email: abc@example.com</span></div>
+		<h2 style="margin-top:10px;"><%= @customer.user.display_name %>
+		<%= link_to edit_admin_customer_path(@customer) do %>
+			<span  class="entity-action-link"><i class="fa fa-edit"></i> Edit this person</span> 
+		<% end %>
+		</h2>
+		<div><span> <i class="fa fa-phone"></i> Phone: 604.111.3345 | <i class="fa fa-envelope-o"></i> Email: <%= @customer.user.email %></span></div>
 		<hr style="margin-top:5px;"/>
-		
+	</header>
 		<div class="timeline">
 			<div class="spine"></div>
+			
+			<% @activities_months.each do |month, activities| %>
+				<div class="date_separator">
+					<span><%= month.strftime("%B %Y") %></span>
+				</div>
+				<ul class="columns">			
+				<% (activities.sort_by{|k, v| k}.reverse!).each do |activity| %>
+					<%= render "admin/activities/#{activity.trackable_type.underscore}/#{activity.action}", activity.trackable_type.underscore.to_sym => activity.trackable %>			
+				<% end %>
+				</ul>
+			<% end %>	
 			<div class="date_separator">
-				<span>JANUARY 2014</span>
-			</div>
+					<span>January 2014</span>
+				</div>
 			<ul class="columns">
 				<li>
 					<div class="timeline_element blue">
@@ -54,6 +69,4 @@
 			</ul>
 
 		</div>	
-
-	<header>
 </section>

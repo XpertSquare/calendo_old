@@ -11,6 +11,7 @@ class Admin::CommentsController < ApplicationController
      @comment = @commentable.comments.new(comment_params)
      @comment.user_id = current_user.id
     if @comment.save
+      track_activity @comment, @commentable
       respond_to do |format|
         format.js
       end

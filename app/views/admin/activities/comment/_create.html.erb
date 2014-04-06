@@ -1,0 +1,10 @@
+<li>
+	<div class="timeline_element blue">
+		<div class="timeline_title">
+			<span class="timeline_label">Comment added</span><span class="timeline_date" style="padding-left:30px;"><%= comment.created_at.strftime("%A, %b-%e-%Y | %l:%M %p")%></span>
+		</div>
+		<div class="content">
+			<%= comment.id.to_s + " : " + comment.content %>
+		</div>						
+	</div>
+</li>

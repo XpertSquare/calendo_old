@@ -2,12 +2,12 @@
 	<header class="panel-body">
 		<h2 style="margin-top:10px;"><%= @customer.user.display_name%> 
 			<%= link_to edit_admin_customer_path(@customer) do %>
-				<span style="float:right; font-size:14px; margin-top:5px;"><i class="fa fa-edit"></i> Edit this person</span> 
+				<span  class="entity-action-link"><i class="fa fa-edit"></i> Edit this person</span> 
 			<% end %>
 		</h2>
 		<div><span> <i class="fa fa-phone"></i> Phone: 604.111.3345 | <i class="fa fa-envelope-o"></i> Email: <%= @customer.user.email%></span></div>
 		<hr style="margin-top:5px;"/>
-		
+	</header>
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<i class="fa fa-calendar"></i>	Upcoming appointments									
@@ -51,40 +51,7 @@
 			 </div>
 			<%end%>
 		</section>
-		<hr style="margin-top:15px;"/>
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<i class="fa fa-file-text-o"></i> Comments									
-			</div>
-			<div class="panel-body" style="padding: 0px;">
-				<table class="table table-striped table-hover">
-				  <tbody>
-				  	<% @customer.comments.each do |comment|%>
-				  		<tr class="tr-appointment" style="cursor:pointer">
-					  		<td align="center" width="200"><div><%= comment.created_at.strftime("%A, %b-%e-%Y at %l:%M %p")%></div><div style="color:#666666; font-size:12px;"><%= comment.user ? ("Note by " + comment.user.display_name) : "" %></div></td>
-					  		<td><%= comment.content%></td>										  										  										  
-						</tr>
-				  	<% end %>
-					<tr class="tr-appointment" style="cursor:pointer">
-					  <td align="center" width="200"><div>Friday, Feb-20-2014</div><div style="color:#666666; font-size:12px;">Note by John C.</div></td>
-					  <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas convallis porta purus, pulvinar mattis nulla tempus ut. Curabitur quis dui orci. Ut nisi dolor, dignissim a aliquet quis, vulputate id dui. Proin ultrices ultrices ligula, dictum varius turpis faucibus non. Curabitur faucibus ultrices nunc, nec aliquet leo tempor cursus. </td>										  										  										  
-					</tr>
-					<tr class="tr-appointment" style="cursor:pointer">
-					  <td align="center"><div>Tueday, Mar-22-2014</div><div style="color:#666666; font-size:12px;">Note by John C.</div></td>
-					  <td> Ut nisi dolor, dignissim a aliquet quis, vulputate id dui. Proin ultrices ultrices ligula, dictum varius turpis faucibus non. Curabitur faucibus ultrices nunc, nec aliquet leo tempor cursus. </td>										  
-					</tr>
-					<tr class="tr-appointment" style="cursor:pointer">
-					  <td align="center"><div>Monday, Mar-27-2014</div><div style="color:#666666; font-size:12px;">Note by John C.</div></td>
-					  <td> Maecenas convallis porta purus, pulvinar mattis nulla tempus ut.</td>										  
-					</tr>
-					
-				  </tbody>
-				</table>
-
-
-			</div>
-		</div>
-	<header>
+	
 </section>
 
 <script type="text/javascript">

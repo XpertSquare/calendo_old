@@ -2,7 +2,7 @@ class Admin::CustomersController < ApplicationController
   #layout "account", :only => :index
   layout "customer_admin", :except => :index
   before_action :authorize!
-  before_action :set_customer_profile, only: [:show, :edit, :update, :activity]
+  before_action :set_customer_profile, only: [:show, :edit, :update, :activity, :comments, :invoices]
   
   def index
     #@customers = User.all.with_role(:customer) 
@@ -58,7 +58,17 @@ class Admin::CustomersController < ApplicationController
   end
   
   def activity
+    @activities = Activity.where(:recipient_id => @customer.id, :recipient_type => 'CustomerProfile')
+    @activities_months = @activities.group_by { |t| t.created_at.beginning_of_month }
+    #@activities_months = @activities_months.sort_by reverse!
+  end
+  
+  def comments
     
+  end
+  
+  def invoices
+    #TODO: add code for invoices when the model is created
   end
   
 private

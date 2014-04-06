@@ -13,7 +13,15 @@
 					<% end %>									
 					</li>
 					
-					<li><a href="#"> <i class="fa fa-credit-card"></i> Invoices</a></li>
+					<% if params[:action]=="invoices"%> 
+					<li class="active">
+					<% else %>
+					<li>
+					<% end %>
+					<%= link_to admin_customer_invoices_path do %>
+						<i class="fa fa-files-o"></i> Invoices <span class="label label-info pull-right inbox-notification">0</span> 
+					<% end %>									
+					</li>	
 					
 					<% if params[:action]=="activity"%> 
 					<li class="active">
@@ -21,12 +29,20 @@
 					<li>
 					<% end %>
 					<%= link_to admin_customer_activity_path do %>
-						<i class="fa fa-bars"></i> History 
+						<i class="fa fa-tasks"></i> Activity 
 					<% end %>									
 					</li>					
 					
-					<li><a href="#"> <i class="fa fa-comment"></i> Comments <span class="label label-info pull-right inbox-notification">14</span></a></li>
 					
+					<% if params[:action]=="comments"%> 
+					<li class="active">
+					<% else %>
+					<li>
+					<% end %>
+					<%= link_to admin_customer_comments_path do %>
+						<i class="fa fa-comments"></i> Comments <span class="label label-info pull-right inbox-notification"><%= @customer.comments.count %></span> 
+					<% end %>									
+					</li>				
 				</ul>
 			</div>
 		</section>
