@@ -6,6 +6,9 @@
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
   <%= stylesheet_link_tag    "bootstrap.min", media: "all"%>
   <%= stylesheet_link_tag    "account", media: "all"%>
+  <%= stylesheet_link_tag    "fullcalendar.core.1.6.4", media: "all"%>
+  <%= stylesheet_link_tag    "datepicker", media: "all"%>
+
   <%= javascript_include_tag "application", "bootstrap.min", "Chart.min"%>
   <%= csrf_meta_tags %>
 </head>
@@ -23,7 +26,16 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-        <li><a href="schedule.html"><i class="fa fa-calendar"></i> Schedule</a></li>
+        <% if params[:controller]=="admin/appointments"%> 
+		<li class="active">
+		<% else %>
+		<li>
+		<% end %>
+		<%= link_to admin_schedule_path do %>
+			<i class="fa fa-calendar"></i> Schedule 
+		<% end %>	
+		</li>
+		
 		<% if params[:controller]=="admin/customers"%> 
 		<li class="active">
 		<% else %>

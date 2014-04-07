@@ -1,5 +1,5 @@
 Calendo::Application.routes.draw do 
-  
+
   get 'site/index'
   get 'accounts/index'  
   get 'register' => 'registrations#new'
@@ -14,6 +14,7 @@ Calendo::Application.routes.draw do
        
        resources :services 
        resources :comments
+       resources :appointments
        
        resources :users, :controller => 'customers', :path =>"customers", as: 'customers'
        get '/customers/:id/activity' => 'customers#activity', as: 'customer_activity'
@@ -22,6 +23,8 @@ Calendo::Application.routes.draw do
        
        resources :users, :controller => 'staff', :path =>"staff", as: 'staff'
        
+       get '/schedule' => 'appointments#schedule', as: 'schedule'
+              
        get '/account' => 'account#show', as: 'account'
        get '/account/edit' => 'account#edit', as: 'edit_account'
        patch '/account' => 'account#update', as: 'update_account'
@@ -30,18 +33,7 @@ Calendo::Application.routes.draw do
        get '/profile/edit' => 'profile#edit', as: 'edit_profile'
        patch '/profile' => 'profile#update', as: 'update_profile'
        
-       
-       
-       
-       
-       #get '/staff' => 'staff#index', as: 'staff'
-       #post '/staff' => 'staff#create', as: 'create_staff'
-       #get '/staff/new' => 'staff#new', as: 'new_staff'
-       #get '/staff/:id/edit' => 'staff#edit', as: 'edit_staff'
-       #patch '/staff/:id' => 'staff#update', as: 'update_staff'
-       #put '/staff/:id' => 'staff#update'
-       #delete '/staff/:id' => 'staff#destroy', as: 'delete_staff'
-       
+     
     end
   end
   
