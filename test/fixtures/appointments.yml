@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  account_id: 1
+  user_id: 1
+  customer_profile_id: 1
+  start: 2014-04-07 14:25:50
+  end: 2014-04-07 14:25:50
+  duration: 1
+  price: 1
+
+two:
+  account_id: 1
+  user_id: 1
+  customer_profile_id: 1
+  start: 2014-04-07 14:25:50
+  end: 2014-04-07 14:25:50
+  duration: 1
+  price: 1

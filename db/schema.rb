@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140403064839) do
+ActiveRecord::Schema.define(version: 20140407212550) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,20 @@ ActiveRecord::Schema.define(version: 20140403064839) do
   add_index "activities", ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type", using: :btree
   add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
   add_index "activities", ["user_id"], name: "index_activities_on_user_id", using: :btree
+
+  create_table "appointments", force: true do |t|
+    t.integer  "account_id"
+    t.integer  "user_id"
+    t.integer  "customer_profile_id"
+    t.datetime "start"
+    t.datetime "end"
+    t.integer  "duration"
+    t.integer  "price"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "appointments", ["account_id"], name: "index_appointments_on_account_id", using: :btree
 
   create_table "assignments", force: true do |t|
     t.integer  "user_id"
