@@ -60,7 +60,7 @@ class Account < ActiveRecord::Base
   private 
   def business_hours_valid
     self.business_hours.each do |bh|
-      if Time.parse(bh.open_time)> Time.parse(bh.close_time)
+      if Time.parse(bh.open_time)>= Time.parse(bh.close_time)
         errors.add(:business_hours, "open time must be earlier than the close time for: " + bh.day.to_s.humanize)
       end  
     end
