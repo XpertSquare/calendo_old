@@ -65,12 +65,7 @@
 				<label for="staffName" class="col-sm-2 control-label">Staff</label>
 				<div class="col-sm-3">
 					<%= f.collection_select :user_id, @employees, :id, :display_name, {:include_blank => true}, {:class=>'form-control'} %>				  
-					<!--select class="form-control" id="staffName">
-						<option></option>
-						<option>William Bossard</option>
-						<option>Erica Burcham</option>
-						<option>Sasha Newsham</option>
-					</select-->
+					
 				</div>
 				
 			</div>
@@ -82,21 +77,10 @@
 						<span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
 					</div>								
 				</div>
-				<div class="col-sm-2">				  
-					<select class="form-control" id="startDate">
-						<option></option>
-						<option>09:00</option>
-						<option>09:30</option>
-						<option>10:00</option>
-					</select>
-				</div>
-				<div class="col-sm-2">				  
-					<select class="form-control" id="endDate" readonly="">
-						<option></option>
-						<option>09:00</option>
-						<option>09:30</option>
-						<option>10:00</option>
-					</select>
+				<div class="input-group col-md-3">
+					<input id="startTime" type="text" class="form-control timepicker-me" >
+					<span class="input-group-addon">to</span>
+					<input id="endTime" type="text" class="form-control disabled timepicker-me" disabled="disabled">
 				</div>
 			</div>
 
@@ -104,8 +88,7 @@
 				<label class="col-sm-2 control-label">Customer</label>							
 				<div class="row">
 					<div class="col-sm-4">
-						<%= f.text_field :customer_profile_id,  :class=>'form-control', :placeholder=>"Type to search..." %>
-						 
+						<%= f.collection_select :customer_profile_id, @employees, :id, :display_name, {:include_blank => true}, {:class=>'form-control'} %>
 					</div>
 					<div class="col-sm-2">		
 						<button type="button" class="btn btn-default">Create new customer</button>
@@ -169,12 +152,10 @@
 <script type="text/javascript">
 $(document).ready(function() {	
 	
-	
-    $('#appointment_customer_profile_id').typeahead({
-        name: 'customers',
-        local: ['Audi', 'BMW', 'Bugatti', 'Ferrari', 'Ford', 'Lamborghini', 'Mercedes Benz', 'Porsche', 'Rolls-Royce', 'Volkswagen']
-    });
-	
+	$('.timepicker-me').timepicker({
+                minuteStep: 5
+            });
+    
 	$('#btnCancelBooking').click(function(){
 		$('#bookAppointment').css('display','none');
 	});
@@ -275,6 +256,7 @@ $(document).ready(function() {
 				$('#appDate').attr('data-date',stringDate);
 				$('#txtDate').val(stringDate);
 				$('#appDate').datepicker();
+				$('#startTime').val(start.toLocaleTimeString());
 				/*
                 $modal.modal({
                     backdrop: 'static'
