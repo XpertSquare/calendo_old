@@ -1,54 +1,3 @@
-<style type="text/css">
-.bs-example{
-	font-family: sans-serif;
-	position: relative;
-	margin: 100px;
-}
-.typeahead, .tt-query, .tt-hint {
-	border: 2px solid #CCCCCC;
-	border-radius: 8px;
-	font-size: 24px;
-	height: 30px;
-	line-height: 30px;
-	outline: medium none;
-	padding: 8px 12px;
-	width: 396px;
-}
-.typeahead {
-	background-color: #FFFFFF;
-}
-.typeahead:focus {
-	border: 2px solid #0097CF;
-}
-.tt-query {
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-}
-.tt-hint {
-	color: #999999;
-}
-.tt-dropdown-menu {
-	background-color: #FFFFFF;
-	border: 1px solid rgba(0, 0, 0, 0.2);
-	border-radius: 8px;
-	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-	margin-top: 12px;
-	padding: 8px 0;
-	width: 422px;
-}
-.tt-suggestion {
-	font-size: 24px;
-	line-height: 24px;
-	padding: 3px 20px;
-}
-.tt-suggestion.tt-is-under-cursor {
-	background-color: #0097CF;
-	color: #FFFFFF;
-}
-.tt-suggestion p {
-	margin: 0;
-}
-</style>
-
 <section style="padding:20px;">
 	<div id="bookAppointment" class="row" style="border:1px solid #CDCDCD; margin-left:5px; margin-right:5px; padding:10px; background-color:#F8f8f8; display:none; margin-bottom:10px;">
 		
@@ -60,7 +9,7 @@
 				<div class="col-sm-6">
 					<!--%= f.collection_select :duration, @services, :id, :name, {:include_blank => true}, {:class=>'form-control'} %-->
 					
-					<%= f.select :id, options_for_select(@services.map{ |c| [c.name, c.id, {'data-duration'=>c.duration}] }) %>
+					<%= f.select :id, options_for_select(@services.map{ |c| [c.name, c.id, {'data-duration'=>c.duration, 'data-price'=>c.price}] }), {}, {:class=>'form-control'} %>
 				</div>
 			</div>
 			<div class="form-group">
@@ -70,7 +19,7 @@
 					
 				</div>
 				
-			</div>
+			</div>			
 			<div class="form-group row">
 				<label for="Duration" class="col-sm-2 control-label">Date & time</label>
 				<div class="col-sm-2">
@@ -79,11 +28,23 @@
 						<span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
 					</div>								
 				</div>
+				
 				<div class="input-group col-md-3">
-					<input id="startTime" type="text" class="form-control timepicker-me" >
-					<span class="input-group-addon">to</span>
-					<input id="endTime" type="text" class="form-control disabled timepicker-me" disabled="disabled">
+					<span>					
+						<input type="text" class="form-control" value="8:00 AM"  id="startTime" style="text-align:right;">
+						<input type="hidden" id="startTimeHours">
+						<input type="hidden" id="startTimeMinutes">
+						<input type="hidden" id="startTimeMeridian">
+					</span>	
+  					<span class="input-group-addon">to</span>
+  					<input type="text" class="form-control" value="8:00 AM"  id="endTime" disabled="disabled">  					
 				</div>
+					
+					
+					<!--input id="startTime" type="text" class="form-control timepicker-me" >
+					<span class="input-group-addon">to</span>
+					<input id="endTime" type="text" class="form-control disabled timepicker-me" disabled="disabled"-->
+				
 			</div>
 
 			<div class="form-group">
@@ -99,8 +60,8 @@
 			</div>
 			<div class="form-group">
 				<label for="Price" class="col-sm-2 control-label">Price</label>
-				<div class="col-sm-1">
-					<input type="input" class="form-control" id="Price" value="50.00" readonly="">
+				<div class="col-sm-2">
+					<input type="input" class="form-control" id="Price" value="" readonly="">
 				</div>
 			</div>
 			<div class="form-group">
@@ -154,9 +115,47 @@
 <script type="text/javascript">
 $(document).ready(function() {	
 	
-	$('.timepicker-me').timepicker({
-                minuteStep: 5
-            });
+	function formatTimeforPicker(inputDate)
+	{
+		var hours = inputDate.getHours();
+		var minutes = inputDate.getMinutes();
+		var ampm = hours >= 12 ? 'PM' : 'AM';
+		hours = hours % 12;
+		hours = hours ? hours : 12; // the hour '0' should be '12'
+		minutes = minutes < 10 ? '0'+minutes : minutes;
+		var strTime = hours + ':' + minutes + ' ' + ampm;
+		return strTime;
+	}
+	
+	function updatePriceAndDuration()
+	{
+		//price
+		$('#Price').val( parseFloat(Math.round($("#appointment_id option:selected").attr('data-price') * 100) / 100).toFixed(2));
+		
+		//duration		
+		var currentDate = new Date($('#txtDate').val());    	    	
+    	currentDate.setHours($('#startTimeMeridian').val()=='AM'? $('#startTimeHours').val() : (12 + +$('#startTimeHours').val()) );
+    	currentDate.setMinutes($('#startTimeMinutes').val());    	
+    	currentDate = new Date(currentDate.getTime() + $("#appointment_id option:selected").attr('data-duration')*60000);    	
+    	$('#endTime').val(formatTimeforPicker(currentDate));			
+	}
+		
+	$('#startTime').timepicker({
+         minuteStep: 5
+     });
+    
+    $('#startTime').timepicker().on('changeTime.timepicker', function(e) {    	
+    	$('#startTimeHours').val(e.time.hours);
+    	$('#startTimeMinutes').val(e.time.minutes);
+    	$('#startTimeMeridian').val(e.time.meridian);
+    	updatePriceAndDuration();
+  	});
+    
+    //On change update price and time
+    
+    $('#appointment_id').change(function(){
+    	updatePriceAndDuration();    	
+    });
     
 	$('#btnCancelBooking').click(function(){
 		$('#bookAppointment').css('display','none');
@@ -194,20 +193,20 @@ $(document).ready(function() {
 		$('#calendar').fullCalendar('option', 'height', ($(window).height() - 150));
 	});
 	
-	var currentDate = new Date();
-	var stringDate = currentDate.getDate() + '-' + (currentDate.getMonth()+1) + '-' + currentDate.getFullYear();
-	$('#appDate').attr('data-date',stringDate);
+	//var currentDate = new Date();
+	//var stringDate = currentDate.getDate() + '-' + (currentDate.getMonth()+1) + '-' + currentDate.getFullYear();
+	//$('#appDate').attr('data-date',stringDate);
 
-	$('#appDate').datepicker(); 
+	//$('#appDate').datepicker(); 
 
-		
+	/*	
 	var date = new Date();
 	var d = date.getDate();
 	var m = date.getMonth();
 	var y = date.getFullYear();		
 	var $modal = $('#myModal');
 	var form = '';
-
+	*/
 	
 	var date = new Date();
 			var d = date.getDate();
@@ -255,38 +254,17 @@ $(document).ready(function() {
 		select: function (start, end, allDay) {
 				var currentDate = start;
 				var stringDate = currentDate.getDate() + '-' + (currentDate.getMonth()+1) + '-' + currentDate.getFullYear();
-				$('#appDate').attr('data-date',stringDate);
-				$('#txtDate').val(stringDate);
-				$('#appDate').datepicker();
-				$('#startTime').val(start.toLocaleTimeString());
-				/*
-                $modal.modal({
-                    backdrop: 'static'
-                });
-                form = $("<form></form>");
-                form.append("<div class='row'></div>");
-                form.find(".row").append("<div class='col-md-6'><div class='form-group'><label class='control-label'>Select Service</label><input class='form-control' placeholder='Placeholder for service selection' type=text name='title'/></div></div>").append("<div class='col-md-6'><div class='form-group'><label class='control-label'>Category</label><select class='form-control' name='category'></select></div></div>").find("select[name='category']").append("<option value='label-default'>Work</option>").append("<option value='label-green'>Home</option>").append("<option value='label-purple'>Holidays</option>").append("<option value='label-orange'>Party</option>").append("<option value='label-yellow'>Birthday</option>").append("<option value='label-teal'>Generic</option>").append("<option value='label-beige'>To Do</option>");
-                $modal.find('.remove-event').hide().end().find('.save-event').show().end().find('.modal-body').empty().prepend(form).end().find('.save-event').unbind('click').click(function () {
-                    form.submit();
-                });
-                $modal.find('form').on('submit', function () {
-                    title = form.find("input[name='title']").val();
-                    $categoryClass = form.find("select[name='category'] option:checked").val();
-                    if (title !== null) {
-                        calendar.fullCalendar('renderEvent', {
-                                title: title,
-                                start: start,
-                                end: end,
-                                allDay: allDay,
-                                className: $categoryClass
-                            }, true // make the event "stick"
-                        );
-                    }
-                    $modal.modal('hide');
-                    return false;
-                });
-                calendar.fullCalendar('unselect');
-				*/
+				
+				//$('#appDate').attr('data-date',stringDate);
+				//$('#txtDate').val(stringDate);
+				$('#appDate').datepicker({
+    				format: "dd/M/yyyy",
+    				weekStart: 1
+				});	
+				$('#appDate').datepicker('update',new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()));	
+							
+				
+				$('#startTime').timepicker('setTime', formatTimeforPicker(start));				
 				
 				$('#bookAppointment').css('display','block');
             }
