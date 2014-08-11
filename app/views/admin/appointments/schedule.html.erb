@@ -7,14 +7,9 @@
 			<div class="form-group " >
 				<label for="serviceName" class="col-sm-2 control-label">Service</label>
 				<div class="col-sm-6">
-<<<<<<< HEAD
-					
-					<%= f.select :id, options_for_select(@services.map{ |c| [c.name, c.id, {'data-duration'=>c.duration}] }), {}, {:class=>'form-control'} %>
-=======
 					<!--%= f.collection_select :duration, @services, :id, :name, {:include_blank => true}, {:class=>'form-control'} %-->
 					
 					<%= f.select :id, options_for_select(@services.map{ |c| [c.name, c.id, {'data-duration'=>c.duration, 'data-price'=>c.price}] }), {}, {:class=>'form-control'} %>
->>>>>>> 4182a7b832c3f39012e7e88ffdf16ac8b15de8b5
 				</div>
 			</div>
 			<div class="form-group">
@@ -112,10 +107,28 @@
 		</div>
 	</div>
 	<!--hr style="margin-top:10px;margin-bottom:10px;"/-->
-	<div id='calendar'></div>
+	<div id="calendar-wrapper" style="width:100%; height:100%; border: 1px solid #DEDEDE;">
+					
+					
+		<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+			<div class="dhx_cal_navline">
+				<div class="dhx_cal_prev_button">&nbsp;</div>
+				<div class="dhx_cal_next_button">&nbsp;</div>
+				<div class="dhx_cal_today_button"></div>
+				<div class="dhx_cal_date"></div>
+				<div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
+				<div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>							
+				<div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+			</div>
+			<div class="dhx_cal_header">
+			</div>
+			<div class="dhx_cal_data">
+			</div>		
+		</div>
+	</div>
 </section>
 
-<%= javascript_include_tag "fullcalendar.core.1.6.4", "bootstrap-datepicker", "typeahead" %>
+<%= javascript_include_tag "dhtmlxscheduler", "dhtmlxscheduler_limit", "dhtmlxscheduler_units",  "bootstrap-datepicker", "typeahead" %>
 
 <script type="text/javascript">
 $(document).ready(function() {	
@@ -192,87 +205,25 @@ $(document).ready(function() {
                         );
 	});
 	
-	
-	
-	$(window).resize(function() {
-		$('#calendar').fullCalendar('option', 'height', ($(window).height() - 150));
-	});
-	
-	//var currentDate = new Date();
-	//var stringDate = currentDate.getDate() + '-' + (currentDate.getMonth()+1) + '-' + currentDate.getFullYear();
-	//$('#appDate').attr('data-date',stringDate);
 
-	//$('#appDate').datepicker(); 
+	function init() {
+	scheduler.config.multi_day = false;	
 
-	/*	
-	var date = new Date();
-	var d = date.getDate();
-	var m = date.getMonth();
-	var y = date.getFullYear();		
-	var $modal = $('#myModal');
-	var form = '';
-	*/
+	scheduler.config.full_day = true;
+	scheduler.config.server_utc = true;
+
+	scheduler.config.xml_date = "%Y-%m-%d %H:%i";
+	scheduler.init('scheduler_here', new Date(), "month");
 	
-	var date = new Date();
-			var d = date.getDate();
-			var m = date.getMonth();
-			var y = date.getFullYear();
 	
-	var calendar = $('#calendar').fullCalendar({
-		buttonText: {
-			prev: '<i class="fa fa-chevron-left"></i>',
-			next: '<i class="fa fa-chevron-right"></i>'
-		},
-		header: {
-			left: 'prev,next today',
-			center: 'title',
-			right: 'month,agendaWeek,agendaDay'
-		},
-		defaultView: 'agendaDay',
-		editable: true,
-		disableResizing: true,
-		slotMinutes: 30,
-		snapMinutes: 15,
-		allDaySlot: false,			
-		minTime:8,	
-		maxTime: 18,
-		height: ($(window).height() - 150),
-		events: [{
-			title: 'Meeting with Boss',
-			start: new Date(y, m, 1),
-			className: 'label-default'
-			}, {
-			title: 'Bootstrap Seminar',
-			start: new Date(y, m, d - 5),
-			end: new Date(y, m, d - 2),
-			className: 'label-teal'
-			}, {
-			title: 'Lunch with Nicole',
-			start: new Date(y, m, d - 3, 12, 0),
-			className: 'label-green',
-			allDay: false,
-			customField: "Some value"
-			}],
-		editable: true,
-		selectable: true,
-		selectHelper: true,
-		select: function (start, end, allDay) {
-				var currentDate = start;
-				var stringDate = currentDate.getDate() + '-' + (currentDate.getMonth()+1) + '-' + currentDate.getFullYear();
-				
-				//$('#appDate').attr('data-date',stringDate);
-				//$('#txtDate').val(stringDate);
-				$('#appDate').datepicker({
-    				format: "dd/M/yyyy",
-    				weekStart: 1
-				});	
-				$('#appDate').datepicker('update',new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()));	
-							
-				
-				$('#startTime').timepicker('setTime', formatTimeforPicker(start));				
-				
-				$('#bookAppointment').css('display','block');
-            }
-	});
+	//var dp = new dataProcessor("/events/crud");
+    //dp.init(scheduler);
+    //dp.setTransactionMode("POST",false);
+
+}
+
+init();
+
+
 });
 </script>

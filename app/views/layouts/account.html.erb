@@ -6,7 +6,7 @@
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
   <%= stylesheet_link_tag    "bootstrap.min", media: "all"%>
   <%= stylesheet_link_tag    "account", media: "all"%>
-  <%= stylesheet_link_tag    "fullcalendar.core.1.6.4", media: "all"%>
+  <%= stylesheet_link_tag    "dhtmlxscheduler_flat", media: "all"%>
   <%= stylesheet_link_tag    "datepicker", media: "all"%>
   <%= stylesheet_link_tag    "bootstrap-timepicker.min", media: "all"%>
   
@@ -78,7 +78,7 @@
 		<% end %>	
 	</div>
 </div>
-<div id="workspace" class="workspace">
+<div id="workspace" class="workspace" style="margin:0px; padding:0px; height:100%; /*mandatory*/ overflow:hidden;">
 	<div class="container">	
 		<div class="sheet" style="padding:0px !important;">
 		<%= yield %>
