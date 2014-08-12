@@ -1,6 +1,6 @@
 class Admin::AppointmentsController < ApplicationController
   
-  layout nil, only: [:schedule]
+  layout false, only: [:schedule]
   before_action :authorize!
 
   def create

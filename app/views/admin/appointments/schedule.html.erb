@@ -1,134 +1,222 @@
-<section style="padding:20px;">
-	<div id="bookAppointment" class="row" style="border:1px solid #CDCDCD; margin-left:5px; margin-right:5px; padding:10px; background-color:#F8f8f8; display:none; margin-bottom:10px;">
-		
-		<%= form_for [:admin, @appointment], :url => admin_appointments_path(@appointment), :html => {:class => "form-horizontal", :role=>"form"} do |f| %>
-		
-		
-			<div class="form-group " >
-				<label for="serviceName" class="col-sm-2 control-label">Service</label>
-				<div class="col-sm-6">
-					<!--%= f.collection_select :duration, @services, :id, :name, {:include_blank => true}, {:class=>'form-control'} %-->
-					
-					<%= f.select :id, options_for_select(@services.map{ |c| [c.name, c.id, {'data-duration'=>c.duration, 'data-price'=>c.price}] }), {}, {:class=>'form-control'} %>
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="staffName" class="col-sm-2 control-label">Staff</label>
-				<div class="col-sm-3">
-					<%= f.collection_select :user_id, @employees, :id, :display_name, {:include_blank => true}, {:class=>'form-control'} %>				  
-					
-				</div>
-				
-			</div>			
-			<div class="form-group row">
-				<label for="Duration" class="col-sm-2 control-label">Date & time</label>
-				<div class="col-sm-2">
-					<div class="input-group input-append date" id="appDate"  data-date-format="dd-mm-yyyy">										  
-						<input id="txtDate" type="text" class="form-control span2"  readonly="">
-						<span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
-					</div>								
-				</div>
-				
-				<div class="input-group col-md-3">
-					<span>					
-						<input type="text" class="form-control" value="8:00 AM"  id="startTime" style="text-align:right;">
-						<input type="hidden" id="startTimeHours">
-						<input type="hidden" id="startTimeMinutes">
-						<input type="hidden" id="startTimeMeridian">
-					</span>	
-  					<span class="input-group-addon">to</span>
-  					<input type="text" class="form-control" value="8:00 AM"  id="endTime" disabled="disabled">  					
-				</div>
-					
-					
-					<!--input id="startTime" type="text" class="form-control timepicker-me" >
-					<span class="input-group-addon">to</span>
-					<input id="endTime" type="text" class="form-control disabled timepicker-me" disabled="disabled"-->
-				
-			</div>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+	<meta charset="utf-8">
+	
+	  <title><%= content_for?(:title) ? content_for(:title) : "Calendo | Online Appointment Software" %></title>
+  <%= stylesheet_link_tag    "application", media: "all"%>
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  <%= stylesheet_link_tag    "bootstrap.min", media: "all"%>
+  <%= stylesheet_link_tag    "account", media: "all"%>
+  <%= stylesheet_link_tag    "dhtmlxscheduler_flat", media: "all"%>
+  <%= stylesheet_link_tag    "datepicker", media: "all"%>
+  <%= stylesheet_link_tag    "bootstrap-timepicker.min", media: "all"%>
+  
 
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Customer</label>							
-				<div class="row">
-					<div class="col-sm-4">
-						<%= f.collection_select :customer_profile_id, @employees, :id, :display_name, {:include_blank => true}, {:class=>'form-control'} %>
+  <%= javascript_include_tag "application", "bootstrap.min",  "bootstrap-timepicker.min", "dhtmlxscheduler" ,"dhtmlxscheduler_limit", "dhtmlxscheduler_units", "jquery-ui.min"  %>
+  <%= csrf_meta_tags %>
+</head>
+<style type="text/css" media="screen">
+
+html, body{
+		margin:0px;
+		padding:0px;
+		height:100%;
+		overflow:hidden;
+	}	
+
+/* Important !!! */
+
+
+	.dhx_scale_hour{ 
+		line-height:normal;
+	}
+.dhx_cal_event_line.custom, .dhx_cal_event.custom div{
+		background-color:#fd7;
+		border-color:#da6;
+		color:#444;
+	}
+
+	.dhx_cal_event_cont_selected{
+		background-color: #9cc1db;
+		color: white;
+	}
+	.dhx_scale_hour_main {
+		float: left;
+		text-align: right;
+		font-size: 16px;
+		font-weight: bold;
+	}
+	.dhx_scale_hour_minute_cont {
+		float: left;
+		position: relative;
+		text-align: right;
+	}
+	.dhx_scale_hour_minute_top, .dhx_scale_hour_minute_bottom {
+		font-size: 10px;
+		padding-right: 5px;
+	}
+	.dhx_scale_hour_sep {
+		position: absolute;
+		height: 1px;
+		background-color: #8C929A;
+		right: 0;
+		top: 20px;
+		width: 20px;
+	}
+	#custom-lightbox-bootstrap {
+			position: absolute;
+			top: 100px;
+			left: 200px;
+			z-index: 10001;
+			display: none;
+			
+			font-family: Tahoma;
+			font-size: 10pt;
+					
+		}
+		
+		#bookAppointment {
+			position: absolute;
+			top: 100px;
+			left: 200px;
+			z-index: 10001;
+			display: none;
+			background-color: white;
+			border: 2px outset gray;
+			padding: 20px;
+			font-family: Tahoma;
+			font-size: 10pt;
+		}
+
+		#custom-lightbox label {
+			width: 200px;
+		}
+		
+</style>
+<body style="margin:0px;	padding:0px;	height:100%; /*mandatory*/	overflow:hidden;">	
+	  <div class="modal-dialog"  id="custom-lightbox-bootstrap">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" id="close-lightbox"><span aria-hidden="true" >&times;</span><span class="sr-only">Close</span></button>
+			<h4 class="modal-title" id="lightbox-title">Calendo | Book appointment</h4>
+		  </div>
+		  <div class="modal-body">
+			<form class="form-horizontal" role="form" action="customer-111.html">
+						<div class="form-group " >
+							<label for="serviceName" class="col-sm-2 control-label">Service</label>
+							<div class="col-sm-6">
+								<select class="form-control" id="serviceName">									
+									<option value="1">Deep Tissue Massage</option>
+									<option value="2">Hot Stone Massage</option>
+									<option value="3">Swedish Massage</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="staffName" class="col-sm-2 control-label">Staff</label>
+							<div class="col-sm-3">				  
+								<select class="form-control" id="staffName">									
+									<option value="1">William Bossard</option>
+									<option value="2">Erica Burcham</option>
+									<option value="3">Sasha Newsham</option>
+								</select>
+							</div>
+							
+						</div>
+						<div class="form-group row">
+							<label for="Duration" class="col-sm-2 control-label">Date & time</label>
+							<div class="col-sm-2">
+								<div class="input-group input-append date" id="appDate"  data-date-format="dd-mm-yyyy">										  
+									<input id="txtDate" type="text" class="form-control span2"  readonly="">
+									<span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
+								</div>								
+							</div>
+							<div class="col-sm-2">				  
+								<select class="form-control" id="startDate">
+									<option></option>
+									<option>09:00</option>
+									<option>09:30</option>
+									<option>10:00</option>
+								</select>
+							</div>
+							<div class="col-sm-2">				  
+								<select class="form-control" id="endDate" readonly="">
+									<option></option>
+									<option>09:00</option>
+									<option>09:30</option>
+									<option>10:00</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Customer</label>							
+							<div class="row">
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="txtCustomer" placeholder="Type to search..."> 
+								</div>
+								<div class="col-sm-2">		
+									<button type="button" class="btn btn-default">Create new customer</button>
+								</div>	
+							</div>								
+						</div>
+						<div class="form-group">
+							<label for="Price" class="col-sm-2 control-label">Price</label>
+							<div class="col-sm-1">
+								<input type="input" class="form-control" id="Price" value="50.00" readonly="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputComment" class="col-sm-2 control-label">Note</label>
+							<div class="col-sm-10">				  
+								  <textarea  id="inputComment" class="form-control" rows="2">Ut nisi dolor, dignissim a aliquet quis, vulputate id dui. Proin ultrices ultrices ligula, dictum varius turpis faucibus non. Curabitur faucibus ultrices nunc, nec aliquet leo tempor cursus</textarea>											  
+							</div>
+						</div>
+					
+					</form>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal" id="btn-close-lightbox">Cancel</button>
+			<button id="btn-book-appointment" type="button" class="btn btn-success">Book the appointment</button>
+		  </div>
+		</div>
+	  </div>
+
+
+
+
+<div id="workspace" class="workspace" style="margin:0px;	padding:0px;	height:100%; /*mandatory*/	overflow:hidden;">
+	<title>Calendo | Nova Studio - Schedule</title>
+		<div class="container" style="margin:0px;	padding:0px;	height:100%; /*mandatory*/	overflow:hidden;">
+	
+
+			<div class="sheet" style="margin:10px;	padding:15px;	height:100%; /*mandatory*/	overflow:hidden;">
+
+
+				<div id="calendar-wrapper" style="width:100%; height:100%; border: 1px solid #DEDEDE;">
+					
+					<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+						<div class="dhx_cal_navline">
+							<div class="dhx_cal_prev_button">&nbsp;</div>
+							<div class="dhx_cal_next_button">&nbsp;</div>
+							<div class="dhx_cal_today_button"></div>
+							<div class="dhx_cal_date"></div>
+							<div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
+							<div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>														
+							<div class="dhx_cal_tab" name="unit_tab" style="right:280px;"></div>
+							<div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+						</div>
+						<div class="dhx_cal_header">
+						</div>
+						<div class="dhx_cal_data">
+						</div>		
 					</div>
-					<div class="col-sm-2">		
-						<button type="button" class="btn btn-default">Create new customer</button>
-					</div>	
-				</div>								
-			</div>
-			<div class="form-group">
-				<label for="Price" class="col-sm-2 control-label">Price</label>
-				<div class="col-sm-2">
-					<input type="input" class="form-control" id="Price" value="" readonly="">
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="inputComment" class="col-sm-2 control-label">Note</label>
-				<div class="col-sm-10">				  
-					  <textarea  id="inputComment" class="form-control" rows="2">Ut nisi dolor, dignissim a aliquet quis, vulputate id dui. Proin ultrices ultrices ligula, dictum varius turpis faucibus non. Curabitur faucibus ultrices nunc, nec aliquet leo tempor cursus</textarea>											  
-				</div>
-			</div>
-												
-			<hr style="margin-top:10px;margin-bottom:10px;"/>
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
-					<button id="btnCancelBooking" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button id="btnBookAppointment" type="button" class="btn btn-success">Book the appointment</button>
-				</div>
-			</div>				
-		
-		<% end %>
-		
-	</div>
-	<div class="row" style="display:none;">					
-		<div class="col-sm-1" >
-			<label class="normal pull-right" style="margin-top:3px; margin-right:-5px; font-weight:bold;">Service:</label>
-		</div>
-		<div class="col-sm-3">
-			<select class="form-control input-sm">
-				<option></option>
-			  <option>Deep Tissue Massage</option>
-			  <option>Hot Stone Massage</option>
-			  <option>Swedish Massage</option>
-			</select>
-		</div>
-		<div class="col-sm-1" style="margin-left:25px;" >
-			<label class="normal pull-right" style="margin-top:3px; margin-right:-5px; font-weight:bold;">Staff:</label>
-		</div>
-		<div class="col-sm-3">
-			<select class="form-control input-sm">
-				<option></option>
-			  <option>William Bossard</option>
-			  <option>Erica Burcham</option>
-			  <option>Sasha Newsham</option>
-			</select>
-		</div>
-	</div>
-	<!--hr style="margin-top:10px;margin-bottom:10px;"/-->
-	<div id="calendar-wrapper" style="width:100%; height:100%; border: 1px solid #DEDEDE;">
 					
-					
-		<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
-			<div class="dhx_cal_navline">
-				<div class="dhx_cal_prev_button">&nbsp;</div>
-				<div class="dhx_cal_next_button">&nbsp;</div>
-				<div class="dhx_cal_today_button"></div>
-				<div class="dhx_cal_date"></div>
-				<div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
-				<div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>							
-				<div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+				</div>	
 			</div>
-			<div class="dhx_cal_header">
-			</div>
-			<div class="dhx_cal_data">
-			</div>		
 		</div>
-	</div>
-</section>
-
-<%= javascript_include_tag "dhtmlxscheduler", "dhtmlxscheduler_limit", "dhtmlxscheduler_units",  "bootstrap-datepicker", "typeahead" %>
+</div>
 
 <script type="text/javascript">
 $(document).ready(function() {	
@@ -207,23 +295,100 @@ $(document).ready(function() {
 	
 
 	function init() {
-	scheduler.config.multi_day = false;	
+		
+		var sections=[
+			{key:1, label:"William Bossard"},
+			{key:2, label:"Erica Burcham"},
+			{key:3, label:"Sasha Newsham"},		
+		];
+		
+		scheduler.config.multi_day = false;	
+		scheduler.config.full_day = true;
+		scheduler.config.server_utc = true;
+		scheduler.config.time_step = 15;
+		scheduler.config.first_hour = 8;
+		scheduler.config.last_hour = 18;
+		
+		scheduler.locale.labels.unit_tab = "Persons"
+		scheduler.config.details_on_create=true;				
+		scheduler.config.details_on_dblclick=true;
+		scheduler.config.xml_date = "%Y-%m-%d %H:%i";
+		scheduler.init('scheduler_here', new Date(), "day");
+		
+		//var dp = new dataProcessor("/events/crud");
+	    //dp.init(scheduler);
+	    //dp.setTransactionMode("POST",false);
+	}
+	
+	init();
 
-	scheduler.config.full_day = true;
-	scheduler.config.server_utc = true;
+	scheduler.showLightbox = function(id) {
+		var ev = scheduler.getEvent(id);
+		scheduler.startLightbox(id, $("#custom-lightbox-bootstrap")[0]);
+		console.log('Event ID:' + ev.id);
+		if(ev.text=='New event'){
+			$('#lightbox-title').text('Calendo | Book appointment');
+		} else {
+			$('#lightbox-title').text('Calendo | ' + ev.text);
+		}
+		$('#staffName').val(ev.unit_id);
+		$('#serviceName').val(ev.serviceID);
+	};
 
-	scheduler.config.xml_date = "%Y-%m-%d %H:%i";
-	scheduler.init('scheduler_here', new Date(), "month");
+	function save_form() {
+		var ev = scheduler.getEvent(scheduler.getState().lightbox_id);			
+		ev.staffID = $('#staffName').val();
+		ev.unit_id = $('#staffName').val();
+		ev.serviceID = $('#serviceName').val();
+		ev.text = $('#serviceName :selected').text();
+			if(ev.serviceID==1)
+			{
+				ev.color = 'orange';
+			} else 
+			if(ev.serviceID==2)
+			{
+				ev.color = '#36BD14';
+			} else if(ev.serviceID==3)
+			{
+				ev.color = '#FC5BD5';
+			}
+		scheduler.endLightbox(true, $("#custom-lightbox-bootstrap")[0]);
+	}
+	function close_form() {
+		scheduler.endLightbox(false, $("#custom-lightbox-bootstrap")[0]);
+	}
+
+	function delete_event() {
+		var event_id = scheduler.getState().lightbox_id;
+		scheduler.endLightbox(false, $("#custom-lightbox-bootstrap")[0]);
+		scheduler.deleteEvent(event_id);
+	}
+	
+	$('#btn-book-appointment').click(function(){
+		save_form();
+	});
+	
+	$('#btn-close-lightbox').click(function(){		
+		close_form();
+	});
+	
+	$('#close-lightbox').click(function(){		
+		close_form();
+	});
 	
 	
-	//var dp = new dataProcessor("/events/crud");
-    //dp.init(scheduler);
-    //dp.setTransactionMode("POST",false);
-
-}
-
-init();
+	$('#btn-delete').click(function(){
+		console.log('Delete button was clicked!');
+		delete_event();
+	});
+	
+	
+	$('#custom-lightbox-bootstrap').draggable({
+		handle: '.modal-header'
+	});
 
 
 });
 </script>
+</body>
+</html>

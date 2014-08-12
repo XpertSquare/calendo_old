@@ -1,0 +1,129 @@
+<section style="padding:20px;">
+	<div id="bookAppointment" class="row" style="border:1px solid #CDCDCD; margin-left:5px; margin-right:5px; padding:10px; background-color:#F8f8f8; display:none; margin-bottom:10px;">
+		
+		<%= form_for [:admin, @appointment], :url => admin_appointments_path(@appointment), :html => {:class => "form-horizontal", :role=>"form"} do |f| %>
+		
+		
+			<div class="form-group " >
+				<label for="serviceName" class="col-sm-2 control-label">Service</label>
+				<div class="col-sm-6">
+					<!--%= f.collection_select :duration, @services, :id, :name, {:include_blank => true}, {:class=>'form-control'} %-->
+					
+					<%= f.select :id, options_for_select(@services.map{ |c| [c.name, c.id, {'data-duration'=>c.duration, 'data-price'=>c.price}] }), {}, {:class=>'form-control'} %>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="staffName" class="col-sm-2 control-label">Staff</label>
+				<div class="col-sm-3">
+					<%= f.collection_select :user_id, @employees, :id, :display_name, {:include_blank => true}, {:class=>'form-control'} %>				  
+					
+				</div>
+				
+			</div>			
+			<div class="form-group row">
+				<label for="Duration" class="col-sm-2 control-label">Date & time</label>
+				<div class="col-sm-2">
+					<div class="input-group input-append date" id="appDate"  data-date-format="dd-mm-yyyy">										  
+						<input id="txtDate" type="text" class="form-control span2"  readonly="">
+						<span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
+					</div>								
+				</div>
+				
+				<div class="input-group col-md-3">
+					<span>					
+						<input type="text" class="form-control" value="8:00 AM"  id="startTime" style="text-align:right;">
+						<input type="hidden" id="startTimeHours">
+						<input type="hidden" id="startTimeMinutes">
+						<input type="hidden" id="startTimeMeridian">
+					</span>	
+  					<span class="input-group-addon">to</span>
+  					<input type="text" class="form-control" value="8:00 AM"  id="endTime" disabled="disabled">  					
+				</div>
+					
+					
+					<!--input id="startTime" type="text" class="form-control timepicker-me" >
+					<span class="input-group-addon">to</span>
+					<input id="endTime" type="text" class="form-control disabled timepicker-me" disabled="disabled"-->
+				
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Customer</label>							
+				<div class="row">
+					<div class="col-sm-4">
+						<%= f.collection_select :customer_profile_id, @employees, :id, :display_name, {:include_blank => true}, {:class=>'form-control'} %>
+					</div>
+					<div class="col-sm-2">		
+						<button type="button" class="btn btn-default">Create new customer</button>
+					</div>	
+				</div>								
+			</div>
+			<div class="form-group">
+				<label for="Price" class="col-sm-2 control-label">Price</label>
+				<div class="col-sm-2">
+					<input type="input" class="form-control" id="Price" value="" readonly="">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputComment" class="col-sm-2 control-label">Note</label>
+				<div class="col-sm-10">				  
+					  <textarea  id="inputComment" class="form-control" rows="2">Ut nisi dolor, dignissim a aliquet quis, vulputate id dui. Proin ultrices ultrices ligula, dictum varius turpis faucibus non. Curabitur faucibus ultrices nunc, nec aliquet leo tempor cursus</textarea>											  
+				</div>
+			</div>
+												
+			<hr style="margin-top:10px;margin-bottom:10px;"/>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button id="btnCancelBooking" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button id="btnBookAppointment" type="button" class="btn btn-success">Book the appointment</button>
+				</div>
+			</div>				
+		
+		<% end %>
+		
+	</div>
+	<div class="row" style="display:none;">					
+		<div class="col-sm-1" >
+			<label class="normal pull-right" style="margin-top:3px; margin-right:-5px; font-weight:bold;">Service:</label>
+		</div>
+		<div class="col-sm-3">
+			<select class="form-control input-sm">
+				<option></option>
+			  <option>Deep Tissue Massage</option>
+			  <option>Hot Stone Massage</option>
+			  <option>Swedish Massage</option>
+			</select>
+		</div>
+		<div class="col-sm-1" style="margin-left:25px;" >
+			<label class="normal pull-right" style="margin-top:3px; margin-right:-5px; font-weight:bold;">Staff:</label>
+		</div>
+		<div class="col-sm-3">
+			<select class="form-control input-sm">
+				<option></option>
+			  <option>William Bossard</option>
+			  <option>Erica Burcham</option>
+			  <option>Sasha Newsham</option>
+			</select>
+		</div>
+	</div>
+	<!--hr style="margin-top:10px;margin-bottom:10px;"/-->
+	<div id="calendar-wrapper" style="width:100%; height:100%; border: 1px solid #DEDEDE;">
+					
+					
+		<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+			<div class="dhx_cal_navline">
+				<div class="dhx_cal_prev_button">&nbsp;</div>
+				<div class="dhx_cal_next_button">&nbsp;</div>
+				<div class="dhx_cal_today_button"></div>
+				<div class="dhx_cal_date"></div>
+				<div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
+				<div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>							
+				<div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+			</div>
+			<div class="dhx_cal_header">
+			</div>
+			<div class="dhx_cal_data">
+			</div>		
+		</div>
+	</div>
+</section>
