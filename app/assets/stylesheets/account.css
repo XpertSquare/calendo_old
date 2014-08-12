@@ -700,3 +700,7 @@ span.entity-action-link{
 	margin-top:5px;
 }
 
+ 
+.dropdown-menu{
+  z-index:10002 !important;
+}

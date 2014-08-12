@@ -13,7 +13,7 @@
   <%= stylesheet_link_tag    "bootstrap-timepicker.min", media: "all"%>
   
 
-  <%= javascript_include_tag "application", "bootstrap.min",  "bootstrap-timepicker.min", "dhtmlxscheduler" ,"dhtmlxscheduler_limit", "dhtmlxscheduler_units", "jquery-ui.min"  %>
+  <%= javascript_include_tag "application", "bootstrap.min", "bootstrap-datepicker", "bootstrap-timepicker.min", "dhtmlxscheduler" ,"dhtmlxscheduler_limit", "dhtmlxscheduler_units", "jquery-ui.min"  %>
   <%= csrf_meta_tags %>
 </head>
 <style type="text/css" media="screen">
@@ -69,25 +69,13 @@ html, body{
 			top: 100px;
 			left: 200px;
 			z-index: 10001;
-			display: none;
-			
+			display: none;			
 			font-family: Tahoma;
 			font-size: 10pt;
-					
+			width:700px;					
 		}
 		
-		#bookAppointment {
-			position: absolute;
-			top: 100px;
-			left: 200px;
-			z-index: 10001;
-			display: none;
-			background-color: white;
-			border: 2px outset gray;
-			padding: 20px;
-			font-family: Tahoma;
-			font-size: 10pt;
-		}
+
 
 		#custom-lightbox label {
 			width: 200px;
@@ -97,84 +85,83 @@ html, body{
 <body style="margin:0px;	padding:0px;	height:100%; /*mandatory*/	overflow:hidden;">	
 	  <div class="modal-dialog"  id="custom-lightbox-bootstrap">
 		<div class="modal-content">
-		  <div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" id="close-lightbox"><span aria-hidden="true" >&times;</span><span class="sr-only">Close</span></button>
+		  <div class="modal-header" style="background-color:#3D454C; color:#FFFFFF; cursor:pointer;">
+			<button type="button" class="close" data-dismiss="modal" id="close-lightbox" style="color:#FFFFFF;"><span aria-hidden="true" >&times;</span><span class="sr-only">Close</span></button>
 			<h4 class="modal-title" id="lightbox-title">Calendo | Book appointment</h4>
 		  </div>
 		  <div class="modal-body">
-			<form class="form-horizontal" role="form" action="customer-111.html">
+			<%= form_for [:admin, @appointment], :url => admin_appointments_path(@appointment), :html => {:class => "form-horizontal", :role=>"form"} do |f| %>
 						<div class="form-group " >
-							<label for="serviceName" class="col-sm-2 control-label">Service</label>
-							<div class="col-sm-6">
-								<select class="form-control" id="serviceName">									
+							<label for="serviceName" class="col-sm-3 control-label">Service</label>
+							<div class="col-sm-9">
+								<%= select_tag '@appointment[service_ids][]', options_for_select(@services.map{ |c| [c.name, c.id, {'data-duration'=>c.duration, 'data-price'=>c.price}] }), {:class=>'form-control'} %>
+								<!--select class="form-control" id="serviceName">									
 									<option value="1">Deep Tissue Massage</option>
 									<option value="2">Hot Stone Massage</option>
 									<option value="3">Swedish Massage</option>
-								</select>
+								</select-->
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="staffName" class="col-sm-2 control-label">Staff</label>
-							<div class="col-sm-3">				  
-								<select class="form-control" id="staffName">									
-									<option value="1">William Bossard</option>
-									<option value="2">Erica Burcham</option>
-									<option value="3">Sasha Newsham</option>
-								</select>
+							<label for="staffName" class="col-sm-3 control-label">Staff</label>
+							<div class="col-sm-9">
+								<%= f.collection_select :user_id, @employees, :id, :display_name, {:include_blank => false}, {:class=>'form-control'} %>			  
+								
 							</div>
 							
 						</div>
 						<div class="form-group row">
-							<label for="Duration" class="col-sm-2 control-label">Date & time</label>
-							<div class="col-sm-2">
+							<label for="Duration" class="col-sm-3 control-label">Date & time</label>
+							<div class="col-sm-4" style="width:200px;">
 								<div class="input-group input-append date" id="appDate"  data-date-format="dd-mm-yyyy">										  
 									<input id="txtDate" type="text" class="form-control span2"  readonly="">
 									<span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
 								</div>								
 							</div>
-							<div class="col-sm-2">				  
-								<select class="form-control" id="startDate">
-									<option></option>
-									<option>09:00</option>
-									<option>09:30</option>
-									<option>10:00</option>
-								</select>
+							
+							<div class="input-group col-md-4">
+								<span>					
+									<input type="text" class="form-control" value="8:00 AM"  id="startTime" style="text-align:right;">
+									<input type="hidden" id="startTimeHours">
+									<input type="hidden" id="startTimeMinutes">
+									<input type="hidden" id="startTimeMeridian">
+								</span>	
+			  					<span class="input-group-addon">to</span>
+			  					<input type="text" class="form-control" value="8:00 AM"  id="endTime" disabled="disabled">  					
 							</div>
-							<div class="col-sm-2">				  
-								<select class="form-control" id="endDate" readonly="">
-									<option></option>
-									<option>09:00</option>
-									<option>09:30</option>
-									<option>10:00</option>
-								</select>
-							</div>
+								
+								
+								<!--input id="startTime" type="text" class="form-control timepicker-me" >
+								<span class="input-group-addon">to</span>
+								<input id="endTime" type="text" class="form-control disabled timepicker-me" disabled="disabled"-->
+							
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-2 control-label">Customer</label>							
+							<label class="col-sm-3 control-label">Customer</label>							
 							<div class="row">
-								<div class="col-sm-4">
+								<div class="col-sm-5">
 									<input type="text" class="form-control" id="txtCustomer" placeholder="Type to search..."> 
 								</div>
-								<div class="col-sm-2">		
+								<div class="col-sm-3">		
 									<button type="button" class="btn btn-default">Create new customer</button>
 								</div>	
 							</div>								
 						</div>
 						<div class="form-group">
-							<label for="Price" class="col-sm-2 control-label">Price</label>
-							<div class="col-sm-1">
+							<label for="Price" class="col-sm-3 control-label">Price</label>
+							<div class="col-sm-2">
 								<input type="input" class="form-control" id="Price" value="50.00" readonly="">
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="inputComment" class="col-sm-2 control-label">Note</label>
-							<div class="col-sm-10">				  
+							<label for="inputComment" class="col-sm-3 control-label">Note</label>
+							<div class="col-sm-9">				  
 								  <textarea  id="inputComment" class="form-control" rows="2">Ut nisi dolor, dignissim a aliquet quis, vulputate id dui. Proin ultrices ultrices ligula, dictum varius turpis faucibus non. Curabitur faucibus ultrices nunc, nec aliquet leo tempor cursus</textarea>											  
 							</div>
 						</div>
 					
-					</form>
+					<% end %>
 		  </div>
 		  <div class="modal-footer">
 			<button type="button" class="btn btn-default" data-dismiss="modal" id="btn-close-lightbox">Cancel</button>
@@ -192,8 +179,7 @@ html, body{
 	
 
 			<div class="sheet" style="margin:10px;	padding:15px;	height:100%; /*mandatory*/	overflow:hidden;">
-
-
+				
 				<div id="calendar-wrapper" style="width:100%; height:100%; border: 1px solid #DEDEDE;">
 					
 					<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
@@ -209,11 +195,13 @@ html, body{
 						</div>
 						<div class="dhx_cal_header">
 						</div>
-						<div class="dhx_cal_data">
+						<div class="dhx_cal_data"
 						</div>		
 					</div>
 					
 				</div>	
+				
+				
 			</div>
 		</div>
 </div>
@@ -235,16 +223,41 @@ $(document).ready(function() {
 	
 	function updatePriceAndDuration()
 	{
+		console.log("updatePriceAndDuration");
 		//price
-		$('#Price').val( parseFloat(Math.round($("#appointment_id option:selected").attr('data-price') * 100) / 100).toFixed(2));
+		$('#Price').val( parseFloat(Math.round($("#_appointment_service_ids_ option:selected").attr('data-price') * 100) / 100).toFixed(2));
 		
 		//duration		
-		var currentDate = new Date($('#txtDate').val());    	    	
+		var currentDate = $('#appDate').datepicker('getDate');    	    	
     	currentDate.setHours($('#startTimeMeridian').val()=='AM'? $('#startTimeHours').val() : (12 + +$('#startTimeHours').val()) );
     	currentDate.setMinutes($('#startTimeMinutes').val());    	
-    	currentDate = new Date(currentDate.getTime() + $("#appointment_id option:selected").attr('data-duration')*60000);    	
-    	$('#endTime').val(formatTimeforPicker(currentDate));			
+    	console.log('Selected service duration: ' + $("#_appointment_service_ids_ option:selected").attr('data-duration')*60000);
+    	console.dir(currentDate);
+    	console.log('Current date: ' + currentDate.getTime());
+    	console.log('Event End date: ' + currentDate.getTime() + +$("#_appointment_service_ids_ option:selected").attr('data-duration')*60000);
+    	var eventEndDate = new Date(currentDate.getTime() + +$("#_appointment_service_ids_ option:selected").attr('data-duration')*60000);
+    	console.dir(eventEndDate);    	
+    	$('#endTime').val(formatTimeforPicker(eventEndDate));			
 	}
+	//Setting the current date
+	var shortMonthNames =['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+	var currentDate = new Date();
+	var datepickerEndDate = new Date();
+	datepickerEndDate.setDate(currentDate.getDate()+182);
+	var stringDate = currentDate.getDate() + '-' + shortMonthNames[currentDate.getMonth()] + '-' +   currentDate.getFullYear();
+	$('#txtDate').val(stringDate);
+	$('#appDate').attr('data-date', stringDate);
+	$('#appDate').datepicker({
+		format:'dd-M-yyyy',
+		autoclose:true,
+		todayHighlight: true,
+		autoclose:true,
+		allowEmpty:false,
+		startDate : currentDate,
+		endDate: datepickerEndDate
+	});
+	
+	
 		
 	$('#startTime').timepicker({
          minuteStep: 5
@@ -259,7 +272,7 @@ $(document).ready(function() {
     
     //On change update price and time
     
-    $('#appointment_id').change(function(){
+    $('#_appointment_service_ids_').change(function(){
     	updatePriceAndDuration();    	
     });
     
@@ -283,25 +296,22 @@ $(document).ready(function() {
 		var eventEndDate = new Date(eventStartDate.getTime() + 60*60000);
 		 
 		console.log('Event date/time: ' + eventStartDate + ' TO: ' + eventEndDate);
-		calendar.fullCalendar('renderEvent', {
-                                title: serviceName,
-                                start: eventStartDate,
-                                end: eventEndDate,
-                                allDay: false,
-                                className: 'label-green'
-                            }, true // make the event "stick"
-                        );
+		
 	});
 	
 
 	function init() {
 		
-		var sections=[
-			{key:1, label:"William Bossard"},
-			{key:2, label:"Erica Burcham"},
-			{key:3, label:"Sasha Newsham"},		
-		];
+		var people = [];
+		$('#appointment_user_id > option').each(function(){
+			var person ={};
+			person.key=this.value;
+			person.label = this.text;
+			people.push(person);
+			
+		});
 		
+			
 		scheduler.config.multi_day = false;	
 		scheduler.config.full_day = true;
 		scheduler.config.server_utc = true;
@@ -313,7 +323,10 @@ $(document).ready(function() {
 		scheduler.config.details_on_create=true;				
 		scheduler.config.details_on_dblclick=true;
 		scheduler.config.xml_date = "%Y-%m-%d %H:%i";
-		scheduler.init('scheduler_here', new Date(), "day");
+		
+		scheduler.createUnitsView("unit", "unit_id", people);
+		
+		scheduler.init('scheduler_here', new Date(), "unit");
 		
 		//var dp = new dataProcessor("/events/crud");
 	    //dp.init(scheduler);
@@ -325,22 +338,22 @@ $(document).ready(function() {
 	scheduler.showLightbox = function(id) {
 		var ev = scheduler.getEvent(id);
 		scheduler.startLightbox(id, $("#custom-lightbox-bootstrap")[0]);
-		console.log('Event ID:' + ev.id);
 		if(ev.text=='New event'){
 			$('#lightbox-title').text('Calendo | Book appointment');
 		} else {
 			$('#lightbox-title').text('Calendo | ' + ev.text);
 		}
-		$('#staffName').val(ev.unit_id);
-		$('#serviceName').val(ev.serviceID);
+		$('#appointment_user_id').val(ev.unit_id);
+		$('#_appointment_service_ids_').val(ev.serviceID);
+		
 	};
 
 	function save_form() {
 		var ev = scheduler.getEvent(scheduler.getState().lightbox_id);			
-		ev.staffID = $('#staffName').val();
-		ev.unit_id = $('#staffName').val();
-		ev.serviceID = $('#serviceName').val();
-		ev.text = $('#serviceName :selected').text();
+		ev.staffID = $('#appointment_user_id').val();
+		ev.unit_id = $('#appointment_user_id').val();
+		ev.serviceID = $('#_appointment_service_ids_').val();
+		ev.text = $('#_appointment_service_ids_ :selected').text();
 			if(ev.serviceID==1)
 			{
 				ev.color = 'orange';
@@ -352,6 +365,7 @@ $(document).ready(function() {
 			{
 				ev.color = '#FC5BD5';
 			}
+		
 		scheduler.endLightbox(true, $("#custom-lightbox-bootstrap")[0]);
 	}
 	function close_form() {
@@ -378,7 +392,6 @@ $(document).ready(function() {
 	
 	
 	$('#btn-delete').click(function(){
-		console.log('Delete button was clicked!');
 		delete_event();
 	});
 	

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140407212550) do
+ActiveRecord::Schema.define(version: 20140812231445) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,6 +122,13 @@ ActiveRecord::Schema.define(version: 20140407212550) do
   end
 
   add_index "registrations", ["token"], name: "index_registrations_on_token", using: :btree
+
+  create_table "schedulables", force: true do |t|
+    t.integer  "service_id"
+    t.integer  "appointment_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "services", force: true do |t|
     t.string   "name"

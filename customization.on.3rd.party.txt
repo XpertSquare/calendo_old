@@ -1,0 +1,6 @@
+bootstrap-datepicker.js
+ - added allowEmpty option - taken from https://github.com/foxel/bootstrap-datepicker/commit/bea251f812fabbf71f845210021c708b38d434f5
+ 
+ 
+ dhtmlxscheduler.js
+  - added CSRF REQUEST HEADER for the POST operations
