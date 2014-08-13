@@ -8,12 +8,13 @@
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <%= stylesheet_link_tag    "bootstrap.min", media: "all"%>
   <%= stylesheet_link_tag    "account", media: "all"%>
-  <%= stylesheet_link_tag    "dhtmlxscheduler", media: "all"%>
+  <%= stylesheet_link_tag    "dhtmlxscheduler_flat", media: "all"%>
   <%= stylesheet_link_tag    "datepicker", media: "all"%>
   <%= stylesheet_link_tag    "bootstrap-timepicker.min", media: "all"%>
+  <%= stylesheet_link_tag    "bootstrap-multiselect", media: "all"%>
   
 
-  <%= javascript_include_tag "application", "bootstrap.min", "bootstrap-datepicker", "bootstrap-timepicker.min", "dhtmlxscheduler" ,"dhtmlxscheduler_limit", "dhtmlxscheduler_units", "jquery-ui.min"  %>
+  <%= javascript_include_tag "application", "bootstrap.min", "bootstrap-multiselect", "bootstrap-datepicker", "bootstrap-timepicker.min", "dhtmlxscheduler" ,"dhtmlxscheduler_limit", "dhtmlxscheduler_units", "jquery-ui.min"  %>
   <%= csrf_meta_tags %>
 </head>
 <style type="text/css" media="screen">
@@ -87,15 +88,32 @@ html, body{
 		  </div>
 		  <div class="modal-body">
 			<%= form_for [:admin, @appointment], :url => admin_appointments_path(@appointment), :html => {:class => "form-horizontal", :role=>"form"} do |f| %>
+						
+						<div id="lightbox-alert">							
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Customer</label>							
+							<div class="row">
+								<div class="col-sm-5">
+									<%= f.collection_select :customer_profile_id, @customers, :id, :name, {:include_blank => false}, {:class=>'form-control'} %> 
+								</div>
+								<div class="col-sm-3">		
+									<button type="button" class="btn btn-default">Create new customer</button>
+								</div>	
+							</div>								
+						</div>
+						
 						<div class="form-group " >
 							<label for="serviceName" class="col-sm-3 control-label">Service</label>
 							<div class="col-sm-9">
-								<%= select_tag '@appointment[service_ids][]', options_for_select(@services.map{ |c| [c.name, c.id, {'data-duration'=>c.duration, 'data-price'=>c.price}] }), {:class=>'form-control'} %>
+								<%= select_tag '@appointment[service_ids][]', options_for_select(@services.map{ |c| [c.name, c.id, {'data-duration'=>c.duration, 'data-price'=>c.price}] }), {:class=>'form-control', :multiple => true} %>
 								<!--select class="form-control" id="serviceName">									
 									<option value="1">Deep Tissue Massage</option>
 									<option value="2">Hot Stone Massage</option>
 									<option value="3">Swedish Massage</option>
 								</select-->
+								<input type="hidden" id="appointment-duration" value="0">
+								<input type="hidden" id="appointment-price" value="0.0">
 							</div>
 						</div>
 						<div class="form-group">
@@ -133,21 +151,11 @@ html, body{
 							
 						</div>
 
-						<div class="form-group">
-							<label class="col-sm-3 control-label">Customer</label>							
-							<div class="row">
-								<div class="col-sm-5">
-									<input type="text" class="form-control" id="txtCustomer" placeholder="Type to search..."> 
-								</div>
-								<div class="col-sm-3">		
-									<button type="button" class="btn btn-default">Create new customer</button>
-								</div>	
-							</div>								
-						</div>
+						
 						<div class="form-group">
 							<label for="Price" class="col-sm-3 control-label">Price</label>
 							<div class="col-sm-2">
-								<input type="input" class="form-control" id="Price" readonly="">
+								<input type="input" class="form-control" id="Price" readonly="" value="0.00">
 							</div>
 						</div>
 						<div class="form-group">
@@ -172,12 +180,9 @@ html, body{
 <div id="workspace" class="workspace" style="margin:0px;	padding:0px;	height:100%; /*mandatory*/	overflow:hidden;">
 	<title>Calendo | Nova Studio - Schedule</title>
 		<div class="container" style="margin:0px;	padding:0px;	height:100%; /*mandatory*/	overflow:hidden;">
-	
-
 			<div class="sheet" style="margin:10px;	padding:15px;	height:100%; /*mandatory*/	overflow:hidden;">
-				
 				<div id="calendar-wrapper" style="width:100%; height:100%; border: 1px solid #DEDEDE;">
-					
+			
 					<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
 						<div class="dhx_cal_navline">
 							<div class="dhx_cal_prev_button">&nbsp;</div>
@@ -204,6 +209,39 @@ html, body{
 
 <script type="text/javascript">
 $(document).ready(function() {	
+	$('#_appointment_service_ids_').multiselect({
+		numberDisplayed: 2,
+		buttonWidth: '100%',
+		onChange: function(element, checked) {			
+			var price = +parseFloat(Math.round($(element).attr('data-price') * 100) / 100);
+			var duration = Number($(element).attr('data-duration'));
+			if(checked)
+			{					
+				$('#Price').val((+parseFloat(Math.round($('#Price').val() * 100) / 100) + price).toFixed(2));
+				$('#appointment-duration').val( Number($('#appointment-duration').val()) + duration);
+			}
+			else
+			{
+				$('#Price').val((+parseFloat(Math.round($('#Price').val() * 100) / 100) - price).toFixed(2));
+				$('#appointment-duration').val( Number($('#appointment-duration').val()) - duration);
+			}
+			updateAppointmentInterval();
+		}
+	});
+	
+	function buildAlertForLightbox(errorType, errorMessage)
+	{
+		var htmlAlert = "";
+		htmlAlert += '<div class="alert alert-danger alert-dismissible" role="alert" >';
+		htmlAlert += '	  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>';
+		htmlAlert += '	  <span id="lightbox-alert-text">';
+		htmlAlert += errorMessage;
+		htmlAlert += '	  </span>';
+		htmlAlert += '</div>';
+		
+		return htmlAlert;
+		
+	}
 	
 	function formatTimeforPicker(inputDate)
 	{
@@ -218,25 +256,19 @@ $(document).ready(function() {
 		return strTime;
 	}
 	
-	function updatePriceAndDuration()
-	{	//price
-		var price = parseFloat(Math.round($("#_appointment_service_ids_ option:selected").attr('data-price') * 100) / 100).toFixed(2);		
-		if (!isNaN(price)){
-			$('#Price').val( price);
-		}
-		//duration		
-		var currentDate = $('#appDate').datepicker('getDate'); 
+	function updateAppointmentInterval()
+	{	
+		var selectedDate = $('#appDate').datepicker('getDate'); 
 		if($('#startTimeHours').val()=="12"){
-			currentDate.setHours(12);
+			selectedDate.setHours(12);
 		}   
 		else{	    	
-    		currentDate.setHours($('#startTimeMeridian').val()=='AM'? $('#startTimeHours').val() : (12 + +$('#startTimeHours').val()) );
+    		selectedDate.setHours($('#startTimeMeridian').val()=='AM'? $('#startTimeHours').val() : (12 + +$('#startTimeHours').val()) );
     	}
-    	currentDate.setMinutes($('#startTimeMinutes').val());    	
-    	
-    	
-    	var eventEndDate = new Date(currentDate.getTime() + +$("#_appointment_service_ids_ option:selected").attr('data-duration')*60000);
-    	console.dir(eventEndDate);    	
+    	selectedDate.setMinutes($('#startTimeMinutes').val());    	
+    	    	
+    	var eventEndDate = new Date(selectedDate.getTime() + +$('#appointment-duration').val()*60000);
+    	  	
     	$('#endTime').val(formatTimeforPicker(eventEndDate));			
 	}
 	//Setting the current date
@@ -257,8 +289,6 @@ $(document).ready(function() {
 		endDate: datepickerEndDate
 	});
 	
-	
-		
 	$('#startTime').timepicker({
          minuteStep: 15
      });
@@ -267,41 +297,14 @@ $(document).ready(function() {
     	$('#startTimeHours').val(e.time.hours);    	
     	$('#startTimeMinutes').val(e.time.minutes);
     	$('#startTimeMeridian').val(e.time.meridian);
-    	updatePriceAndDuration();
+    	updateAppointmentInterval();
   	});
-    
-    //On change update price and time
-    
-    $('#_appointment_service_ids_').change(function(){
-    	updatePriceAndDuration();    	
-    });
     
 	$('#btnCancelBooking').click(function(){
 		$('#bookAppointment').css('display','none');
 	});
 	
-	$('#btnBookAppointment').click(function(){
-		var serviceName = $('#serviceName').val();
-		
-		//TODO: AJAX validation call on the server side on the appointment		
-		
-		var htmlSuccess='<div class="alert alert-success alert-dismissable">';
-		htmlSuccess+=	'	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>';
-		htmlSuccess+=	'	The appointment for the service ' + serviceName + ' was scuccessullly booked!';
-		htmlSuccess+=	'</div>';
-		$('#bookAppointment').css('display','none');
-		$('#app-alerts').find('.alert').remove();
-		$('#app-alerts').append(htmlSuccess);
-		var eventStartDate = new Date();
-		var eventEndDate = new Date(eventStartDate.getTime() + 60*60000);
-		 
-		console.log('Event date/time: ' + eventStartDate + ' TO: ' + eventEndDate);
-		
-	});
-	
-
-	function init() {
-		
+	function init() {		
 		var people = [];
 		$('#appointment_user_id > option').each(function(){
 			var person ={};
@@ -310,7 +313,6 @@ $(document).ready(function() {
 			people.push(person);
 			
 		});
-		
 			
 		scheduler.config.multi_day = false;	
 		scheduler.config.full_day = true;
@@ -374,58 +376,60 @@ $(document).ready(function() {
 	
 
 	scheduler.showLightbox = function(id) {
+		
+		$('#lightbox-alert').css('display', 'none');
+		
 		var ev = scheduler.getEvent(id);
+		
 		scheduler.startLightbox(id, $("#custom-lightbox-bootstrap")[0]);
 		if(ev.text=='New event'){
-			$('#lightbox-title').text('Calendo | Book appointment');
+			$('#lightbox-title').text('Calendo | Book appointment');			
 		} else {
-			$('#lightbox-title').text('Calendo | ' + ev.text);
+			$('#lightbox-title').text('Calendo | Update appointment');
 		}
 		$('#appointment_user_id').val(ev.unit_id);
-		$('#_appointment_service_ids_').val(ev.serviceID);
+		$('#appDate').datepicker('update',ev.start_date);
+		//reseting the Lightbox values
+		$('option', $('#_appointment_service_ids_')).each(function(element) {
+			$('#_appointment_service_ids_').multiselect('deselect', $(this).val(), true);
+		});
+		$('#Price').val('0.00');
+		$('#appointment-duration').val('0');
+		if(ev.service_ids != null)
+		{
+			for(var i =0; i<ev.service_ids.length; i++)
+			{
+				$('#_appointment_service_ids_').multiselect('select', ev.service_ids[i], true);
+			}
+		}	
+		if(ev.customer_id!=null)
+		{
+			$('#appointment_customer_profile_id').val(ev.customer_id);
+		}	
 		var pickerTime = ev.start_date.getHours()>12 ? (ev.start_date.getHours() - 12) : ev.start_date.getHours();
 		pickerTime += ':'; 
 		pickerTime +=  ev.start_date.getMinutes() + (ev.start_date.getHours()>=12  ? ' PM' : ' AM');
-		
-		console.log('Event start date/time: ' + ev.start_date.toLocaleString());
-		
-		 $('#startTime').timepicker('setTime', pickerTime)
+		$('#startTime').timepicker('setTime', pickerTime)
 	};
 
 	function save_form() {
-		var ev = scheduler.getEvent(scheduler.getState().lightbox_id);			
-		ev.staffID = $('#appointment_user_id').val();
+		var ev = scheduler.getEvent(scheduler.getState().lightbox_id);	
+		ev.customer_id = $('#appointment_customer_profile_id').val();		
 		ev.unit_id = $('#appointment_user_id').val();
-		ev.serviceID = $('#_appointment_service_ids_').val();
+		
+		ev.service_ids = $('#_appointment_service_ids_').val();
 		ev.text = $('#_appointment_service_ids_ :selected').text();
-			if(ev.serviceID==1)
-			{
-				ev.color = 'orange';
-			} else 
-			if(ev.serviceID==2)
-			{
-				ev.color = '#36BD14';
-			} else if(ev.serviceID==3)
-			{
-				ev.color = '#FC5BD5';
-			}
-			
-			
+				
 		var eventStartDate = $('#appDate').datepicker('getDate');
-		 
     	eventStartDate.setHours($('#startTimeMeridian').val()=='AM'? $('#startTimeHours').val() : (12 + (+$('#startTimeHours').val() )) );
     	eventStartDate.setMinutes($('#startTimeMinutes').val());
     	
-    	var eventEndDate = new Date(eventStartDate.getTime() + +$("#_appointment_service_ids_ option:selected").attr('data-duration')*60000);
+    	var eventEndDate = new Date(eventStartDate.getTime() + +$('#appointment-duration').val()*60000);
     	ev.start_date = eventStartDate;
     	ev.end_date = eventEndDate;
     	
-    	console.log('Event start date/time (save form): ' + ev.start_date.toLocaleString());
-    	
-    	console.log('Event End date/time (save form): ' + ev.end_date.toLocaleString());
-    	
-    	$('#endTime').val(formatTimeforPicker(eventEndDate));				
-		
+    	$('#endTime').val(formatTimeforPicker(eventEndDate));
+    		
 		scheduler.endLightbox(true, $("#custom-lightbox-bootstrap")[0]);
 	}
 	function close_form() {
@@ -439,7 +443,14 @@ $(document).ready(function() {
 	}
 	
 	$('#btn-book-appointment').click(function(){
-		save_form();
+		if($('#_appointment_service_ids_').val() == null){
+			$('#lightbox-alert').html(buildAlertForLightbox('danger','<strong>Error: </strong> You need to select at least one service for the appointment!'));
+			$('#lightbox-alert').css('display','block');
+		}
+		else
+		{
+			save_form();
+		}
 	});
 	
 	$('#btn-close-lightbox').click(function(){		
@@ -448,19 +459,15 @@ $(document).ready(function() {
 	
 	$('#close-lightbox').click(function(){		
 		close_form();
-	});
-	
+	});	
 	
 	$('#btn-delete').click(function(){
 		delete_event();
-	});
-	
+	});	
 	
 	$('#custom-lightbox-bootstrap').draggable({
 		handle: '.modal-header'
 	});
-
-
 });
 </script>
 </body>

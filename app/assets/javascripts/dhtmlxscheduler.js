@@ -6086,9 +6086,10 @@ scheduler._skin_init = function(){
 				minical.style.left = last+"px";
 			}
 		}
-
+		
 		if (scheduler.skin && scheduler.skin === "flat"){
 			scheduler.xy.scale_height = 35;
+			/* MARIUS: Comment out the stupid override of hour_scale
 			scheduler.templates.hour_scale = function(date){
 				var min = date.getMinutes();
 				min = min < 10 ? "0"+min : min;
@@ -6096,7 +6097,9 @@ scheduler._skin_init = function(){
 							"<span class='dhx_scale_m'>&nbsp;"+ min +"</span>";
 				return html;
 			};
+			*/
 		}
+		
 	});
 	scheduler._skin_init = function(){};
 };

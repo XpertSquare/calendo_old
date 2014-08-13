@@ -22,6 +22,7 @@ class Admin::AppointmentsController < ApplicationController
     @appointment = Appointment.new
     @services = Service.all
     @employees = User.all.with_role(:staff)
+    @customers = CustomerProfile.all
     
   end
   
