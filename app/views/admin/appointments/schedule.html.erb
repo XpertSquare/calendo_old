@@ -5,10 +5,10 @@
 	
 	  <title><%= content_for?(:title) ? content_for(:title) : "Calendo | Online Appointment Software" %></title>
   <%= stylesheet_link_tag    "application", media: "all"%>
-  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <%= stylesheet_link_tag    "bootstrap.min", media: "all"%>
   <%= stylesheet_link_tag    "account", media: "all"%>
-  <%= stylesheet_link_tag    "dhtmlxscheduler_flat", media: "all"%>
+  <%= stylesheet_link_tag    "dhtmlxscheduler", media: "all"%>
   <%= stylesheet_link_tag    "datepicker", media: "all"%>
   <%= stylesheet_link_tag    "bootstrap-timepicker.min", media: "all"%>
   
@@ -31,12 +31,7 @@ html, body{
 	.dhx_scale_hour{ 
 		line-height:normal;
 	}
-.dhx_cal_event_line.custom, .dhx_cal_event.custom div{
-		background-color:#fd7;
-		border-color:#da6;
-		color:#444;
-	}
-
+	
 	.dhx_cal_event_cont_selected{
 		background-color: #9cc1db;
 		color: white;
@@ -64,6 +59,7 @@ html, body{
 		top: 20px;
 		width: 20px;
 	}
+
 	#custom-lightbox-bootstrap {
 			position: absolute;
 			top: 100px;
@@ -121,13 +117,13 @@ html, body{
 							
 							<div class="input-group col-md-4">
 								<span>					
-									<input type="text" class="form-control" value="8:00 AM"  id="startTime" style="text-align:right;">
+									<input type="text" class="form-control"  id="startTime" style="text-align:right;">
 									<input type="hidden" id="startTimeHours">
 									<input type="hidden" id="startTimeMinutes">
 									<input type="hidden" id="startTimeMeridian">
 								</span>	
 			  					<span class="input-group-addon">to</span>
-			  					<input type="text" class="form-control" value="8:00 AM"  id="endTime" disabled="disabled">  					
+			  					<input type="text" class="form-control"  id="endTime" disabled="disabled">  					
 							</div>
 								
 								
@@ -151,7 +147,7 @@ html, body{
 						<div class="form-group">
 							<label for="Price" class="col-sm-3 control-label">Price</label>
 							<div class="col-sm-2">
-								<input type="input" class="form-control" id="Price" value="50.00" readonly="">
+								<input type="input" class="form-control" id="Price" readonly="">
 							</div>
 						</div>
 						<div class="form-group">
@@ -213,28 +209,32 @@ $(document).ready(function() {
 	{
 		var hours = inputDate.getHours();
 		var minutes = inputDate.getMinutes();
-		var ampm = hours >= 12 ? 'PM' : 'AM';
-		hours = hours % 12;
-		hours = hours ? hours : 12; // the hour '0' should be '12'
+		var ampm = hours <= 11 ? 'AM' : 'PM';
+		if(hours>12){
+			hours = hours-12; 
+		}
 		minutes = minutes < 10 ? '0'+minutes : minutes;
 		var strTime = hours + ':' + minutes + ' ' + ampm;
 		return strTime;
 	}
 	
 	function updatePriceAndDuration()
-	{
-		console.log("updatePriceAndDuration");
-		//price
-		$('#Price').val( parseFloat(Math.round($("#_appointment_service_ids_ option:selected").attr('data-price') * 100) / 100).toFixed(2));
-		
+	{	//price
+		var price = parseFloat(Math.round($("#_appointment_service_ids_ option:selected").attr('data-price') * 100) / 100).toFixed(2);		
+		if (!isNaN(price)){
+			$('#Price').val( price);
+		}
 		//duration		
-		var currentDate = $('#appDate').datepicker('getDate');    	    	
-    	currentDate.setHours($('#startTimeMeridian').val()=='AM'? $('#startTimeHours').val() : (12 + +$('#startTimeHours').val()) );
+		var currentDate = $('#appDate').datepicker('getDate'); 
+		if($('#startTimeHours').val()=="12"){
+			currentDate.setHours(12);
+		}   
+		else{	    	
+    		currentDate.setHours($('#startTimeMeridian').val()=='AM'? $('#startTimeHours').val() : (12 + +$('#startTimeHours').val()) );
+    	}
     	currentDate.setMinutes($('#startTimeMinutes').val());    	
-    	console.log('Selected service duration: ' + $("#_appointment_service_ids_ option:selected").attr('data-duration')*60000);
-    	console.dir(currentDate);
-    	console.log('Current date: ' + currentDate.getTime());
-    	console.log('Event End date: ' + currentDate.getTime() + +$("#_appointment_service_ids_ option:selected").attr('data-duration')*60000);
+    	
+    	
     	var eventEndDate = new Date(currentDate.getTime() + +$("#_appointment_service_ids_ option:selected").attr('data-duration')*60000);
     	console.dir(eventEndDate);    	
     	$('#endTime').val(formatTimeforPicker(eventEndDate));			
@@ -260,11 +260,11 @@ $(document).ready(function() {
 	
 		
 	$('#startTime').timepicker({
-         minuteStep: 5
+         minuteStep: 15
      });
     
     $('#startTime').timepicker().on('changeTime.timepicker', function(e) {    	
-    	$('#startTimeHours').val(e.time.hours);
+    	$('#startTimeHours').val(e.time.hours);    	
     	$('#startTimeMinutes').val(e.time.minutes);
     	$('#startTimeMeridian').val(e.time.meridian);
     	updatePriceAndDuration();
@@ -322,8 +322,44 @@ $(document).ready(function() {
 		scheduler.locale.labels.unit_tab = "Persons"
 		scheduler.config.details_on_create=true;				
 		scheduler.config.details_on_dblclick=true;
-		scheduler.config.xml_date = "%Y-%m-%d %H:%i";
+		scheduler.config.xml_date = "%Y-%m-%d %H:%i"
 		
+		scheduler.config.separate_short_events = true;
+		//scheduler.config.hour_size_px = 84;
+		
+		
+		scheduler.templates.hour_scale = function(date){
+            var hour = date.getHours();
+            var top = '00';
+            var bottom = '30';
+            if(hour==0)
+                top = 'AM';
+            if(hour==12)
+                top = 'PM';
+            hour =  ((date.getHours()+11)%12)+1;
+            var html = '';
+            var section_width = Math.floor(scheduler.xy.scale_width/2);
+            var minute_height = Math.floor(scheduler.config.hour_size_px/2);
+            html += "<div class='dhx_scale_hour_main' style='width: "+section_width+"px; height:"+(minute_height*2)+"px;'>"+hour+"</div><div class='dhx_scale_hour_minute_cont' style='width: "+section_width+"px;'>";
+            html += "<div class='dhx_scale_hour_minute_top' style='height:"+minute_height+"px; line-height:"+minute_height+"px;'>"+top+"</div><div class='dhx_scale_hour_minute_bottom' style='height:"+minute_height+"px; line-height:"+minute_height+"px;'>"+bottom+"</div>";
+            html += "<div class='dhx_scale_hour_sep'></div></div>";
+            return html;		
+		};
+					
+		/*
+		var step = 30;
+		var format = scheduler.date.date_to_str("%H:%i");
+		
+		scheduler.config.hour_size_px=(60/step)*22;
+		scheduler.templates.hour_scale = function(date){
+			html="";
+			for (var i=0; i<60/step; i++){
+				html+="<div style='height:22px;line-height:22px;'>"+format(date)+"</div>";
+				date = scheduler.date.add(date,step,"minute");
+			}
+			return html;
+		}
+		*/
 		scheduler.createUnitsView("unit", "unit_id", people);
 		
 		scheduler.init('scheduler_here', new Date(), "unit");
@@ -334,6 +370,8 @@ $(document).ready(function() {
 	}
 	
 	init();
+	
+	
 
 	scheduler.showLightbox = function(id) {
 		var ev = scheduler.getEvent(id);
@@ -345,7 +383,13 @@ $(document).ready(function() {
 		}
 		$('#appointment_user_id').val(ev.unit_id);
 		$('#_appointment_service_ids_').val(ev.serviceID);
+		var pickerTime = ev.start_date.getHours()>12 ? (ev.start_date.getHours() - 12) : ev.start_date.getHours();
+		pickerTime += ':'; 
+		pickerTime +=  ev.start_date.getMinutes() + (ev.start_date.getHours()>=12  ? ' PM' : ' AM');
 		
+		console.log('Event start date/time: ' + ev.start_date.toLocaleString());
+		
+		 $('#startTime').timepicker('setTime', pickerTime)
 	};
 
 	function save_form() {
@@ -365,6 +409,22 @@ $(document).ready(function() {
 			{
 				ev.color = '#FC5BD5';
 			}
+			
+			
+		var eventStartDate = $('#appDate').datepicker('getDate');
+		 
+    	eventStartDate.setHours($('#startTimeMeridian').val()=='AM'? $('#startTimeHours').val() : (12 + (+$('#startTimeHours').val() )) );
+    	eventStartDate.setMinutes($('#startTimeMinutes').val());
+    	
+    	var eventEndDate = new Date(eventStartDate.getTime() + +$("#_appointment_service_ids_ option:selected").attr('data-duration')*60000);
+    	ev.start_date = eventStartDate;
+    	ev.end_date = eventEndDate;
+    	
+    	console.log('Event start date/time (save form): ' + ev.start_date.toLocaleString());
+    	
+    	console.log('Event End date/time (save form): ' + ev.end_date.toLocaleString());
+    	
+    	$('#endTime').val(formatTimeforPicker(eventEndDate));				
 		
 		scheduler.endLightbox(true, $("#custom-lightbox-bootstrap")[0]);
 	}
