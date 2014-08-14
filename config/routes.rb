@@ -12,6 +12,8 @@ Calendo::Application.routes.draw do
     namespace :admin do
        get '/' => 'dashboard#index'
        
+       match 'appointments/crud' => 'appointments#crud', as: :appointment_crud, via: [:get, :post]
+       
        resources :services 
        resources :comments
        resources :appointments

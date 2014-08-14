@@ -57,7 +57,7 @@ html, body{
 		height: 1px;
 		background-color: #8C929A;
 		right: 0;
-		top: 20px;
+		top: 43px;
 		width: 20px;
 	}
 
@@ -142,16 +142,8 @@ html, body{
 								</span>	
 			  					<span class="input-group-addon">to</span>
 			  					<input type="text" class="form-control"  id="endTime" disabled="disabled">  					
-							</div>
-								
-								
-								<!--input id="startTime" type="text" class="form-control timepicker-me" >
-								<span class="input-group-addon">to</span>
-								<input id="endTime" type="text" class="form-control disabled timepicker-me" disabled="disabled"-->
-							
-						</div>
-
-						
+							</div>						
+						</div>					
 						<div class="form-group">
 							<label for="Price" class="col-sm-3 control-label">Price</label>
 							<div class="col-sm-2">
@@ -318,16 +310,16 @@ $(document).ready(function() {
 		scheduler.config.full_day = true;
 		scheduler.config.server_utc = true;
 		scheduler.config.time_step = 15;
-		scheduler.config.first_hour = 8;
-		scheduler.config.last_hour = 18;
+		scheduler.config.first_hour = 9;
+		scheduler.config.last_hour = 17;
 		
-		scheduler.locale.labels.unit_tab = "Persons"
+		scheduler.locale.labels.unit_tab = "People"
 		scheduler.config.details_on_create=true;				
 		scheduler.config.details_on_dblclick=true;
 		scheduler.config.xml_date = "%Y-%m-%d %H:%i"
 		
 		scheduler.config.separate_short_events = true;
-		//scheduler.config.hour_size_px = 84;
+		scheduler.config.hour_size_px = 88;
 		
 		
 		scheduler.templates.hour_scale = function(date){
@@ -341,10 +333,13 @@ $(document).ready(function() {
             hour =  ((date.getHours()+11)%12)+1;
             var html = '';
             var section_width = Math.floor(scheduler.xy.scale_width/2);
-            var minute_height = Math.floor(scheduler.config.hour_size_px/2);
-            html += "<div class='dhx_scale_hour_main' style='width: "+section_width+"px; height:"+(minute_height*2)+"px;'>"+hour+"</div><div class='dhx_scale_hour_minute_cont' style='width: "+section_width+"px;'>";
-            html += "<div class='dhx_scale_hour_minute_top' style='height:"+minute_height+"px; line-height:"+minute_height+"px;'>"+top+"</div><div class='dhx_scale_hour_minute_bottom' style='height:"+minute_height+"px; line-height:"+minute_height+"px;'>"+bottom+"</div>";
-            html += "<div class='dhx_scale_hour_sep'></div></div>";
+            var minute_height = Math.floor(scheduler.config.hour_size_px/4);
+            html += "<div class='dhx_scale_hour_main' style='font-size:18px;width: "+section_width+"px; height:"+(minute_height*2)+"px;'>"+hour+"</div><div class='dhx_scale_hour_minute_cont' style='width: "+section_width+"px;'>";
+            html += "<div class='dhx_scale_hour_minute_top' style='height:"+minute_height+"px; line-height:15px;'>"+top+"</div>";
+            html += "<div class='dhx_scale_hour_minute_top' style='height:"+minute_height+"px; line-height:10px;'>15</div>";
+            html += "<div class='dhx_scale_hour_minute_bottom' style='height:"+minute_height+"px; line-height:10px;'>30</div>";
+            html += "<div class='dhx_scale_hour_minute_bottom' style='height:"+minute_height+"px; line-height:10px;'>45</div>";
+            //html += "<div class='dhx_scale_hour_sep'></div></div>";
             return html;		
 		};
 					
@@ -365,13 +360,15 @@ $(document).ready(function() {
 		scheduler.createUnitsView("unit", "unit_id", people);
 		
 		scheduler.init('scheduler_here', new Date(), "unit");
+		scheduler.load('<%= admin_appointments_path %>', 'json');
 		
-		//var dp = new dataProcessor("/events/crud");
-	    //dp.init(scheduler);
-	    //dp.setTransactionMode("POST",false);
+		var dp = new dataProcessor('<%= admin_appointment_crud_path %>');
+	    dp.init(scheduler);
+	    dp.setTransactionMode("POST",false);
 	}
 	
 	init();
+	console.log('Config: ' + scheduler.config.hour_size_px);
 	
 	
 
@@ -402,9 +399,9 @@ $(document).ready(function() {
 				$('#_appointment_service_ids_').multiselect('select', ev.service_ids[i], true);
 			}
 		}	
-		if(ev.customer_id!=null)
+		if(ev.customer_profile_id!=null)
 		{
-			$('#appointment_customer_profile_id').val(ev.customer_id);
+			$('#appointment_customer_profile_id').val(ev.customer_profile_id);
 		}	
 		var pickerTime = ev.start_date.getHours()>12 ? (ev.start_date.getHours() - 12) : ev.start_date.getHours();
 		pickerTime += ':'; 
@@ -419,6 +416,8 @@ $(document).ready(function() {
 		
 		ev.service_ids = $('#_appointment_service_ids_').val();
 		ev.text = $('#_appointment_service_ids_ :selected').text();
+		ev.duration = $('#appointment-duration').val();
+		ev.price = $('#Price').val();
 				
 		var eventStartDate = $('#appDate').datepicker('getDate');
     	eventStartDate.setHours($('#startTimeMeridian').val()=='AM'? $('#startTimeHours').val() : (12 + (+$('#startTimeHours').val() )) );
