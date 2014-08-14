@@ -2,6 +2,7 @@ class Service < ActiveRecord::Base
   belongs_to :account
   has_many :assignments
   has_many :users, through: :assignments
+  has_many :schedulables, :dependent => :destroy
   has_many :appointments, through: :schedulables
   
   validates_presence_of :name,:description, :duration, :price

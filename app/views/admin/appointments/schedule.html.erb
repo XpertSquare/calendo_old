@@ -160,6 +160,7 @@ html, body{
 					<% end %>
 		  </div>
 		  <div class="modal-footer">
+		  	<button type="button" class="btn btn-warning pull-left" id="btn-delete-event"><i class="fa fa-trash-o"></i> Delete</button>
 			<button type="button" class="btn btn-default" data-dismiss="modal" id="btn-close-lightbox">Cancel</button>
 			<button id="btn-book-appointment" type="button" class="btn btn-success">Book the appointment</button>
 		  </div>
@@ -342,7 +343,8 @@ $(document).ready(function() {
             //html += "<div class='dhx_scale_hour_sep'></div></div>";
             return html;		
 		};
-					
+			
+				
 		/*
 		var step = 30;
 		var format = scheduler.date.date_to_str("%H:%i");
@@ -368,11 +370,16 @@ $(document).ready(function() {
 	}
 	
 	init();
-	console.log('Config: ' + scheduler.config.hour_size_px);
 	
-	
-
 	scheduler.showLightbox = function(id) {
+		
+		console.log('New event value: ' + scheduler.getState().new_event);
+		$('#btn-delete-event').css('display','block');
+		if(scheduler.getState().new_event != null)
+		{
+			$('#btn-delete-event').css('display','none');
+		}
+		
 		
 		$('#lightbox-alert').css('display', 'none');
 		
@@ -413,7 +420,7 @@ $(document).ready(function() {
 		var ev = scheduler.getEvent(scheduler.getState().lightbox_id);	
 		ev.customer_id = $('#appointment_customer_profile_id').val();		
 		ev.unit_id = $('#appointment_user_id').val();
-		
+		ev.customer_profile_id = $('#appointment_customer_profile_id').val();
 		ev.service_ids = $('#_appointment_service_ids_').val();
 		ev.text = $('#_appointment_service_ids_ :selected').text();
 		ev.duration = $('#appointment-duration').val();
@@ -460,7 +467,7 @@ $(document).ready(function() {
 		close_form();
 	});	
 	
-	$('#btn-delete').click(function(){
+	$('#btn-delete-event').click(function(){
 		delete_event();
 	});	
 	

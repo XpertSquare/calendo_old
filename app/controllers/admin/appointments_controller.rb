@@ -46,7 +46,7 @@ class Admin::AppointmentsController < ApplicationController
     @duration = params[:duration]
     @price = params[:price]
     @mode = params["!nativeeditor_status"]
-    
+    @service_ids = params[:service_ids].split(',')
     
     if @mode == "inserted"
       @appointment = Appointment.new      
@@ -57,7 +57,13 @@ class Admin::AppointmentsController < ApplicationController
       @appointment.customer_profile_id = @customer_profile_id
       @appointment.user_id = @user_id 
       
+      @service_ids.each do |service_id|
+        @appointment.schedulables.build(:service_id => service_id.to_i)
+      end
+      
       @appointment.save!
+      
+      
       @tid = @appointment.id
     elsif @mode == "deleted"
       @appointment=Appointment.find(@id)
