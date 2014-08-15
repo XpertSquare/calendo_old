@@ -56,10 +56,11 @@ class Admin::AppointmentsController < ApplicationController
       @appointment.price = @price
       @appointment.customer_profile_id = @customer_profile_id
       @appointment.user_id = @user_id 
+      @appointment.service_ids = @service_ids
       
-      @service_ids.each do |service_id|
-        @appointment.schedulables.build(:service_id => service_id.to_i)
-      end
+      #@service_ids.each do |service_id|
+       # @appointment.schedulables.build(:service_id => service_id.to_i)
+      #end
       
       @appointment.save!
       
@@ -74,8 +75,10 @@ class Admin::AppointmentsController < ApplicationController
       @appointment.end = @end_date
       @appointment.duration = @duration
       @appointment.price = @price
-      @appointment.customer_profile_id = @customer_profile_id
+      #@appointment.customer_profile_id = @customer_profile_id
       @appointment.user_id = @user_id      
+      
+      @appointment.service_ids = @service_ids
       
       @appointment.save!
      

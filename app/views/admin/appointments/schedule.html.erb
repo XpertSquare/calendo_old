@@ -160,7 +160,7 @@ html, body{
 					<% end %>
 		  </div>
 		  <div class="modal-footer">
-		  	<button type="button" class="btn btn-warning pull-left" id="btn-delete-event"><i class="fa fa-trash-o"></i> Delete</button>
+		  	<button type="button" class="btn btn-danger pull-left" id="btn-delete-event"><i class="fa fa-trash-o"></i> Delete</button>
 			<button type="button" class="btn btn-default" data-dismiss="modal" id="btn-close-lightbox">Cancel</button>
 			<button id="btn-book-appointment" type="button" class="btn btn-success">Book the appointment</button>
 		  </div>
@@ -191,11 +191,8 @@ html, body{
 						</div>
 						<div class="dhx_cal_data"
 						</div>		
-					</div>
-					
-				</div>	
-				
-				
+					</div>					
+				</div>					
 			</div>
 		</div>
 </div>
@@ -205,20 +202,24 @@ $(document).ready(function() {
 	$('#_appointment_service_ids_').multiselect({
 		numberDisplayed: 2,
 		buttonWidth: '100%',
-		onChange: function(element, checked) {			
-			var price = +parseFloat(Math.round($(element).attr('data-price') * 100) / 100);
-			var duration = Number($(element).attr('data-duration'));
-			if(checked)
-			{					
-				$('#Price').val((+parseFloat(Math.round($('#Price').val() * 100) / 100) + price).toFixed(2));
-				$('#appointment-duration').val( Number($('#appointment-duration').val()) + duration);
+		onChange: function(element, checked) {
+			if(element!=null)
+			{	
+				var price = +parseFloat(Math.round($(element).attr('data-price') * 100) / 100);
+				var duration = Number($(element).attr('data-duration'));
+				
+				if(checked)
+				{					
+					$('#Price').val((+parseFloat(Math.round($('#Price').val() * 100) / 100) + price).toFixed(2));
+					$('#appointment-duration').val( Number($('#appointment-duration').val()) + duration);
+				}
+				else
+				{
+					$('#Price').val((+parseFloat(Math.round($('#Price').val() * 100) / 100) - price).toFixed(2));
+					$('#appointment-duration').val( Number($('#appointment-duration').val()) - duration);
+				}
+				updateAppointmentInterval();
 			}
-			else
-			{
-				$('#Price').val((+parseFloat(Math.round($('#Price').val() * 100) / 100) - price).toFixed(2));
-				$('#appointment-duration').val( Number($('#appointment-duration').val()) - duration);
-			}
-			updateAppointmentInterval();
 		}
 	});
 	
@@ -395,7 +396,7 @@ $(document).ready(function() {
 		$('#appDate').datepicker('update',ev.start_date);
 		//reseting the Lightbox values
 		$('option', $('#_appointment_service_ids_')).each(function(element) {
-			$('#_appointment_service_ids_').multiselect('deselect', $(this).val(), true);
+			$('#_appointment_service_ids_').multiselect('deselect', $(this).val(), false);
 		});
 		$('#Price').val('0.00');
 		$('#appointment-duration').val('0');
