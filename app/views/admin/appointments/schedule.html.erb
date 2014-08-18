@@ -88,7 +88,7 @@ html, body{
 	    height: 40px;
 	    padding: 0 10px;
 	    transition: all 0.2s linear 0s;
-	    width: 450px;
+	    width: 490px;
 	}
 	
 	.autocomplete-suggestions {
@@ -96,7 +96,7 @@ html, body{
 	    border: 1px solid #999;
 	    cursor: pointer;
 	    overflow: auto;
-	    top: 52px !important;
+	    
 	}
 	
 	.autocomplete-suggestion {
@@ -132,6 +132,29 @@ html, body{
 	.autocomplete-suggestions strong {    
 	    font-weight: normal;
 	}
+	
+	span.input-icon, span.input-help {
+	    display: block;
+	    position: relative;
+	}
+		
+	.input-icon > input {
+	    padding-left: 25px !important;
+	    padding-right: 6px;
+	  }
+    .input-icon > [class*="fa-"], .input-icon > [class*="clip-"] {
+	    bottom: 0;
+	    color: #909090;
+	    display: inline-block;
+	    font-size: 14px;
+	    left: 5px;
+	    line-height: 42px;
+	    padding: 0 3px;
+	    position: absolute;
+	    top: 0;
+	    
+	}
+
 		
 </style>
 <body style="margin:0px;	padding:0px;	height:100%; /*mandatory*/	overflow:hidden;">	
@@ -149,8 +172,13 @@ html, body{
 						<div class="form-group">
 							<label class="col-sm-3 control-label">Customer</label>							
 							<div class="row">
-								<div class="col-sm-5" id ="search-customer-container">
-									<input id="customer-search" type="text" autocomplete="off"/>
+								
+								<div class="col-sm-5" >
+									<span class="input-icon" id ="search-customer-container">
+								    	<input type="text" id="customer-search" type="text" autocomplete="off" placeholder="Type to search...">
+										<i class="fa fa-search"></i>
+									</span>
+									<label id="customer_name" class="control-label" style="display:none; text-align:left;"></label>
 									<input id="customer_profile_id" type="hidden" /> 
 								</div>
 								
@@ -161,11 +189,6 @@ html, body{
 							<label for="serviceName" class="col-sm-3 control-label">Service</label>
 							<div class="col-sm-9">
 								<%= select_tag '@appointment[service_ids][]', options_for_select(@services.map{ |c| [c.name, c.id, {'data-duration'=>c.duration, 'data-price'=>c.price}] }), {:class=>'form-control', :multiple => true} %>
-								<!--select class="form-control" id="serviceName">									
-									<option value="1">Deep Tissue Massage</option>
-									<option value="2">Hot Stone Massage</option>
-									<option value="3">Swedish Massage</option>
-								</select-->
 								<input type="hidden" id="appointment-duration" value="0">
 								<input type="hidden" id="appointment-price" value="0.0">
 							</div>
@@ -173,7 +196,7 @@ html, body{
 						<div class="form-group">
 							<label for="staffName" class="col-sm-3 control-label">Staff</label>
 							<div class="col-sm-9">
-								<%= f.collection_select :user_id, @employees, :id, :display_name, {:include_blank => false}, {:class=>'form-control'} %>			  
+								<%= f.collection_select :user_id, @employees, :id, :display_name, {:include_blank => false}, {:class=>'form-control'} %>		  
 								
 							</div>
 							
@@ -292,7 +315,7 @@ $(document).ready(function() {
 	function buildAlertForLightbox(errorType, errorMessage)
 	{
 		var htmlAlert = "";
-		htmlAlert += '<div class="alert alert-danger alert-dismissible" role="alert" >';
+		htmlAlert += '<div class="alert alert-' + errorType + ' alert-dismissible" role="alert" >';
 		htmlAlert += '	  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>';
 		htmlAlert += '	  <span id="lightbox-alert-text">';
 		htmlAlert += errorMessage;
@@ -345,7 +368,6 @@ $(document).ready(function() {
 		todayHighlight: true,
 		autoclose:true,
 		allowEmpty:false,
-		startDate : currentDate,
 		endDate: datepickerEndDate
 	});
 	
@@ -410,22 +432,7 @@ $(document).ready(function() {
             //html += "<div class='dhx_scale_hour_sep'></div></div>";
             return html;		
 		};
-			
-				
-		/*
-		var step = 30;
-		var format = scheduler.date.date_to_str("%H:%i");
 		
-		scheduler.config.hour_size_px=(60/step)*22;
-		scheduler.templates.hour_scale = function(date){
-			html="";
-			for (var i=0; i<60/step; i++){
-				html+="<div style='height:22px;line-height:22px;'>"+format(date)+"</div>";
-				date = scheduler.date.add(date,step,"minute");
-			}
-			return html;
-		}
-		*/
 		scheduler.createUnitsView("unit", "unit_id", people);
 		
 		scheduler.init('scheduler_here', new Date(), "unit");
@@ -438,19 +445,37 @@ $(document).ready(function() {
 	
 	init();
 	
+	scheduler.attachEvent('onClick', function(id, e){
+		scheduler.showLightbox(id);
+	});
+	
+	dhtmlxEvent(scheduler._els["dhx_cal_data"][0], "click", function(e){
+		if(!scheduler._locate_event(e?e.target:event.srcElement))
+			scheduler._on_dbl_click(e);
+	});
+	
+	
 	scheduler.showLightbox = function(id) {
 		
 		console.log('New event value: ' + scheduler.getState().new_event);
+		$('#btn-book-appointment').css('display','');
 		$('#btn-delete-event').css('display','block');
 		if(scheduler.getState().new_event != null)
 		{
+			$('#search-customer-container').css('display','block');
+			$('#customer_name').css('display','none');
 			$('#btn-delete-event').css('display','none');
+		}
+		else {
+			$('#search-customer-container').css('display','none');
+			$('#customer_name').css('display','block');			
 		}
 		
 		
 		$('#lightbox-alert').css('display', 'none');
 		
 		var ev = scheduler.getEvent(id);
+		$('#customer_name').text(ev.customer_name);
 		
 		scheduler.startLightbox(id, $("#custom-lightbox-bootstrap")[0]);
 		if(ev.text=='New event'){
@@ -460,6 +485,18 @@ $(document).ready(function() {
 		}
 		$('#appointment_user_id').val(ev.unit_id);
 		$('#appDate').datepicker('update',ev.start_date);
+		
+		var beginningOfTheDay = new Date();
+		beginningOfTheDay.setHours(0,0,0,0);
+		if(ev.start_date < beginningOfTheDay){
+			$('#lightbox-alert').html(buildAlertForLightbox('warning','<strong>Warning: </strong> You cannot update a past appointment!'));
+			$('#lightbox-alert').css('display','block');
+			$('#btn-delete-event').css('display','none');
+			$('#btn-book-appointment').css('display','none');
+		}
+		
+		console.log('Event start date: ' + ev.start_date.toString());
+		console.log('Event start date: ' +$('#appDate').datepicker('getDate').toString());
 		//reseting the Lightbox values
 		$('option', $('#_appointment_service_ids_')).each(function(element) {
 			$('#_appointment_service_ids_').multiselect('deselect', $(this).val(), false);
@@ -475,7 +512,7 @@ $(document).ready(function() {
 		}	
 		if(ev.customer_profile_id!=null)
 		{
-			$('#appointment_customer_profile_id').val(ev.customer_profile_id);
+			$('#customer_profile_id').val(ev.customer_profile_id);
 		}	
 		var pickerTime = ev.start_date.getHours()>12 ? (ev.start_date.getHours() - 12) : ev.start_date.getHours();
 		pickerTime += ':'; 
@@ -485,9 +522,9 @@ $(document).ready(function() {
 
 	function save_form() {
 		var ev = scheduler.getEvent(scheduler.getState().lightbox_id);	
-		ev.customer_id = $('#appointment_customer_profile_id').val();		
+		ev.customer_id = $('#customer_profile_id').val();		
 		ev.unit_id = $('#appointment_user_id').val();
-		ev.customer_profile_id = $('#appointment_customer_profile_id').val();
+		ev.customer_profile_id = $('#customer_profile_id').val();
 		ev.service_ids = $('#_appointment_service_ids_').val();
 		ev.text = $('#_appointment_service_ids_ :selected').text();
 		ev.duration = $('#appointment-duration').val();

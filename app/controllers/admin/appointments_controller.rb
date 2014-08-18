@@ -58,13 +58,8 @@ class Admin::AppointmentsController < ApplicationController
       @appointment.user_id = @user_id 
       @appointment.service_ids = @service_ids
       
-      #@service_ids.each do |service_id|
-       # @appointment.schedulables.build(:service_id => service_id.to_i)
-      #end
-      
       @appointment.save!
-      
-      
+           
       @tid = @appointment.id
     elsif @mode == "deleted"
       @appointment=Appointment.find(@id)
@@ -75,7 +70,7 @@ class Admin::AppointmentsController < ApplicationController
       @appointment.end = @end_date
       @appointment.duration = @duration
       @appointment.price = @price
-      #@appointment.customer_profile_id = @customer_profile_id
+      #customer cannot be updated @appointment.customer_profile_id = @customer_profile_id
       @appointment.user_id = @user_id      
       
       @appointment.service_ids = @service_ids

@@ -4,3 +4,9 @@ bootstrap-datepicker.js
  
  dhtmlxscheduler.js
   - added CSRF REQUEST HEADER for the POST operations
+  
+  jquery.autocomplete.js
+  - change the formatResult() function
+  
+  bootstrap.min.cs 
+   - make the button corners straight.
