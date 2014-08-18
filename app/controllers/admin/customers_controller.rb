@@ -63,8 +63,7 @@ class Admin::CustomersController < ApplicationController
   
   def activity
     @activities = Activity.where(:recipient_id => @customer.id, :recipient_type => 'CustomerProfile')
-    @activities_months = @activities.group_by { |t| t.created_at.beginning_of_month }
-    #@activities_months = @activities_months.sort_by reverse!
+    @activities_months = @activities.group_by { |t| t.created_at.beginning_of_month }    
   end
   
   def comments
@@ -74,6 +73,16 @@ class Admin::CustomersController < ApplicationController
   def invoices
     #TODO: add code for invoices when the model is created
   end
+  
+  
+  def search
+    @search = params[:query].downcase
+    @customers = User.with_role(:customer).where("lower(display_name) like ?", "%#{@search}%");  
+    respond_to do |format|      
+      format.json { render :layout => false}      
+    end
+  end
+  
   
 private
 

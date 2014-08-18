@@ -14,7 +14,7 @@
   <%= stylesheet_link_tag    "bootstrap-multiselect", media: "all"%>
   
 
-  <%= javascript_include_tag "application", "bootstrap.min", "bootstrap-multiselect", "bootstrap-datepicker", "bootstrap-timepicker.min", "dhtmlxscheduler" ,"dhtmlxscheduler_limit", "dhtmlxscheduler_units", "jquery-ui.min"  %>
+  <%= javascript_include_tag "application", "bootstrap.min", "jquery.autocomplete" , "bootstrap-multiselect", "bootstrap-datepicker", "bootstrap-timepicker.min", "dhtmlxscheduler" ,"dhtmlxscheduler_limit", "dhtmlxscheduler_units", "jquery-ui.min"  %>
   <%= csrf_meta_tags %>
 </head>
 <style type="text/css" media="screen">
@@ -78,6 +78,61 @@ html, body{
 			width: 200px;
 		}
 		
+	#customer-search {
+	    background-color: #fff;
+	    border: 1px solid #c8c8c8;
+	    border-radius: 3px;
+	    color: #aeaeae;
+	    font-size: 1.5em;
+	    font-weight: normal;
+	    height: 40px;
+	    padding: 0 10px;
+	    transition: all 0.2s linear 0s;
+	    width: 450px;
+	}
+	
+	.autocomplete-suggestions {
+	    background: none repeat scroll 0 0 #fff;
+	    border: 1px solid #999;
+	    cursor: pointer;
+	    overflow: auto;
+	    top: 52px !important;
+	}
+	
+	.autocomplete-suggestion {
+	    font-size: 14px;
+	    overflow: hidden;
+	    padding: 2px 5px;
+	    white-space: nowrap;
+	
+	}
+	
+	.autocomplete-suggestion .description {    
+	    font-weight: bold;
+	}
+	
+	
+	.autocomplete-suggestion .description strong {    
+	    font-weight:bold;
+	    background-color: yellow;    
+	}
+	
+	.autocomplete-suggestion .phone{
+		float: right;	
+	}
+	
+	.autocomplete-suggestion .email{
+		margin:0;
+		font-style: italic;	 
+	}
+	
+	.autocomplete-selected {
+	    background: none repeat scroll 0 0 #f0f0f0;
+	}
+	.autocomplete-suggestions strong {    
+	    font-weight: normal;
+	}
+		
 </style>
 <body style="margin:0px;	padding:0px;	height:100%; /*mandatory*/	overflow:hidden;">	
 	  <div class="modal-dialog"  id="custom-lightbox-bootstrap">
@@ -94,12 +149,11 @@ html, body{
 						<div class="form-group">
 							<label class="col-sm-3 control-label">Customer</label>							
 							<div class="row">
-								<div class="col-sm-5">
-									<%= f.collection_select :customer_profile_id, @customers, :id, :name, {:include_blank => false}, {:class=>'form-control'} %> 
+								<div class="col-sm-5" id ="search-customer-container">
+									<input id="customer-search" type="text" autocomplete="off"/>
+									<input id="customer_profile_id" type="hidden" /> 
 								</div>
-								<div class="col-sm-3">		
-									<button type="button" class="btn btn-default">Create new customer</button>
-								</div>	
+								
 							</div>								
 						</div>
 						
@@ -199,6 +253,18 @@ html, body{
 
 <script type="text/javascript">
 $(document).ready(function() {	
+	
+	$('#customer-search').autocomplete({
+	    serviceUrl: '/admin/customers/search.json',
+	    zIndex: 10003,
+	    appendTo: $('#search-customer-container'),
+	    onSelect: function (suggestion) {
+	    	$('#customer_profile_id').val(suggestion.data);
+	        console.log('You selected: ' + suggestion.value + ', ' + suggestion.data);
+	    }
+	});
+	
+	
 	$('#_appointment_service_ids_').multiselect({
 		numberDisplayed: 2,
 		buttonWidth: '100%',
