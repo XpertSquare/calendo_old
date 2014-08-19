@@ -77,7 +77,7 @@ class Admin::CustomersController < ApplicationController
   
   def search
     @search = params[:query].downcase
-    @customers = User.with_role(:customer).where("lower(display_name) like ?", "%#{@search}%");  
+    @customers = User.with_role(:customer).includes(:customer_profile).where("lower(display_name) like ?", "%#{@search}%");  
     respond_to do |format|      
       format.json { render :layout => false}      
     end

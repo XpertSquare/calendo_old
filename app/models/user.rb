@@ -17,7 +17,9 @@ class User < ActiveRecord::Base
   
   default_scope { where(account_id: Account.current_id) }
   
-  scope :with_role, lambda { |role| {:conditions => "roles_mask & #{2**ROLES.index(role.to_s)} > 0"} }
+  #scope :with_role, lambda { |role| {:conditions => "roles_mask & #{2**ROLES.index(role.to_s)} > 0"} }
+  
+  scope :with_role, ->(role) {where("roles_mask & #{2**ROLES.index(role.to_s)} > 0") }
   
   ROLES = %w[customer staff admin owner superuser]
   

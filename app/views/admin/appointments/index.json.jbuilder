@@ -1,4 +1,4 @@
-json.array!(@appointments) do |json, appointment|
+json.array!(@appointments) do |appointment|
   json.id appointment.id
   json.text appointment.id
   json.start_date appointment.start.strftime('%Y-%m-%d %H:%M %Z')
