@@ -24,10 +24,17 @@
 			<% end %> 
 	    </div>
 	</div>
-	
-	
+	<%= f.fields_for :employee_profile, @user.employee_profile do |employee_profile|%>
+		<div class="form-group">									
+		  	<%= employee_profile.label :biography, :class=>"col-sm-2 control-label" %>								  	
+		  	<div class="col-sm-6">	  		  							    
+		    	<%= employee_profile.text_area :biography,  :class=>'form-control', :rows=>"5", :placeholder=>"Biography" %>
+		    </div>
+		</div>
+	<% end %>
+	<header style="border-bottom:1px solid #DDDDDD; margin-top:15px; margin-bottom:10px;"><h4>Services asigned</h4></header>
 	<div class="form-group">									
-	  	<label class="col-sm-2 control-label">Services assigned</label>								  	
+	  								  	
 	  	<div class="col-sm-6">	  		  							    
 	    	<%= hidden_field_tag "user[service_ids][]", nil %>
 		    <% Service.all.each do |service| %>
@@ -36,4 +43,10 @@
     		<% end %>    	
 	    </div>
 	</div>
+	
+	<%= f.fields_for :employee_profile, @user.employee_profile do |employee_profile|%>
+		<%= render 'employee_profile_fields', f: employee_profile %>
+		
+	<% end %>
+	
 	

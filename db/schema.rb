@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140820041735) do
+ActiveRecord::Schema.define(version: 20140820223015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -166,5 +166,19 @@ ActiveRecord::Schema.define(version: 20140820041735) do
 
   add_index "users", ["account_id"], name: "index_users_on_account_id", using: :btree
   add_index "users", ["auth_token"], name: "index_users_on_auth_token", using: :btree
+
+  create_table "work_days", force: true do |t|
+    t.integer  "account_id"
+    t.integer  "employee_profile_id"
+    t.string   "day"
+    t.string   "start_time"
+    t.string   "end_time"
+    t.boolean  "is_off"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "work_days", ["account_id"], name: "index_work_days_on_account_id", using: :btree
+  add_index "work_days", ["employee_profile_id"], name: "index_work_days_on_employee_profile_id", using: :btree
 
 end

@@ -1,0 +1,50 @@
+<div class="row">
+		<%= f.hidden_field :day%>
+		<%= f.label f.object.day.humanize, :class=>"col-sm-2 control-label" %>
+		<%= f.hidden_field :is_off, :class=>"is-closed" %>
+		
+		<% if f.object.is_off %>
+				<div class="col-sm-6" data-view="is-closed" style="display:block; padding-top:9px;">OFF</div>
+				<div class="col-sm-3"  data-view="is-open" style="display:none; padding-top:5px;">
+					<div class="input-group bootstrap-timepicker">
+					  <%= f.text_field :start_time,  :class=>'form-control input-small timepicker' %>
+					  <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+					</div>
+					
+					
+			  	</div>	 
+			  	<div class="col-sm-3"  data-view="is-open" style="display:none; padding-top:5px;">  
+			  		<div class="input-group bootstrap-timepicker">
+					  <%= f.text_field :end_time,  :class=>'form-control input-small timepicker' %>
+					  <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+					</div> 
+			  	</div>	
+			  	<div class="col-sm-2"  data-view="is-closed">
+		  			<button type="button" class="btn btn-link lnk-open">Open this day</button>
+			  	</div>
+			  	<div class="col-sm-2" style="display:none;"  data-view="is-open">
+		  			<button type="button" class="btn btn-link lnk-close">Close this day</button>
+			  	</div>
+		<% else %>
+			<div class="col-sm-6" data-view="is-closed" style="display:none; padding-top:9px;">OFF</div>
+				<div class="col-sm-3"  data-view="is-open" style="display:block; padding-top:5px;">  
+			  		<div class="input-group bootstrap-timepicker">
+					  <%= f.text_field :start_time,  :class=>'form-control input-small timepicker' %>
+					  <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+					</div>
+			  	</div>	 
+			  	<div class="col-sm-3"  data-view="is-open" style="display:block; padding-top:5px;">
+			  		<div class="input-group bootstrap-timepicker">
+					  <%= f.text_field :end_time,  :class=>'form-control input-small timepicker' %>
+					  <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+					</div>  
+			  		
+			  	</div>	
+			  	<div class="col-sm-2"  data-view="is-closed" style="display:none;" >
+		  			<button type="button" class="btn btn-link lnk-open">Open this day</button>
+			  	</div>
+			  	<div class="col-sm-2"  data-view="is-open">
+		  			<button type="button" class="btn btn-link lnk-close">Close this day</button>
+			  	</div>		 
+		 <% end %>		 
+</div> 

@@ -1,0 +1,6 @@
+<div>
+	<header style="border-bottom:1px solid #DDDDDD; margin-top:15px; margin-bottom:10px;"><h4>Work hours</h4></header>	
+	<%= f.fields_for :work_days do |builder| %>
+		<%= render 'work_day_fields', f: builder %>
+	<% end %>
+</div>

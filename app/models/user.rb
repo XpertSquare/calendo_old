@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   has_secure_password
   has_one :owner
   has_one :customer_profile
+  has_one :employee_profile
   belongs_to :account
 
   has_many :assignments
@@ -14,6 +15,8 @@ class User < ActiveRecord::Base
   validates_presence_of :email
   validates_uniqueness_of :email, :case_sensitive => false
   validates :password, length: { minimum: 8 }, allow_nil: true
+  
+  accepts_nested_attributes_for :employee_profile , allow_destroy: true
   
   default_scope { where(account_id: Account.current_id) }
   

@@ -6,13 +6,29 @@ class Admin::StaffController < ApplicationController
   #before_action :set_employee_profile, only: [:edit, :update]
     
   def index
-    @staff_users = User.all.with_role(:staff)
+   # @staff_users = User.all.with_role(:staff)
     @employee_profiles = EmployeeProfile.all.includes(:user)
     @user = User.new
   end
     
   def new
     @user = User.new
+    @user.employee_profile = EmployeeProfile.new
+    #Defaulting the work days to account's business hours
+
+    current_account.business_hours.reverse.each do |day|
+        @work_day = WorkDay.new
+        #@work_day.account_id = current_account.id
+        @work_day.day = day.day
+        
+        @work_day.start_time = day.open_time
+        @work_day.end_time = day.close_time
+        @work_day.is_off = day.is_closed
+        @user.employee_profile.work_days << @work_day          
+    end
+    
+       
+    
   end    
     
   def create
@@ -77,7 +93,7 @@ class Admin::StaffController < ApplicationController
   end
   
   def user_params
-      params.require(:user).permit(:email, :display_name, :service_ids => [])
+      params.require(:user).permit(:email, :display_name, :service_ids => [], :employee_profile_attributes=>[:id, :biography,  :work_days_attributes => [:id, :day, :start_time, :end_time, :is_off ]])
   end
     
 end
