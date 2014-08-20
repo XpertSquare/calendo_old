@@ -10,10 +10,10 @@
 	<header>
 	<table id="service-list" class="table table-hover sorted_table">							  
 		  <tbody>
-		  	<% @staff_users.each do |staff| %>
+		  	<% @employee_profiles.each do |employee| %>
         		<tr>				  								  
-				  <td><%= link_to staff.display_name, edit_admin_staff_path(staff) %></td>
-				  <td width="200"><%= staff.email %></td>				  
+				  <td><%= link_to employee.user.display_name, edit_admin_staff_path(employee.user) %></td>
+				  <td width="200"><%= employee.user.email %></td>				  
 				</tr>
   			<% end %>								
 		  </tbody>

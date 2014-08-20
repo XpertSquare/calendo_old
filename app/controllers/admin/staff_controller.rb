@@ -2,9 +2,12 @@ class Admin::StaffController < ApplicationController
   layout "account_admin"
   before_action :authorize!
   before_action :set_user, only: [:edit, :update]
+  
+  #before_action :set_employee_profile, only: [:edit, :update]
     
   def index
     @staff_users = User.all.with_role(:staff)
+    @employee_profiles = EmployeeProfile.all.includes(:user)
     @user = User.new
   end
     
@@ -67,6 +70,10 @@ class Admin::StaffController < ApplicationController
 
   def set_user
     @user = User.find(params[:id])
+  end
+  
+  def set_employee_profile
+    @employee_profile = EmployeeProfile.find(params[:id])
   end
   
   def user_params

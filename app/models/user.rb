@@ -49,6 +49,10 @@ class User < ActiveRecord::Base
       self.password = (0...10).map{ @char_map[rand(@char_map.length)] }.join
   end
   
+  def to_param
+    "#{id} #{self.display_name}".parameterize
+  end
+  
   protected
 
   def downcase_email
