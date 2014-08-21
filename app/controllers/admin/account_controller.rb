@@ -20,6 +20,8 @@ class Admin::AccountController < ApplicationController
       @account.save
     end
     
+    @account.holidays.build(:name => "test holiday")
+    
     respond_to do |format|      
         format.html 
         format.json { render json: @account }

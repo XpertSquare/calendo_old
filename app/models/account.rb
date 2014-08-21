@@ -1,14 +1,17 @@
 class Account < ActiveRecord::Base
   
- has_many :users
- has_many :customer_profiles
- has_many :services
- has_many :activities
- has_one :owner
- 
- has_many :business_hours
- accepts_nested_attributes_for :business_hours , allow_destroy: true
- 
+  has_many :users
+  has_many :customer_profiles
+  has_many :services
+  has_many :activities
+  has_one :owner
+  
+  has_many :business_hours
+  has_many :holidays
+  
+  accepts_nested_attributes_for :business_hours , allow_destroy: true
+  accepts_nested_attributes_for :holidays , allow_destroy: true
+  
   validates_presence_of :name
   validates_presence_of :user_email, :user_name, :on => :create  
   validates_format_of :subdomain, :with => /^[A-Za-z0-9-]+$/, :multiline => true, :message => 'The subdomain can only contain alphanumeric characters and dashes.', :allow_blank => true
@@ -22,7 +25,7 @@ class Account < ActiveRecord::Base
  
   before_validation :downcase_subdomain
 
-  RESERVED_SUBDOMAINS = %w(support blog www billing help api admin).freeze
+  RESERVED_SUBDOMAINS = %w(support blog www billing help api admin en fr ro it es de hu).freeze
 
   def user_name
     @user_name

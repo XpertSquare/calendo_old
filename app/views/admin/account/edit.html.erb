@@ -54,6 +54,14 @@
 			<%= render 'business_hour_fields', f: builder %>
    		<% end %>
 	</div>
+	
+	<div>
+		<header style="border-bottom:1px solid #DDDDDD; margin-top:15px; margin-bottom:10px;"><h4>Holidays</h4>
+		</header>	
+		<%= f.fields_for :holidays do |builder| %>
+			<%= render 'holiday_fields', f: builder %>
+   		<% end %>
+	</div
 		  			
 	<div class="form-group">
 		<label class="col-sm-2 control-label"></label>								
