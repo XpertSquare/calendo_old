@@ -19,16 +19,12 @@ class Admin::StaffController < ApplicationController
     current_account.business_hours.reverse.each do |day|
         @work_day = WorkDay.new
         #@work_day.account_id = current_account.id
-        @work_day.day = day.day
-        
+        @work_day.day = day.day        
         @work_day.start_time = day.open_time
         @work_day.end_time = day.close_time
         @work_day.is_off = day.is_closed
         @user.employee_profile.work_days << @work_day          
     end
-    
-       
-    
   end    
     
   def create
@@ -61,6 +57,22 @@ class Admin::StaffController < ApplicationController
 
   
   def edit
+    # TODO: to delete the below logic before deployment
+    if (@user.employee_profile.work_days.count ==0)
+      current_account.business_hours.reverse.each do |day|          
+          @work_day = WorkDay.new
+          #@work_day.account_id = current_account.id
+          @work_day.day = day.day
+   
+          @work_day.start_time = day.open_time
+          @work_day.end_time = day.close_time
+          @work_day.is_off = day.is_closed
+          @user.employee_profile.work_days << @work_day          
+      end
+      @user.save!
+    end
+    
+    @user.employee_profile.work_days.reverse
     
   end
   

@@ -13,34 +13,3 @@
 		</div>		
 	<% end %>
 </section>
-
-
-<script type="text/javascript">
-
-$(document).ready(function() { 
-	
-
-    $('.timepicker').timepicker({
-                minuteStep: 5,
-                showInputs: false,
-                disableFocus: true
-            });
-	
-  	$(".lnk-close").click(function(){
-  		$(this).parent().parent().find('.is-closed').val('t');
-  		$(this).parent().parent().find('[data-view="is-closed"]').css("display","block");
-  		$(this).parent().parent().find('[data-view="is-open"]').css("display","none");
-  		
-  		//console.log("Close link was clicked! " + $(this).parent().parent().find('.label-day').text());
-  	});
-  	
-  	  	$(".lnk-open").click(function(){
-  		$(this).parent().parent().find('.is-closed').val('f');
-  		$(this).parent().parent().find('[data-view="is-closed"]').css("display","none");
-  		$(this).parent().parent().find('[data-view="is-open"]').css("display","block");
-  		
-  		//console.log("Open link was clicked! " + $(this).parent().parent().find('.label-day').text());
-  	});
- });
-	
-</script>
