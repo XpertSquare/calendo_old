@@ -91,6 +91,16 @@ $(document).ready(function() {
   		$(this).parent().parent().find('[data-view="is-closed"]').css("display","none");
   		$(this).parent().parent().find('[data-view="is-open"]').css("display","block");
   	});
+  	
+ 
+	$('body').on('click', '.btn-remove-holiday' , function(e){
+		$(this).parent().parent().find('input[type=hidden]').val('1');
+		$(this).parent().parent().hide();
+		e.preventDefault();		
+	})
+
+  	
+  	
  });
 	
 </script>

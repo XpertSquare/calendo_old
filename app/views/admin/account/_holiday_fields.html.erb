@@ -1,5 +1,5 @@
 <div class="form-group row">
-	<%= f.label :name, :class=>"col-sm-2 control-label" %>
+	<div class="col-sm-2"></div>	
 	<div class="col-sm-5">			    
 	    	<%= f.text_field :name,  :class=>'form-control', :placeholder=>"New holiday name" %>
 	    </div>
@@ -7,6 +7,11 @@
 		<div class="input-group input-append date" id="appDate">
 			<%= f.text_field :date,  :class=>'form-control span2'%>
 			<span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
-		</div>								
+			<%= f.hidden_field :_destroy %>
+			
+			
+		</div>
+										
 	</div>
+	<div class="col-sm-2"><button type="button" class="btn btn-link btn-remove-holiday">Remove</button></div>
 </div>	
