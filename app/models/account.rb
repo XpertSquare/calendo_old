@@ -7,7 +7,7 @@ class Account < ActiveRecord::Base
   has_one :owner
   
   has_many :business_hours
-  has_many :holidays
+  has_many :holidays , :conditions => ["date >= '#{DateTime.now.beginning_of_year.strftime('%Y-%m-%d')}'::date"], :order => "DATE ASC"
   
   accepts_nested_attributes_for :business_hours , allow_destroy: true
   accepts_nested_attributes_for :holidays , allow_destroy: true

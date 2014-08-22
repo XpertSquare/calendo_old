@@ -4,7 +4,8 @@ class Admin::AccountController < ApplicationController
   before_action :set_account, only: [:show, :edit, :update]
   
   def edit
-    @account = Account.find(current_account.id)
+    #@account = Account.find(current_account.id)
+    
     #TODO: to remove the business hours initialization
     if @account.business_hours.count==0
       BusinessHour::WEEK_DAYS.each do |day|
@@ -20,7 +21,7 @@ class Admin::AccountController < ApplicationController
       @account.save
     end
     
-    @account.holidays.build(:name => "test holiday")
+    #@account.holidays.build(:name => "test holiday")
     
     respond_to do |format|      
         format.html 
@@ -56,7 +57,7 @@ class Admin::AccountController < ApplicationController
     end
   
   def account_params
-      params.require(:account).permit(:name, :time_zone, :subdomain, business_hours_attributes: [:id, :day, :open_time, :close_time, :is_closed ])
+      params.require(:account).permit(:name, :time_zone, :subdomain, business_hours_attributes: [:id, :day, :open_time, :close_time, :is_closed ], :holidays_attributes => [:id, :name, :date, :_destroy])
   end
   
 end

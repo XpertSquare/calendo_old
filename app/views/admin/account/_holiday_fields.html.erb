@@ -4,14 +4,11 @@
 	    	<%= f.text_field :name,  :class=>'form-control', :placeholder=>"New holiday name" %>
 	    </div>
 	<div class="col-sm-5" style="width:200px;">
-		<div class="input-group input-append date" id="appDate">
-			<%= f.text_field :date,  :class=>'form-control span2'%>
+		<div class="input-group input-append date holiday-date" >
+			<%= f.text_field :date, :value=>date_to_dd_MMM_yyyy(f.object.date),  :class=>'form-control span2'%>
 			<span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
 			<%= f.hidden_field :_destroy %>
-			
-			
-		</div>
-										
+		</div>						
 	</div>
 	<div class="col-sm-2"><button type="button" class="btn btn-link btn-remove-holiday">Remove</button></div>
 </div>	
