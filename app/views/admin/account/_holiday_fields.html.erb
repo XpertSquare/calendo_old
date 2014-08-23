@@ -5,7 +5,7 @@
 	    </div>
 	<div class="col-sm-5" style="width:200px;">
 		<div class="input-group input-append date holiday-date" >
-			<%= f.text_field :date, :value=>date_to_dd_MMM_yyyy(f.object.date),  :class=>'form-control span2'%>
+			<%= f.text_field :date, :value=>date_to_dd_MMM_yyyy(f.object.date),  :class=>'form-control span2', :readonly=>"readonly"%>
 			<span class="input-group-addon add-on"><i class="fa fa-calendar"></i></span>
 			<%= f.hidden_field :_destroy %>
 		</div>						

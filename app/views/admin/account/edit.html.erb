@@ -106,18 +106,28 @@ $(document).ready(function() {
 		$(this).before($(this).data('fields').replace(regexp, time));
 		e.preventDefault()	
 	})
-	
-	$('body').on('focus', '.holiday-date', function(){
+	/*
+	$('body').on('click', '.fa-calendar', function(){
 		$(this).datepicker(
 			{
 				format:'dd-M-yyyy',
-				autoclose:true,
 				todayHighlight: true,
 				autoclose:true,
 				allowEmpty:false
 			}
 		);		
-	});  	
+		
+	}); 
+	*/
+	
+	$('.holiday-date').datepicker(
+			{
+				format:'dd-M-yyyy',
+				todayHighlight: true,
+				autoclose:true,
+				allowEmpty:false
+			});
+	 	
  });
 	
 </script>

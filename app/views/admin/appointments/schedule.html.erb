@@ -276,6 +276,8 @@ html, body{
 <script type="text/javascript">
 $(document).ready(function() {	
 	
+	var accountHolidays = <%=raw current_account.holidays.to_json %>
+	
 	$('#customer-search').autocomplete({
 	    serviceUrl: '/admin/customers/search.json',
 	    zIndex: 10003,
@@ -440,6 +442,11 @@ $(document).ready(function() {
 		var dp = new dataProcessor('<%= admin_appointment_crud_path %>');
 	    dp.init(scheduler);
 	    dp.setTransactionMode("POST",false);
+	    
+	    for(var i=0; i<accountHolidays.length; i++){
+	    	scheduler.blockTime(new Date(accountHolidays[i].date), "fullday");
+	    }
+		   
 	}
 	
 	init();
@@ -577,6 +584,9 @@ $(document).ready(function() {
 	$('#custom-lightbox-bootstrap').draggable({
 		handle: '.modal-header'
 	});
+	
+	
+	
 });
 </script>
 </body>
