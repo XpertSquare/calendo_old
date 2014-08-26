@@ -1,0 +1,15 @@
+<div class="form-group row">
+		
+	<div class="col-sm-5">			    
+	    	<%= f.text_field :name,  :class=>'form-control', :placeholder=>"Vacation" %>
+	    </div>
+	<div class="col-sm-5" >
+		<div class="input-group  input-daterange" >
+			<%= f.text_field :start_date, :value=>date_to_dd_MMM_yyyy(f.object.start_date),  :class=>'form-control span2', :readonly=>"readonly"%>
+			<span class="input-group-addon">to</span>
+			<%= f.text_field :end_date, :value=>date_to_dd_MMM_yyyy(f.object.end_date),  :class=>'form-control  span2', :readonly=>"readonly"%>
+			<%= f.hidden_field :_destroy %>
+		</div>						
+	</div>
+	<div class="col-sm-2"><button type="button" class="btn btn-link btn-remove-vacation">Remove</button></div>
+</div>	

@@ -10,4 +10,10 @@
 		<% end %>
 			
 	<% end%>	
+	
+	<header style="border-bottom:1px solid #DDDDDD; margin-top:15px; margin-bottom:10px;"><h4>Vacations</h4></header>
+		<%= f.fields_for :vacations do |builder| %>
+			<%= render 'vacation_fields', f: builder %>
+		<% end%>
+	<%= link_to_add_fields "Add a new vacation", f, :vacations %>
 </div>

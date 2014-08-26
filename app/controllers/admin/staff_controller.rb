@@ -103,9 +103,9 @@ class Admin::StaffController < ApplicationController
   def set_employee_profile
     @employee_profile = EmployeeProfile.find(params[:id])
   end
-  
+
   def user_params
-      params.require(:user).permit(:email, :display_name, :service_ids => [], :employee_profile_attributes=>[:id, :biography,  :work_days_attributes => [:id, :day, :start_time, :end_time, :is_off ]])
+      params.require(:user).permit(:email, :display_name, :service_ids => [], :employee_profile_attributes=>[:id, :biography,  :work_days_attributes => [:id, :day, :start_time, :end_time, :is_off ], :vacations_attributes => [:id, :name, :start_date, :end_date] ])
   end
     
 end

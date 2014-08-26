@@ -104,21 +104,15 @@ $(document).ready(function() {
 		var time = new Date().getTime();		
 		var regexp = new RegExp($(this).data('id'), 'g');
 		$(this).before($(this).data('fields').replace(regexp, time));
-		e.preventDefault()	
-	})
-	/*
-	$('body').on('click', '.fa-calendar', function(){
-		$(this).datepicker(
+		$('.holiday-date').datepicker(
 			{
 				format:'dd-M-yyyy',
 				todayHighlight: true,
 				autoclose:true,
 				allowEmpty:false
-			}
-		);		
-		
-	}); 
-	*/
+			});
+		e.preventDefault()	
+	})
 	
 	$('.holiday-date').datepicker(
 			{

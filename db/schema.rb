@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140821221746) do
+ActiveRecord::Schema.define(version: 20140826173502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -176,6 +176,20 @@ ActiveRecord::Schema.define(version: 20140821221746) do
 
   add_index "users", ["account_id"], name: "index_users_on_account_id", using: :btree
   add_index "users", ["auth_token"], name: "index_users_on_auth_token", using: :btree
+
+  create_table "vacations", force: true do |t|
+    t.integer  "account_id"
+    t.integer  "employee_profile_id"
+    t.string   "name"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+  
+  add_index "vacations", ["account_id"], name: "index_vacations_on_account_id", using: :btree
+  add_index "vacations", ["employee_profile_id"], name: "index_vacations_on_employee_profile_id", using: :btree
+
 
   create_table "work_days", force: true do |t|
     t.integer  "account_id"
