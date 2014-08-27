@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140826173502) do
+ActiveRecord::Schema.define(version: 20140827165056) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,19 @@ ActiveRecord::Schema.define(version: 20140826173502) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "breaks", force: true do |t|
+    t.integer  "account_id"
+    t.integer  "employee_profile_id"
+    t.datetime "start"
+    t.datetime "end"
+    t.text     "note"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "breaks", ["account_id"], name: "index_breaks_on_account_id", using: :btree
+  add_index "breaks", ["employee_profile_id"], name: "index_breaks_on_employee_profile_id", using: :btree
 
   create_table "business_hours", force: true do |t|
     t.integer  "account_id"
@@ -186,10 +199,6 @@ ActiveRecord::Schema.define(version: 20140826173502) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-  
-  add_index "vacations", ["account_id"], name: "index_vacations_on_account_id", using: :btree
-  add_index "vacations", ["employee_profile_id"], name: "index_vacations_on_employee_profile_id", using: :btree
-
 
   create_table "work_days", force: true do |t|
     t.integer  "account_id"

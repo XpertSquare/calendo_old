@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  account_id: 1
+  employee_profile_id: 1
+  start: 2014-08-27 09:50:56
+  end: 2014-08-27 09:50:56
+  note: MyText
+
+two:
+  account_id: 1
+  employee_profile_id: 1
+  start: 2014-08-27 09:50:56
+  end: 2014-08-27 09:50:56
+  note: MyText
