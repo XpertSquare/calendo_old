@@ -161,7 +161,7 @@ html, body{
 		<div class="modal-content">
 		  <div class="modal-header" style="background-color:#3D454C; color:#FFFFFF; cursor:pointer;">
 			<button type="button" class="close" data-dismiss="modal" id="close-lightbox" style="color:#FFFFFF;"><span aria-hidden="true" >&times;</span><span class="sr-only">Close</span></button>
-			<h4 class="modal-title" id="lightbox-title">Calendo | Book appointment</h4>
+			<h4 class="modal-title" id="lightbox-title">Book appointment or <button class="btn btn-link" id="btn-break">Take a break</button> </h4>
 		  </div>
 		  <div class="modal-body">
 			<%= form_for [:admin, @appointment], :url => admin_appointments_path(@appointment), :html => {:class => "form-horizontal", :role=>"form"} do |f| %>
@@ -485,7 +485,7 @@ $(document).ready(function() {
 		
 		scheduler.startLightbox(id, $("#custom-lightbox-bootstrap")[0]);
 		if(ev.text=='New event'){
-			$('#lightbox-title').text('Calendo | Book appointment');			
+			$('#lightbox-title').html('Book appointment or <button class="btn btn-link" id="btn-break">Take a break</button>');			
 		} else {
 			$('#lightbox-title').text('Calendo | Update appointment');
 		}
